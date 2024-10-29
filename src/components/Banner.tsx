@@ -20,11 +20,7 @@ import {
   PlusIcon,
 } from "lucide-react";
 import { DayPicker, DateRange } from "react-day-picker";
-import {
-  format,
-  addMonths,
-  startOfToday,
-} from "date-fns";
+import { format, addMonths, startOfToday } from "date-fns";
 import Image from "next/image";
 
 const countries = [
@@ -64,9 +60,7 @@ export default function Component() {
     <div className="relative  min-h-[400px] w-full overflow-hidden">
       <div className="absolute inset-0">
         <Image
-        width={20}
-        height={20}
-        layout="responsive"
+          layout="fill"
           alt="Mountain landscape with a person in yellow jacket"
           className="w-full h-full object-cover"
           src="/journey-bg.jpeg"
@@ -116,10 +110,7 @@ export default function Component() {
               <PopoverContent className="w-[200px] p-0 bg-white" align="start">
                 <div className="max-h-[300px] overflow-auto">
                   {countries.map((country) => (
-                    <div
-                      key={country?.country}
-                      className="px-4 py-2 hover:bg-gray-100  "
-                    >
+                    <div key={country?.country} className="px-4 py-2   ">
                       <Button
                         onClick={() => setSelectedCountry(country.country)}
                         className="font-bold"
@@ -181,7 +172,6 @@ export default function Component() {
                     selected={dateRange}
                     onSelect={handleDateSelect}
                     numberOfMonths={1}
-                    
                     month={currentMonth}
                     disabled={disabledDays}
                     className="custom-day-picker"

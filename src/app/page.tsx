@@ -1,5 +1,8 @@
 import Banner from "@/components/Banner";
 import Navbar from "@/components/Common/Navbar";
+import Recommended from "@/components/Common/Recomended";
+import Percentage from "@/components/Percentage";
+import Destinations from "@/components/TopDestination";
 import { Fragment } from "react";
 
 export default function Home() {
@@ -7,6 +10,9 @@ export default function Home() {
     <Fragment>
       <Navbar />
       <Banner />
+      <Percentage />
+      <Destinations />
+      <Recommended />
     </Fragment>
   );
 }
