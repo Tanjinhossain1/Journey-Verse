@@ -4,4 +4,16 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+} 
+
+.rdp-selected{
+  background-color: red;
+}
+.rdp-disabled{
+  background-color: #efefef;
+  color: #adadad;
+  cursor: not-allowed;
+}
+.rdp-button_next, .rdp-button_previous{
+  display: none;
 }
