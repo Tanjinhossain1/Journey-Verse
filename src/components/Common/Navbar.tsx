@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Menu, User } from "lucide-react";
+import { ChevronDown, Menu, Moon, Sun, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -41,6 +41,33 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Load dark mode preference from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("darkMode");
+    if (savedTheme === "true") {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setIsDarkMode((prev) => {
+      const newValue = !prev;
+      localStorage.setItem("darkMode", `${newValue}`);
+      if (newValue) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      return newValue;
+    });
+  };
   return (
     <nav className="bg-white shadow">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,6 +108,9 @@ export default function Navbar() {
             ))}
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
+            <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
+              {isDarkMode ? <Sun /> : <Moon />}
+            </Button>
             <Button variant="ghost" size="icon">
               <User className="h-5 w-5" />
               <span className="sr-only">User profile</span>
@@ -88,11 +118,15 @@ export default function Navbar() {
           </div>
           <div className="flex items-center sm:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
+              {isDarkMode ? <Sun /> : <Moon />}
+            </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 className="w-full justify-start"
               >
+                
                 <User className="mr-2 h-4 w-4" />
                 {/* Profile */}
               </Button>

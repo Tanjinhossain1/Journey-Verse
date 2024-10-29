@@ -109,7 +109,7 @@ export default function Component() {
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-sm text-gray-500">From:</span>
-                <span className="text-xl font-bold ml-1">${hotel.price.toFixed(2)}</span>
+                <span className="text-sm font-bold ml-1">${hotel.price.toFixed(2)}</span>
                 <span className="text-sm text-gray-500">/night</span>
               </div>
             </div>
