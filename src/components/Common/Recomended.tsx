@@ -77,7 +77,7 @@ export default function Component() {
   const renderContent = () => {
     if (selectedCategory === "Hotel") {
       return hotels.map((hotel) => (
-        <div key={hotel.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div key={hotel.id} className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200">
           <div className="relative overflow-hidden group">
             <Image
               src={hotel.image}
@@ -86,8 +86,8 @@ export default function Component() {
               height={300}
               className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
             />
-            <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
-              <Heart className="w-5 h-5 text-gray-600" />
+            <button className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
+              <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
             </button>
           </div>
           <div className="p-4">
@@ -100,7 +100,7 @@ export default function Component() {
               ))}
             </div>
             <h2 className="text-xl font-semibold mb-2">{hotel.name}</h2>
-            <p className="text-gray-600 mb-4 flex">{hotel.location}</p>
+            <p className="text-gray-600 dark:text-white mb-4 flex">{hotel.location}</p>
             <div className="border-t border-gray-200 pt-4 mb-4">
               <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
                 {hotel.rating}/5 · Excellent ({hotel.reviews} Reviews)
@@ -108,9 +108,9 @@ export default function Component() {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-sm text-gray-500">From:</span>
-                <span className="text-sm font-bold ml-1">${hotel.price.toFixed(2)}</span>
-                <span className="text-sm text-gray-500">/night</span>
+                <span className="text-sm text-gray-500 dark:text-white">From:</span>
+                <span className="text-sm font-bold ml-1 dark:text-white">${hotel.price.toFixed(2)}</span>
+                <span className="text-sm text-gray-500 dark:text-white">/night</span>
               </div>
             </div>
           </div>
@@ -128,16 +128,16 @@ export default function Component() {
               className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
             />
             <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
-              <Heart className="w-5 h-5 text-gray-600" />
+              <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
             </button>
             {tour.originalPrice && (
-              <div className="absolute top-2 left-2 bg-green-600 text-white px-2 py-1 rounded-md text-sm font-bold">
+              <div className="absolute top-2 left-2 bg-green-600 text-white dark:text-white px-2 py-1 rounded-md text-sm font-bold">
                 -20%
               </div>
             )}
           </div>
           <div className="p-4">
-            <div className="flex items-center text-gray-600 mb-2">
+            <div className="flex items-center text-gray-600 dark:text-white mb-2">
               <MapPin className="w-4 h-4 mr-1" />
               <span className="text-sm">{tour.location}</span>
             </div>
@@ -149,16 +149,16 @@ export default function Component() {
                   className={`w-4 h-4 ${i < tour.rating ? "text-yellow-400 fill-current" : "text-gray-300"}`}
                 />
               ))}
-              <span className="text-sm text-gray-600 ml-2">({tour.reviews} Reviews)</span>
+              <span className="text-sm text-gray-600  dark:text-whiteml-2">({tour.reviews} Reviews)</span>
             </div>
             <div className="flex items-center justify-between border-t border-gray-200 pt-4">
               <div>
                 {tour.originalPrice && (
-                  <span className="text-sm text-gray-500 line-through mr-2">${tour.originalPrice.toFixed(2)}</span>
+                  <span className="text-sm text-gray-500 dark:text-white line-through mr-2">${tour.originalPrice.toFixed(2)}</span>
                 )}
-                <span className="text-xl font-bold">${tour.price.toFixed(2)}</span>
+                <span className="text-xl font-bold dark:text-white">${tour.price.toFixed(2)}</span>
               </div>
-              <div className="flex items-center text-gray-600">
+              <div className="flex items-center text-gray-600 dark:text-white">
                 <Clock className="w-4 h-4 mr-1" />
                 <span className="text-sm">{tour.duration}</span>
               </div>
@@ -167,13 +167,13 @@ export default function Component() {
         </div>
       ))
     } else {
-      return <div className="col-span-full text-center text-gray-500">No content available for this category yet.</div>
+      return <div className="col-span-full text-center text-gray-500 dark:text-white">No content available for this category yet.</div>
     }
   }
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Recommended for you</h1>
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">Recommended for you</h1>
       <div className="flex justify-center gap-2 mb-8">
         {categories.map((category, index) => (
           <button
@@ -181,8 +181,8 @@ export default function Component() {
             onClick={() => setSelectedCategory(category)}
             className={`px-4 py-2 rounded-full transition-colors duration-200 ${
               category === selectedCategory
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                ? "bg-blue-500 text-white dark:text-white"
+                : "bg-gray-200 dark:bg-black dark:border text-gray-800 dark:text-white  hover:bg-gray-300"
             }`}
           >
             {category}

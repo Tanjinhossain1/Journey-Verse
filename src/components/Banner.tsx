@@ -57,7 +57,7 @@ export default function Component() {
   }, []);
 
   return (
-    <div className="relative  min-h-[400px] w-full overflow-hidden">
+    <div className="relative  min-h-[400px] w-full overflow-hidden dark:border-b">
       <div className="absolute inset-0">
         <Image
           layout="fill"
@@ -92,22 +92,22 @@ export default function Component() {
             ))}
           </ul>
         </nav>
-        <div className="w-full max-w-4xl bg-white rounded-md overflow-hidden shadow-lg mb-2">
+        <div className="w-full max-w-4xl bg-white dark:bg-black dark:text-white border rounded-md overflow-hidden shadow-lg mb-2">
           <form className="flex flex-col md:flex-row">
             <Popover>
               <PopoverTrigger asChild>
                 <div className="md:flex-1 flex items-center px-4 py-2 border-b md:border-b-0 md:border-r border-gray-300 cursor-pointer">
-                  <MapPin className="text-gray-400 mr-2" />
+                  <MapPin className="text-gray-400 dark:text-white mr-2" />
                   <Input
-                    className="w-full border-none focus:ring-0 text-black cursor-pointer"
+                    className="w-full border-none focus:ring-0 text-black dark:text-white cursor-pointer"
                     placeholder="Where are you going?"
                     value={selectedCountry || ""}
                     readOnly
                   />
-                  <ChevronDown className="text-gray-400 ml-2" />
+                  <ChevronDown className="text-gray-400 dark:text-white ml-2" />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0 bg-white" align="start">
+              <PopoverContent className="w-[200px] p-0 bg-white dark:bg-black" align="start">
                 <div className="max-h-[300px] overflow-auto">
                   {countries.map((country) => (
                     <div key={country?.country} className="px-4 py-2   ">
@@ -137,9 +137,9 @@ export default function Component() {
             <Popover>
               <PopoverTrigger asChild>
                 <div className="flex-1 flex items-center px-4 py-2 border-b md:border-b-0 md:border-r border-gray-300 cursor-pointer">
-                  <Calendar className="text-gray-400 mr-2" />
+                  <Calendar className="text-gray-400 dark:text-white mr-2" />
                   <Input
-                    className="w-full border-none focus:ring-0 text-black cursor-pointer"
+                    className="w-full border-none focus:ring-0 text-black dark:text-white cursor-pointer"
                     placeholder="Check in - Check out"
                     value={
                       dateRange?.from && dateRange?.to
@@ -157,14 +157,14 @@ export default function Component() {
                 <div className="p-4 bg-white rounded-lg shadow-lg">
                   <div className="flex justify-between items-center mb-4">
                     <button onClick={() => handleMonthChange(-1)} type="button">
-                      <ChevronLeft className="h-5 w-5 text-gray-500" />
+                      <ChevronLeft className="h-5 w-5 text-gray-500 dark:text-white" />
                     </button>
                     <div className="text-lg font-semibold">
                       {format(currentMonth, "MMMM yyyy")} -{" "}
                       {format(addMonths(currentMonth, 1), "MMMM yyyy")}
                     </div>
                     <button onClick={() => handleMonthChange(1)} type="button">
-                      <ChevronRight className="h-5 w-5 text-gray-500" />
+                      <ChevronRight className="h-5 w-5 text-gray-500 dark:text-white" />
                     </button>
                   </div>
                   <DayPicker
@@ -194,7 +194,7 @@ export default function Component() {
                       day: "h-9 w-9 p-0 font-normal",
                       day_range_end: "day-range-end",
                       day_selected:
-                        "bg-blue-500 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white rounded-full",
+                        "bg-blue-500 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white dark:focus:text-white rounded-full",
                       day_today: "bg-gray-100 text-gray-900",
                       day_outside: "text-gray-400 opacity-50  ",
                       day_disabled: "text-gray-400 opacity-50",
@@ -208,22 +208,22 @@ export default function Component() {
             <Popover>
               <PopoverTrigger asChild>
                 <div className="flex-1 flex items-center px-4 py-2 cursor-pointer">
-                  <Users className="text-gray-400 mr-2" />
+                  <Users className="text-gray-400 dark:text-white mr-2" />
                   <Input
-                    className="w-full border-none focus:ring-0 text-black cursor-pointer"
+                    className="w-full border-none focus:ring-0 text-black dark:text-white cursor-pointer"
                     placeholder="Guests"
                     value={`${rooms} room${rooms > 1 ? "s" : ""}, ${
                       adults + children
                     } guest${adults + children > 1 ? "s" : ""}`}
                     readOnly
                   />
-                  <PlusIcon className="text-black" />
+                  <PlusIcon className="text-black dark:text-white" />
                 </div>
               </PopoverTrigger>
               <PopoverContent className="w-[300px] p-4 bg-white" align="start">
-                <div className="space-y-4 bg-white">
+                <div className="space-y-4 bg-white dark:text-black">
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold">Rooms</span>
+                    <span className="font-semibold dark:text-white">Rooms</span>
                     <div className="flex items-center space-x-2">
                       <Button
                         variant="outline"
@@ -244,7 +244,7 @@ export default function Component() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold">Adults</span>
+                    <span className="font-semibold dark:text-white">Adults</span>
                     <div className="flex items-center space-x-2">
                       <Button
                         variant="outline"
@@ -289,7 +289,7 @@ export default function Component() {
               </PopoverContent>
             </Popover>
             <Button
-              className="m-2 px-8 bg-black rounded hover:bg-blue-950"
+              className="m-2 px-8 bg-black dark:bg-black dark:text-white   rounded hover:bg-blue-950"
               type="submit"
             >
               Search

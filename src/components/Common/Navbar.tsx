@@ -69,12 +69,12 @@ export default function Navbar() {
     });
   };
   return (
-    <nav className="bg-white shadow">
+    <nav className="bg-white shadow dark:bg-black dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-xl font-bold text-gray-800">
+              <Link href="/" className="text-xl font-bold text-gray-800 dark:text-white">
                 Journey Verse
               </Link>
             </div>
@@ -82,18 +82,18 @@ export default function Navbar() {
           <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
             <Link
               href="/"
-              className="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium"
+              className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
             >
               Home
             </Link>
             {navItems.map((item) => (
               <DropdownMenu key={item.title}>
-                <DropdownMenuTrigger className="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                <DropdownMenuTrigger className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium">
                   {item.title} <ChevronDown className="ml-1 h-4 w-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   {item.items.map((subItem) => (
-                    <DropdownMenuItem key={subItem}>
+                    <DropdownMenuItem className="dark:bg-black dark:text-white bg-white" key={subItem}>
                       <Link
                         href={`/${item.title.toLowerCase()}/${subItem
                           .toLowerCase()
@@ -131,7 +131,7 @@ export default function Navbar() {
                 {/* Profile */}
               </Button>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-gray-500">
+                <Button variant="ghost" size="icon" className="text-gray-500 dark:text-white">
                   <Menu className="h-50 w-50" />
                   <span className="sr-only">Open main menu</span>
                 </Button>
@@ -146,14 +146,14 @@ export default function Navbar() {
                 <nav className="flex flex-col gap-4">
                   <Link
                     href="/"
-                    className="text-gray-900 block  text-base font-bold"
+                    className="text-gray-900 block dark:text-white  text-base font-bold"
                     onClick={() => setIsOpen(false)}
                   >
                     Home
                   </Link>
                   {navItems.map((item) => (
                     <div key={item.title} className="space-y-1">
-                      <h3 className=" text-sm font-bold text-gray-800">
+                      <h3 className=" text-sm font-bold text-gray-800 dark:text-white">
                         {item.title}
                       </h3>
                       {item.items.map((subItem) => (
@@ -162,7 +162,7 @@ export default function Navbar() {
                           href={`/${item.title.toLowerCase()}/${subItem
                             .toLowerCase()
                             .replace(" ", "-")}`}
-                          className="text-gray-900 block px-3 py-2 text-base font-medium"
+                          className="text-gray-900 dark:text-white block px-3 py-2 text-base font-medium"
                           onClick={() => setIsOpen(false)}
                         >
                           {subItem}

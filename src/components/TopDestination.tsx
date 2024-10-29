@@ -58,7 +58,7 @@ const destinations: Destination[] = [
   },
   {
     name: 'Nevada',
-    image: '/nevada.jpeg',
+    image: '/Nevada.jpeg',
     hotels: 11,
     tours: 20,
     rentals: 20,
@@ -70,7 +70,7 @@ const destinations: Destination[] = [
 export default function Destinations() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Top destinations</h1>
+      <h1 className="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-white">Top destinations</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {destinations.map((destination, index) => (
           <div key={index} className="relative overflow-hidden shadow-lg group rounded-xl">
