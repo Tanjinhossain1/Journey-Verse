@@ -23,12 +23,9 @@ import { DayPicker, DateRange } from "react-day-picker";
 import {
   format,
   addMonths,
-  isSameDay,
-  isWithinInterval,
-  startOfDay,
-  isBefore,
   startOfToday,
 } from "date-fns";
+import Image from "next/image";
 
 const countries = [
   {
@@ -66,7 +63,10 @@ export default function Component() {
   return (
     <div className="relative  min-h-[400px] w-full overflow-hidden">
       <div className="absolute inset-0">
-        <img
+        <Image
+        width={20}
+        height={20}
+        layout="responsive"
           alt="Mountain landscape with a person in yellow jacket"
           className="w-full h-full object-cover"
           src="/journey-bg.jpeg"
@@ -211,45 +211,6 @@ export default function Component() {
                       day_range_middle: "day-range-middle",
                       day_hidden: "invisible",
                     }}
-                    // components={
-                    //   {
-                      
-                    //     DayContent: (props: any) => {
-                    //       const isRangeStart =
-                    //         dateRange?.from &&
-                    //         isSameDay(props.date, dateRange.from);
-                    //       const isRangeEnd =
-                    //         dateRange?.to &&
-                    //         isSameDay(props.date, dateRange.to);
-                    //       const isInRange =
-                    //         dateRange?.from &&
-                    //         dateRange?.to &&
-                    //         props.date > dateRange.from &&
-                    //         props.date < dateRange.to;
-                    //       return (
-                    //         <div
-                    //           className={`relative h-9 w-9 p-0 font-normal ${
-                    //             isRangeStart || isRangeEnd
-                    //               ? "bg-blue-500 text-white rounded-full"
-                    //               : isInRange
-                    //               ? "bg-blue-100 text-blue-800"
-                    //               : ""
-                    //           }`}
-                    //         >
-                    //           <div className="absolute inset-0 flex items-center justify-center">
-                    //             {props.date.getDate()}
-                    //           </div>
-                    //           {isRangeStart && (
-                    //             <div className="absolute right-0 inset-y-0 w-1/2 bg-blue-100" />
-                    //           )}
-                    //           {isRangeEnd && (
-                    //             <div className="absolute left-0 inset-y-0 w-1/2 bg-blue-100" />
-                    //           )}
-                    //         </div>
-                    //       );
-                    //     },
-                    //   }
-                    // }
                   />
                 </div>
               </PopoverContent>
