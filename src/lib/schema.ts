@@ -9,7 +9,7 @@ export const countries = pgTable('countries', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
-export const city = pgTable('city', {
+export const City = pgTable('city', {
   id: serial('id').primaryKey().notNull(),
   countryName: text('country_name').notNull(),
   city: text('city').notNull(),
@@ -24,6 +24,21 @@ export const city = pgTable('city', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+
+export const hotels = pgTable('hotels', {
+  id: serial('id').primaryKey(),
+  title: text('title').notNull(),
+  city:text('city').notNull(),
+  displayImage: text('display_image').notNull(),
+  images: json('images').notNull(), // Array of image URLs
+  ratings: json('ratings').notNull(), // JSON object for total and specific ratings
+  facilities: json('facilities').notNull(), // Array of facility names
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  about: text('about').notNull(),
+  reviews: json('reviews') // Array of review objects
+});
+
 
 export const userTable = pgTable("users", {
   id: serial("id").notNull().primaryKey(),
