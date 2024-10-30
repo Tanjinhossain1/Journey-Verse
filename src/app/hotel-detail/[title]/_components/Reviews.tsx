@@ -8,7 +8,7 @@ export default function Reviews() {
       {/* First Review */}
       <div className="flex gap-4 w-full items-center">
         <Image
-          src="/placeholder.svg?height=40&width=40"
+          src="/Nevada.jpeg"
           alt="Avatar"
           className="rounded-full object-cover aspect-square"
           width={40}
@@ -43,7 +43,7 @@ export default function Reviews() {
       {/* Second Review */}
       <div className="flex gap-4 w-full items-center">
         <Image
-          src="/placeholder.svg?height=40&width=40"
+          src="/Nevada.jpeg"
           alt="Avatar"
           className="rounded-full object-cover aspect-square"
           width={40}
@@ -78,7 +78,7 @@ export default function Reviews() {
       {/* Third Review */}
       <div className="flex gap-4 w-full items-center">
         <Image
-          src="/placeholder.svg?height=40&width=40"
+          src="/Nevada.jpeg"
           alt="Avatar"
           className="rounded-full object-cover aspect-square"
           width={40}

@@ -1,19 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// src/app/api/auth/[...nextauth]/route.ts
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/lib/db"; // Adjust this import as per your database setup
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { userTable } from "@/lib/schema";
+import { User } from "@/types/user";
 
-interface User {
-    id: string; // Change this to string if your user ID is a string
-    email: string;
-    fullName: string;
-    role: string;
-    password: string;
-}
 
 export const authOptions = {
     providers: [

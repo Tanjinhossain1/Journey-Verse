@@ -8,7 +8,6 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover"; // Shadcn Popover components
-import { CountryType } from "@/types/countries";
 import { Button } from "@/components/ui/button";
 import { Delete } from "lucide-react";
 import { HotelType } from "@/types/hotels";
