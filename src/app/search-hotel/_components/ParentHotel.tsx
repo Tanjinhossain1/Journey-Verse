@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { formatForUrlWith_under_score } from "@/utils/utils";
 
 const mockHotelsData = Array.from({ length: 20 }, (_, index) => {
   const countryData = countries[0]; // Assuming only one country provided in `countries`
@@ -192,23 +193,6 @@ export default function SearchHotel() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        {/* <DropdownMenu>
-          <DropdownMenuTrigger className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1  font-medium text-xl h">
-            Short <ChevronDown className="ml-1 h-4 w-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="hover:bg-white bg-white">
-              <DropdownMenuItem
-                className="dark:bg-black hover:bg-white z-[100] dark:text-white bg-white"
-              >
-                Low to High Price
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="dark:bg-black hover:bg-white z-[100] dark:text-white bg-white"
-              >
-                High To Value
-              </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu> */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ">
           {filteredHotels.map((hotel) => (
             <div
@@ -216,7 +200,7 @@ export default function SearchHotel() {
               className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200"
             >
               <div className="relative overflow-hidden group">
-                <Link href={"/"}>
+                <Link href={`/hotel-detail/${formatForUrlWith_under_score(hotel?.title)}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}>
                   <Image
                     src={hotel.displayImage}
                     alt={hotel.title}
@@ -242,7 +226,7 @@ export default function SearchHotel() {
                     />
                   ))}
                 </div>
-                <Link href={"/"}>
+                <Link href={`/hotel-detail/${formatForUrlWith_under_score(hotel?.title)}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}>
                   {" "}
                   <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
                     {hotel.title}

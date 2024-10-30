@@ -1,0 +1,9 @@
+{
+    "schema": "./src/lib/schema.ts",  
+    "out": "./migrations",
+    "dialect": "postgresql",      
+    "dbCredentials": {
+      "url": "postgresql://postgres:hXUbuHRFHiOThwWAVzWQMuigpfUxzjNj@autorack.proxy.rlwy.net:50134/railway"
+    }
+  }
+  

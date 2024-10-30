@@ -18,6 +18,7 @@ export default function GuestSelector({
   setDrooms,
   setDadults,
   setDchildren,
+  isDetail
 }: {
   drooms?: number;
   dchildren?: number;
@@ -25,6 +26,7 @@ export default function GuestSelector({
   setDchildren: any;
   setDadults: any;
   setDrooms: any;
+  isDetail?: boolean;
 }) {
   const [rooms, setRooms] = useState(drooms ? drooms : 1);
   const [adults, setAdults] = useState(dadults ? dadults : 1);
@@ -37,7 +39,7 @@ export default function GuestSelector({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="flex-1 flex items-center px-4 py-2 cursor-pointer">
+        <div className={`flex-1 flex items-center px-4 py-2 cursor-pointer ${isDetail? 'border': ''}`}>
           <Users className="text-gray-400 dark:text-white mr-2" />
           <Input
             className="w-full border-none focus:ring-0 text-black dark:text-white cursor-pointer"

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Heart, Star, MapPin, Clock } from "lucide-react"
 import Image from "next/image"
 import Link from 'next/link'
+import { formatForUrlWith_under_score } from '@/utils/utils'
 
 
 const hotels = [
@@ -80,7 +81,7 @@ export default function Recommended() {
       return hotels.map((hotel) => (
         <div key={hotel.id} className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200">
           <div className="relative overflow-hidden group">
-          <Link href={`/hotel-detail/${hotel.name}`}>
+          <Link href={`/hotel-detail/${formatForUrlWith_under_score(hotel.name)}`}>
             <Image
               src={hotel.image}
               alt={hotel.name}
@@ -102,7 +103,7 @@ export default function Recommended() {
                 />
               ))}
             </div>
-           <Link href={`/hotel-detail/${hotel.name}`}> <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">{hotel.name}</h2></Link>
+           <Link href={`/hotel-detail/${formatForUrlWith_under_score(hotel.name)}`}> <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">{hotel.name}</h2></Link>
             <p className="text-gray-600 dark:text-white mb-4 flex">{hotel.location}</p>
             <div className="border-t border-gray-200 pt-4 mb-4">
               <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
