@@ -100,7 +100,7 @@ export default function Component() {
     <div className="px-6 py-12 lg:py-24 w-3/4 mx-auto">
       <div className="container relative">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold tracking-tight">Articles</h2>
+          <h2 className="text-3xl font-bold tracking-tight dark:text-white">Articles</h2>
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -149,16 +149,16 @@ export default function Component() {
                           {" "}
                           <Badge
                             variant="outline"
-                            className="mb-3 font-semibold"
+                            className="mb-3 font-semibold dark:text-white"
                           >
                             {story.category}
                           </Badge>
                           <Link href={"/"}>
-                            <h3 className="text-xl font-bold mb-3 hover:text-blue-400">
+                            <h3 className="text-xl font-bold mb-3 hover:text-blue-400 dark:text-white">
                               {story.title}
                             </h3>
-                          </Link>
-                          <p className="text-muted-foreground line-clamp-3">
+                          </Link> 
+                          <p className="text-muted-foreground line-clamp-3 dark:text-white">
                             {story.description}
                           </p>
                         </div>

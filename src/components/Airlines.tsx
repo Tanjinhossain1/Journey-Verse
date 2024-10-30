@@ -41,9 +41,9 @@ export default function Airlines() {
         {airlines.map((airline, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+            className="bg-white dark:bg-black rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1"
           >
-            <div className="p-4 flex flex-col items-center">
+            <div className="p-2 flex flex-col items-center">
               <div className="relative w-16 h-16 mb-2">
                 <Image
                   src={'/Nevada.jpeg'}
@@ -54,7 +54,7 @@ export default function Airlines() {
                   className="transition-opacity duration-300"
                 />
               </div>
-              <h3 className="text-sm font-medium text-center line-clamp-2">
+              <h3 className="text-sm font-medium text-center line-clamp-2 dark:text-white">
                 {airline.name}
               </h3>
             </div>

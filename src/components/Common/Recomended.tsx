@@ -72,7 +72,7 @@ const tours = [
 
 const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"]
 
-export default function Component() {
+export default function Recommended() {
   const [selectedCategory, setSelectedCategory] = useState("Hotel")
 
   const renderContent = () => {
@@ -80,7 +80,7 @@ export default function Component() {
       return hotels.map((hotel) => (
         <div key={hotel.id} className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200">
           <div className="relative overflow-hidden group">
-          <Link href={'/'}>
+          <Link href={`/hotel-detail/${hotel.name}`}>
             <Image
               src={hotel.image}
               alt={hotel.name}
@@ -102,7 +102,7 @@ export default function Component() {
                 />
               ))}
             </div>
-           <Link href={'/'}> <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">{hotel.name}</h2></Link>
+           <Link href={`/hotel-detail/${hotel.name}`}> <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">{hotel.name}</h2></Link>
             <p className="text-gray-600 dark:text-white mb-4 flex">{hotel.location}</p>
             <div className="border-t border-gray-200 pt-4 mb-4">
               <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
