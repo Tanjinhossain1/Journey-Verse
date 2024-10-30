@@ -9,7 +9,7 @@ body {
 } 
 
 .rdp-selected{
-  background-color: red;
+  background-color: #b8d3ff;
 }
 .rdp-disabled{
   background-color: #efefef;

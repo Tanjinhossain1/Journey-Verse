@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Heart, Star, MapPin, Clock } from "lucide-react"
 import Image from "next/image"
+import Link from 'next/link'
 
 
 const hotels = [
@@ -79,6 +80,7 @@ export default function Component() {
       return hotels.map((hotel) => (
         <div key={hotel.id} className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200">
           <div className="relative overflow-hidden group">
+          <Link href={'/'}>
             <Image
               src={hotel.image}
               alt={hotel.name}
@@ -86,6 +88,7 @@ export default function Component() {
               height={300}
               className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
             />
+          </Link>
             <button className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
               <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
             </button>
@@ -99,7 +102,7 @@ export default function Component() {
                 />
               ))}
             </div>
-            <h2 className="text-xl font-semibold mb-2">{hotel.name}</h2>
+           <Link href={'/'}> <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">{hotel.name}</h2></Link>
             <p className="text-gray-600 dark:text-white mb-4 flex">{hotel.location}</p>
             <div className="border-t border-gray-200 pt-4 mb-4">
               <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
@@ -120,6 +123,7 @@ export default function Component() {
       return tours.map((tour) => (
         <div key={tour.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
           <div className="relative overflow-hidden group">
+          <Link href={'/'}>
             <Image
               src={tour.image}
               alt={tour.name}
@@ -127,6 +131,7 @@ export default function Component() {
               height={300}
               className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
             />
+            </Link>
             <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
               <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
             </button>
@@ -141,7 +146,7 @@ export default function Component() {
               <MapPin className="w-4 h-4 mr-1" />
               <span className="text-sm">{tour.location}</span>
             </div>
-            <h2 className="text-xl font-semibold mb-2">{tour.name}</h2>
+            <Link href={'/'}> <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">{tour.name}</h2></Link>
             <div className="flex items-center mb-3">
               {[...Array(5)].map((_, i) => (
                 <Star
@@ -172,7 +177,7 @@ export default function Component() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto p-6 mt-16">
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">Recommended for you</h1>
       <div className="flex justify-center gap-2 mb-8">
         {categories.map((category, index) => (

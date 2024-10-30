@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface Destination {
   name: string
@@ -74,6 +75,7 @@ export default function Destinations() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {destinations.map((destination, index) => (
           <div key={index} className="relative overflow-hidden shadow-lg group rounded-xl">
+            <Link href={'/'}>
             <div className="relative w-full h-64 overflow-hidden rounded-xl">
               <Image
                 src={destination.image}
@@ -92,6 +94,7 @@ export default function Destinations() {
                 {destination.cars} Cars • {destination.activities} Activities
               </p>
             </div>
+            </Link>
           </div>
         ))}
       </div>
