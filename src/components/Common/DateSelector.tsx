@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -11,8 +11,8 @@ import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker, DateRange } from "react-day-picker";
 import { format, addMonths, startOfToday } from "date-fns";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function DateSelector({dateRange, setDateRange,isDetail}:{dateRange:DateRange,setDateRange:any,isDetail?:boolean}) {
+export default function DateSelector({dateRange, setDateRange,isDetail}:{dateRange:DateRange,
+  setDateRange:Dispatch<SetStateAction<DateRange | undefined>>,isDetail?:boolean}) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const disabledDays = { before: startOfToday() };
 

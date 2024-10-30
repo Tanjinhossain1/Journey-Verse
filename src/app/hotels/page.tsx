@@ -14,7 +14,7 @@ export default async function page() {
         <Navbar />
       </div>
       <DashboardLayout name="Hotels">
-        <Hotels data={hotels as any} cityData={city} />
+        <Hotels data={hotels} cityData={city} />
       </DashboardLayout>
     </Fragment>
   );

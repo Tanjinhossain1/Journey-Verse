@@ -283,7 +283,7 @@ const CityForm = ({
                   ].map((rating) => (
                     <input
                       key={rating}
-                      {...register(`ratings.specific.${rating}` as any)}
+                      {...register(`ratings.specific.${rating}`)}
                       type="number"
                       placeholder={
                         rating.charAt(0).toUpperCase() + rating.slice(1)

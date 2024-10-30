@@ -35,7 +35,7 @@ export default function Reviews() {
             ))}
           </div>
           <p className="text-sm">
-            If you want to get away from city life, rent a car and book Joyvam. It is a no-frills accommodation where you can enjoy fresh air and serene surrounding. A pity we only stayed 2 nights. I'll book this place again next time
+            If you want to get away from city life, rent a car and book Joyvam. It is a no-frills accommodation where you can enjoy fresh air and serene surrounding. A pity we only stayed 2 nights. {`I'll`} book this place again next time
           </p>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default function Reviews() {
             ))}
           </div>
           <p className="text-sm">
-            Great value for money" Place was clean with everything you need provided. Best to stay if you have rented a car. Staff very friendly and helpful. Would definitely would like to come back again
+            Great value for money{`"`} Place was clean with everything you need provided. Best to stay if you have rented a car. Staff very friendly and helpful. Would definitely would like to come back again
           </p>
         </div>
       </div>
