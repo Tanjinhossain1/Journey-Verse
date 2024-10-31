@@ -5,8 +5,10 @@ import { getDetailsRooms } from "@/services/rooms";
 import ParentDetails from "./_components/ParentDetails";
 import { RoomsType } from "@/types/rooms";
 
-export default async function Page({ params }: { params: { title: string } }) {
-  const { title } = await params;
+type Params = Promise<{ title: string }>
+
+export default async function Page(props: { params: Params }) {
+  const { title } = await props.params;
 
   const formateTitle = title
     .split("_")
