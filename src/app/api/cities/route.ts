@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { City } from '@/lib/schema';
-import { sql } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 
 // GET request handler
 export async function GET() {
@@ -53,7 +53,32 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error });
   }
   }
-
+  export async function PUT(req: NextRequest) {
+    try {
+      // Extract cityId from query parameters or body
+      const { cityId, city, countryName, displayImage, about, activities, hotels, tours, rentals, cars, images } = await req.json();
+  
+      if (!cityId || !city || !countryName) {
+        return NextResponse.json({ error: 'cityId, city, and countryName are required' }, { status: 400 });
+      }
+  
+      // Update city in the database
+      const updatedCountry = await db
+        .update(City)
+        .set({ city, countryName, displayImage, about, activities, hotels, tours, rentals, cars, images })
+        .where(eq(City.id,Number(cityId))) // Assuming `id` is the primary key
+        .returning();
+  
+      if (updatedCountry.length === 0) {
+        return NextResponse.json({ error: 'City not found' }, { status: 404 });
+      }
+  
+      return NextResponse.json(updatedCountry[0], { status: 200 });
+    } catch (error) {
+      return NextResponse.json({ error: error }, { status: 500 });
+    }
+  }
+  
 // DELETE handler to remove a country by id
 export async function DELETE(req: NextRequest) {
   const { searchParams } = new URL(req.url);

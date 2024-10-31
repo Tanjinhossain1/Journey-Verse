@@ -39,7 +39,7 @@ export default async function DashboardLayout({
   const session = await getServerSession();
   if (!session?.user?.email) redirect("/");
   const MenuItems =
-    session?.user?.name === "admin" ? adminMenuItems : userMenuItems;
+    session?.user?.image === "admin" ? adminMenuItems : userMenuItems;
   return (
     <SidebarProvider>
       <div className="flex h-screen overflow-hidden">

@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 
-export default function Component() {
+export default function Subscription() {
   return (
     <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg my-20 border ">
       <div className="relative w-full md:w-1/2 h-80 md:h-auto">

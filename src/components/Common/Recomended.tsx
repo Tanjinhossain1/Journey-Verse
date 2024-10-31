@@ -1,41 +1,40 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Heart, Star, MapPin, Clock } from "lucide-react"
-import Image from "next/image"
-import Link from 'next/link'
-import { formatForUrlWith_under_score } from '@/utils/utils'
-
+import { useState } from "react";
+import { Heart, Star, MapPin, Clock } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { formatForUrlWith_under_score } from "@/utils/utils";
 
 const hotels = [
-    {
-      id: 1,
-      name: "Castello Casole Hotel",
-      location: "New York City",
-      rating: 4,
-      reviews: 3,
-      price: 159.00,
-      image: "/castello-casole.jpeg"
-    },
-    {
-      id: 2,
-      name: "Hotel WBF Hommachi",
-      location: "Los Angeles",
-      rating: 3,
-      reviews: 3,
-      price: 212.00,
-      image: "/Hotel WBF Hommachi.jpeg"
-    },
-    {
-      id: 3,
-      name: "Vnahomes Aparhotel",
-      location: "San Francisco",
-      rating: 5,
-      reviews: 4,
-      price: 159.00,
-      image: "/Vnahomes Aparhotel.jpeg"
-    }
-  ]
+  {
+    id: 1,
+    name: "Castello Casole Hotel",
+    location: "New York City",
+    rating: 4,
+    reviews: 3,
+    price: 159.0,
+    image: "/castello-casole.jpeg",
+  },
+  {
+    id: 2,
+    name: "Hotel WBF Hommachi",
+    location: "Los Angeles",
+    rating: 3,
+    reviews: 3,
+    price: 212.0,
+    image: "/Hotel WBF Hommachi.jpeg",
+  },
+  {
+    id: 3,
+    name: "Vnahomes Aparhotel",
+    location: "San Francisco",
+    rating: 5,
+    reviews: 4,
+    price: 159.0,
+    image: "/Vnahomes Aparhotel.jpeg",
+  },
+];
 
 const tours = [
   {
@@ -44,10 +43,10 @@ const tours = [
     location: "Los Anglese",
     rating: 5,
     reviews: 3,
-    price: 190.80,
-    originalPrice: 212.00,
+    price: 190.8,
+    originalPrice: 212.0,
     duration: "10 hours",
-    image: "/placeholder.svg?height=300&width=400"
+    image: "/placeholder.svg?height=300&width=400",
   },
   {
     id: 2,
@@ -55,9 +54,9 @@ const tours = [
     location: "Nevada",
     rating: 5,
     reviews: 3,
-    price: 159.00,
+    price: 159.0,
     duration: "8 hour",
-    image: "/placeholder.svg?height=300&width=400"
+    image: "/placeholder.svg?height=300&width=400",
   },
   {
     id: 3,
@@ -65,31 +64,36 @@ const tours = [
     location: "San Francisco",
     rating: 5,
     reviews: 3,
-    price: 159.00,
+    price: 159.0,
     duration: "5 days",
-    image: "/placeholder.svg?height=300&width=400"
-  }
-]
+    image: "/placeholder.svg?height=300&width=400",
+  },
+];
 
-const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"]
+const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"];
 
-export default function Recommended() {
-  const [selectedCategory, setSelectedCategory] = useState("Hotel")
+export default function Recommended({ city }: { city?: string }) {
+  const [selectedCategory, setSelectedCategory] = useState("Hotel");
 
   const renderContent = () => {
     if (selectedCategory === "Hotel") {
       return hotels.map((hotel) => (
-        <div key={hotel.id} className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div
+          key={hotel.id}
+          className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200"
+        >
           <div className="relative overflow-hidden group">
-          <Link href={`/hotel-detail/${formatForUrlWith_under_score(hotel.name)}`}>
-            <Image
-              src={hotel.image}
-              alt={hotel.name}
-              width={400}
-              height={300}
-              className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
-            />
-          </Link>
+            <Link
+              href={`/hotel-detail/${formatForUrlWith_under_score(hotel.name)}`}
+            >
+              <Image
+                src={hotel.image}
+                alt={hotel.name}
+                width={400}
+                height={300}
+                className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+              />
+            </Link>
             <button className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
               <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
             </button>
@@ -99,12 +103,25 @@ export default function Recommended() {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${i < hotel.rating ? "text-yellow-400 fill-current" : "text-gray-300"}`}
+                  className={`w-4 h-4 ${
+                    i < hotel.rating
+                      ? "text-yellow-400 fill-current"
+                      : "text-gray-300"
+                  }`}
                 />
               ))}
             </div>
-           <Link href={`/hotel-detail/${formatForUrlWith_under_score(hotel.name)}`}> <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">{hotel.name}</h2></Link>
-            <p className="text-gray-600 dark:text-white mb-4 flex">{hotel.location}</p>
+            <Link
+              href={`/hotel-detail/${formatForUrlWith_under_score(hotel.name)}`}
+            >
+              {" "}
+              <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
+                {hotel.name}
+              </h2>
+            </Link>
+            <p className="text-gray-600 dark:text-white mb-4 flex">
+              {hotel.location}
+            </p>
             <div className="border-t border-gray-200 pt-4 mb-4">
               <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
                 {hotel.rating}/5 · Excellent ({hotel.reviews} Reviews)
@@ -112,26 +129,35 @@ export default function Recommended() {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-sm text-gray-500 dark:text-white">From:</span>
-                <span className="text-sm font-bold ml-1 dark:text-white">${hotel.price.toFixed(2)}</span>
-                <span className="text-sm text-gray-500 dark:text-white">/night</span>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  From:
+                </span>
+                <span className="text-sm font-bold ml-1 dark:text-white">
+                  ${hotel.price.toFixed(2)}
+                </span>
+                <span className="text-sm text-gray-500 dark:text-white">
+                  /night
+                </span>
               </div>
             </div>
           </div>
         </div>
-      ))
+      ));
     } else if (selectedCategory === "Tour") {
       return tours.map((tour) => (
-        <div key={tour.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div
+          key={tour.id}
+          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+        >
           <div className="relative overflow-hidden group">
-          <Link href={'/'}>
-            <Image
-              src={tour.image}
-              alt={tour.name}
-              width={400}
-              height={300}
-              className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
-            />
+            <Link href={"/"}>
+              <Image
+                src={tour.image}
+                alt={tour.name}
+                width={400}
+                height={300}
+                className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+              />
             </Link>
             <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
               <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
@@ -147,22 +173,37 @@ export default function Recommended() {
               <MapPin className="w-4 h-4 mr-1" />
               <span className="text-sm">{tour.location}</span>
             </div>
-            <Link href={'/'}> <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">{tour.name}</h2></Link>
+            <Link href={"/"}>
+              {" "}
+              <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
+                {tour.name}
+              </h2>
+            </Link>
             <div className="flex items-center mb-3">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${i < tour.rating ? "text-yellow-400 fill-current" : "text-gray-300"}`}
+                  className={`w-4 h-4 ${
+                    i < tour.rating
+                      ? "text-yellow-400 fill-current"
+                      : "text-gray-300"
+                  }`}
                 />
               ))}
-              <span className="text-sm text-gray-600  dark:text-whiteml-2">({tour.reviews} Reviews)</span>
+              <span className="text-sm text-gray-600  dark:text-whiteml-2">
+                ({tour.reviews} Reviews)
+              </span>
             </div>
             <div className="flex items-center justify-between border-t border-gray-200 pt-4">
               <div>
                 {tour.originalPrice && (
-                  <span className="text-sm text-gray-500 dark:text-white line-through mr-2">${tour.originalPrice.toFixed(2)}</span>
+                  <span className="text-sm text-gray-500 dark:text-white line-through mr-2">
+                    ${tour.originalPrice.toFixed(2)}
+                  </span>
                 )}
-                <span className="text-xl font-bold dark:text-white">${tour.price.toFixed(2)}</span>
+                <span className="text-xl font-bold dark:text-white">
+                  ${tour.price.toFixed(2)}
+                </span>
               </div>
               <div className="flex items-center text-gray-600 dark:text-white">
                 <Clock className="w-4 h-4 mr-1" />
@@ -171,15 +212,21 @@ export default function Recommended() {
             </div>
           </div>
         </div>
-      ))
+      ));
     } else {
-      return <div className="col-span-full text-center text-gray-500 dark:text-white">No content available for this category yet.</div>
+      return (
+        <div className="col-span-full text-center text-gray-500 dark:text-white">
+          No content available for this category yet.
+        </div>
+      );
     }
-  }
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6 mt-16">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">Recommended for you</h1>
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">
+        {city ? city : "Recommended for you"}
+      </h1>
       <div className="flex justify-center gap-2 mb-8">
         {categories.map((category, index) => (
           <button
@@ -199,5 +246,5 @@ export default function Recommended() {
         {renderContent()}
       </div>
     </div>
-  )
-} 
+  );
+}

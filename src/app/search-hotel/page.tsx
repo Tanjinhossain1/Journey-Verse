@@ -1,8 +1,11 @@
 import { Fragment } from "react";
-import SearchHotel from "./_components/ParentHotel";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
+import dynamic from "next/dynamic";
 
+const SearchHotel = dynamic(() => import("./_components/ParentHotel"), {
+  ssr: true,
+});
 export default function SearchHotelPage() {
   return (
     <Fragment>

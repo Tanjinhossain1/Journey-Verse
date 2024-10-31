@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Component() {
+export default function Article() {
   const [currentPage, setCurrentPage] = React.useState(0);
 
   const stories = [

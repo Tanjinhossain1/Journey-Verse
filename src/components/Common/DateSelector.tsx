@@ -12,12 +12,14 @@ import { DayPicker, DateRange } from "react-day-picker";
 import { format, addMonths, startOfToday } from "date-fns";
 
 export default function DateSelector({dateRange, setDateRange,isDetail}:{dateRange:DateRange,
-  setDateRange:Dispatch<SetStateAction<DateRange | undefined>>,isDetail?:boolean}) {
+  setDateRange:Dispatch<SetStateAction<DateRange>>  ,isDetail?:boolean}) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const disabledDays = { before: startOfToday() };
 
   const handleDateSelect = useCallback((range: DateRange | undefined) => {
-    setDateRange(range);
+    if(range){
+      setDateRange(range);
+    }
   }, []);
 
   const handleMonthChange = useCallback((increment: number) => {

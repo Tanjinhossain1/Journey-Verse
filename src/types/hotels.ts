@@ -10,6 +10,19 @@ export interface HotelType {
     id: number;
     createdAt: Date;
     updatedAt: Date;
+    
+        // id: number;
+        // createdAt: Date;
+        // updatedAt: Date;
+        // title: string;
+        // about: string;
+        // city: string;
+        // displayImage: string;
+        // images: unknown;
+        // facilities: unknown;
+        // ratings: unknown;
+        // reviews: unknown;
+    
 }
 
 export interface RatingsType {

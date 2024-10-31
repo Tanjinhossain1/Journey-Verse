@@ -19,17 +19,18 @@ type AboutType = {
 type FacilityType = {
   name: string;
 };
-
+type RatingSpecific = {
+  [key: string]: string | number; // Adjust type as needed
+  cleanliness: string;
+  accuracy: string;
+  communication: string;
+  location: string;
+  checkIn: string;
+  value: string;
+};
 type RatingsType = {
   total: number;
-  specific: {
-    cleanliness: string;
-    accuracy: string;
-    communication: string;
-    location: string;
-    checkIn: string;
-    value: string;
-  };
+  specific: RatingSpecific
 };
 
 type CityFormData = {
@@ -149,10 +150,10 @@ const CityForm = ({
   return (
     <div className="space-y-4 p-4">
       <div className="flex justify-between">
-        <h2 className="text-xl font-semibold">Cities</h2>
+        <h2 className="text-xl font-semibold">Hotels</h2>
         <Popover>
           <PopoverTrigger className="bg-blue-500 text-white p-2 rounded">
-            Create City
+            Create Hotels
           </PopoverTrigger>
           <PopoverContent className="w-[1000px]  p-4 bg-white shadow-lg rounded border space-y-4 overflow-scroll">
             <form
