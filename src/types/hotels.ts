@@ -8,6 +8,7 @@ export interface HotelType {
     about: string;
     reviews: ReviewsTypes[];
     id: number;
+    price:string;
     createdAt: Date;
     updatedAt: Date;
     
@@ -27,7 +28,8 @@ export interface HotelType {
 
 export interface RatingsType {
     total: number,
-    specific: { cleanliness: string, accuracy: string, Communication: string, Location: string, CheckIn: string, Value: string }[]
+    specific: {
+        [key: string]: string | number, cleanliness: string, accuracy: string, Communication: string, Location: string, CheckIn: string, Value: string }
 }
 export interface ReviewsTypes {
 

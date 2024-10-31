@@ -30,6 +30,7 @@ export const hotels = pgTable('hotels', {
   title: text('title').notNull(),
   city:text('city').notNull(),
   displayImage: text('display_image').notNull(),
+  price:text('price'),
   images: json('images').notNull(), // Array of image URLs
   ratings: json('ratings').notNull(), // JSON object for total and specific ratings
   facilities: json('facilities').notNull(), // Array of facility names

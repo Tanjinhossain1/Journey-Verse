@@ -6,7 +6,7 @@ import { sql } from 'drizzle-orm';
 
 // Handle both POST and DELETE requests
 export async function POST(req: Request) {
-  const { title, displayImage, images, ratings, facilities, about, reviews ,city} = await req.json();
+  const { title, displayImage, images, ratings, facilities, about, reviews ,city,price} = await req.json();
 
   try {
     // Create a new hotel entry
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       facilities,
       about,
       reviews,
-      city
+      city,price
     };
 
     const insertedHotel = await db.insert(hotels).values(newHotel);

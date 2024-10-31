@@ -11,6 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Delete } from "lucide-react";
 import { HotelType } from "@/types/hotels";
+import CityPopover from "./HotelPopover";
+import HotelPopover from "./HotelPopover";
 
 type AboutType = {
   detail: string;
@@ -41,6 +43,7 @@ type CityFormData = {
   about: AboutType[];
   facilities: FacilityType[];
   ratings: RatingsType;
+  price:string
 };
 
 const CityForm = ({
@@ -52,6 +55,7 @@ const CityForm = ({
 }) => {
   const { register, handleSubmit, control, reset } = useForm<CityFormData>({
     defaultValues: {
+      price:"",
       ratings: {
         total: 0,
         specific: {
@@ -151,160 +155,7 @@ const CityForm = ({
     <div className="space-y-4 p-4">
       <div className="flex justify-between">
         <h2 className="text-xl font-semibold">Hotels</h2>
-        <Popover>
-          <PopoverTrigger className="bg-blue-500 text-white p-2 rounded">
-            Create Hotels
-          </PopoverTrigger>
-          <PopoverContent className="w-[1000px]  p-4 bg-white shadow-lg rounded border space-y-4 overflow-scroll">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="space-y-4 grid grid-cols-1 overflow-scroll"
-            >
-              <div className="flex gap-3">
-                <select
-                  {...register("city", { required: true })}
-                  className="border p-2 w-full"
-                >
-                  {cityData.map((country) => (
-                    <option key={country?.id} value={country?.city}>
-                      {country?.city}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  {...register("title", { required: true })}
-                  placeholder="Title"
-                  className="border p-2 w-full"
-                />
-              </div>
-              <div className="flex gap-3">
-                <Controller
-                  name="displayImage"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => field.onChange(e.target.files)}
-                      className="border p-2 w-full"
-                    />
-                  )}
-                />
-                <Controller
-                  name="images"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={(e) => field.onChange(e.target.files)}
-                      className="border p-2 w-full"
-                    />
-                  )}
-                />
-              </div>
-
-              {/* Dynamic about fields */}
-              <div className="flex gap-3">
-                <div className="w-full">
-                  <label>About</label>
-                  {aboutFields.map((field, index) => (
-                    <div key={field.id} className="flex items-center space-x-2">
-                      <input
-                        {...register(`about.${index}.detail` as const)}
-                        placeholder="Detail"
-                        className="border p-2 w-full"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeAbout(index)}
-                        className="text-red-500"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => appendAbout({ detail: "" })}
-                    className="text-blue-500 mt-2"
-                  >
-                    + Add Detail
-                  </button>
-                </div>
-
-                {/* Dynamic facilities fields */}
-                <div className="w-full">
-                  <label>Facilities</label>
-                  {facilityFields.map((field, index) => (
-                    <div key={field.id} className="flex items-center space-x-2">
-                      <input
-                        {...register(`facilities.${index}.name` as const)}
-                        placeholder="Facility Name"
-                        className="border p-2 w-full"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeFacility(index)}
-                        className="text-red-500"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => appendFacility({ name: "" })}
-                    className="text-blue-500 mt-2"
-                  >
-                    + Add Facility
-                  </button>
-                </div>
-              </div>
-              {/* Default ratings */}
-              <div>
-                <label>Ratings</label>
-                <input
-                  {...register("ratings.total", { value: 0 })}
-                  type="number"
-                  placeholder="Total Ratings"
-                  className="border p-2 w-full"
-                />
-                <div className="space-y-2 mt-2 grid grid-cols-3">
-                  {[
-                    "cleanliness",
-                    "accuracy",
-                    "communication",
-                    "location",
-                    "checkIn",
-                    "value",
-                  ].map((rating) => (
-                    <input
-                      key={rating}
-                      {...register(`ratings.specific.${rating}`)}
-                      type="number"
-                      placeholder={
-                        rating.charAt(0).toUpperCase() + rating.slice(1)
-                      }
-                      className="border p-2 w-full"
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="bg-blue-500 text-white p-2 rounded w-full"
-              >
-                {isLoading ? "Submitting..." : "Create City"}
-              </button>
-            </form>
-          </PopoverContent>
-        </Popover>
+        <CityPopover cityData={cityData} />
       </div>
 
       {/* Table to display cities */}
@@ -314,6 +165,7 @@ const CityForm = ({
             <th className="border p-2">Name</th>
             <th className="border p-2">City</th>
             <th className="border p-2">Created Date</th>
+            <th className="border p-2">Edit</th>
             <th className="border p-2">Delete</th>
           </tr>
         </thead>
@@ -324,6 +176,10 @@ const CityForm = ({
               <td className="border p-2">{city.city}</td>
               <td className="border p-2">
                 {new Date(city.createdAt).toLocaleDateString()}
+              </td>
+              <td className="border p-2">
+                <HotelPopover defaultValues={city} cityData={cityData} />
+                
               </td>
               <td className="border p-2">
                 <Button

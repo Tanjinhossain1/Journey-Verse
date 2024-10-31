@@ -5,36 +5,7 @@ import { Heart, Star, MapPin, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { formatForUrlWith_under_score } from "@/utils/utils";
-
-const hotels = [
-  {
-    id: 1,
-    name: "Castello Casole Hotel",
-    location: "New York City",
-    rating: 4,
-    reviews: 3,
-    price: 159.0,
-    image: "/castello-casole.jpeg",
-  },
-  {
-    id: 2,
-    name: "Hotel WBF Hommachi",
-    location: "Los Angeles",
-    rating: 3,
-    reviews: 3,
-    price: 212.0,
-    image: "/Hotel WBF Hommachi.jpeg",
-  },
-  {
-    id: 3,
-    name: "Vnahomes Aparhotel",
-    location: "San Francisco",
-    rating: 5,
-    reviews: 4,
-    price: 159.0,
-    image: "/Vnahomes Aparhotel.jpeg",
-  },
-];
+import { HotelType } from "@/types/hotels";
 
 const tours = [
   {
@@ -72,9 +43,9 @@ const tours = [
 
 const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"];
 
-export default function Recommended({ city }: { city?: string }) {
+export default function Recommended({ city,hotels }: { city?: string,hotels:HotelType[] }) {
   const [selectedCategory, setSelectedCategory] = useState("Hotel");
-
+  console.log(hotels)
   const renderContent = () => {
     if (selectedCategory === "Hotel") {
       return hotels.map((hotel) => (
@@ -84,11 +55,11 @@ export default function Recommended({ city }: { city?: string }) {
         >
           <div className="relative overflow-hidden group">
             <Link
-              href={`/hotel-detail/${formatForUrlWith_under_score(hotel.name)}`}
+              href={`/hotel-detail/${formatForUrlWith_under_score(hotel.title)}`}
             >
               <Image
-                src={hotel.image}
-                alt={hotel.name}
+                src={hotel.displayImage}
+                alt={hotel.title}
                 width={400}
                 height={300}
                 className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
@@ -104,7 +75,7 @@ export default function Recommended({ city }: { city?: string }) {
                 <Star
                   key={i}
                   className={`w-4 h-4 ${
-                    i < hotel.rating
+                    i < hotel.ratings.total
                       ? "text-yellow-400 fill-current"
                       : "text-gray-300"
                   }`}
@@ -112,19 +83,19 @@ export default function Recommended({ city }: { city?: string }) {
               ))}
             </div>
             <Link
-              href={`/hotel-detail/${formatForUrlWith_under_score(hotel.name)}`}
+              href={`/hotel-detail/${formatForUrlWith_under_score(hotel.title)}`}
             >
               {" "}
               <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
-                {hotel.name}
+                {hotel.title}
               </h2>
             </Link>
             <p className="text-gray-600 dark:text-white mb-4 flex">
-              {hotel.location}
+              {hotel.city}
             </p>
             <div className="border-t border-gray-200 pt-4 mb-4">
               <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                {hotel.rating}/5 · Excellent ({hotel.reviews} Reviews)
+                {hotel.ratings?.total}/5 · Excellent ({hotel.reviews?.length} Reviews)
               </div>
             </div>
             <div className="flex items-center justify-between">
@@ -133,7 +104,7 @@ export default function Recommended({ city }: { city?: string }) {
                   From:
                 </span>
                 <span className="text-sm font-bold ml-1 dark:text-white">
-                  ${hotel.price.toFixed(2)}
+                  ${(+hotel.price).toFixed(2)}
                 </span>
                 <span className="text-sm text-gray-500 dark:text-white">
                   /night
