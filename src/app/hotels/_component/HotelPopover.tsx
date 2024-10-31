@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/popover"; // Shadcn Popover components
 import { HotelType } from "@/types/hotels";
 import { Edit } from "lucide-react";
+import { CountryType } from "@/types/countries";
 
 type AboutType = {
   detail: string;
@@ -41,14 +42,17 @@ type CityFormData = {
   facilities: FacilityType[];
   ratings: RatingsType;
   price: string;
+  country: string;
 };
 
 const HotelPopover = ({
   cityData,
   defaultValues,
+  countries
 }: {
   defaultValues?: HotelType;
   cityData: CityType[];
+  countries: CountryType[];
 }) => {
   const { register, handleSubmit, control, reset } = useForm<CityFormData>({
     defaultValues: {
@@ -154,8 +158,18 @@ const HotelPopover = ({
               {...register("title", { required: true })}
               placeholder="Title"
               className="border p-2 w-full"
-            />
+            /> 
           </div>
+            <select
+              {...register("country", { required: true })}
+              className="border p-2 w-full"
+            >
+              {countries.map((country) => (
+                <option key={country?.id} value={country?.name}>
+                  {country?.name}
+                </option>
+              ))}
+            </select>
           <div className="flex gap-3">
             <input
               {...register("price", { required: true })}

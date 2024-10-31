@@ -3,9 +3,10 @@ export interface HotelType {
     city: string;
     displayImage: string;
     images: string[];
+    country:string;
     ratings: RatingsType;
     facilities: { name: string }[];
-    about: string;
+    about: {detail:string}[]
     reviews: ReviewsTypes[];
     id: number;
     price:string;

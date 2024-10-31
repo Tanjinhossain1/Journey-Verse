@@ -8,10 +8,8 @@ import {
   AirVent,
   Car,
   Clock,
-  Heater,
-  MapPin,
-  Plane,
-  Star,
+  Heater, 
+  Plane, 
   Tv,
   Waves,
   Wifi,
@@ -28,16 +26,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import RoomDisplay from "./RoomDisplayer";
-import { HotelType } from "@/types/hotels";
 import { RoomsType } from "@/types/rooms";
 
 export default function ParentDetails({
-  hotel_detail,
   room_detail
 }: {
-  hotel_detail: HotelType;
-  room_detail:RoomsType[]
+  room_detail:RoomsType
 }) {
   const searchParams = useSearchParams();
   const checkIn = searchParams.get("checkIn") ?? "";
@@ -57,7 +51,7 @@ export default function ParentDetails({
   const [adults, setAdults] = useState(searchChildren ? +searchChildren : 1);
   const [children, setChildren] = useState(searchAdults ? +searchAdults : 0);
 
-  console.log('hotel detail',hotel_detail)
+  console.log('hotel detail',room_detail)
   return (
     <Fragment>
       <div className="relative  min-h-[200px] w-full overflow-hidden dark:border-b">
@@ -80,16 +74,16 @@ export default function ParentDetails({
                 <BreadcrumbLink href="/">Home</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-              <BreadcrumbItem>
+              {/* <BreadcrumbItem>
                 <BreadcrumbLink
-                  href={`/search-hotel?location_name=${hotel_detail?.country}`}
+                  href={`/search-hotel?location_name=${room_detail?.country}`}
                 >
                   {hotel_detail?.country}
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator />
+              <BreadcrumbSeparator /> */}
               <BreadcrumbItem>
-                <BreadcrumbPage>{hotel_detail.city}</BreadcrumbPage>
+                <BreadcrumbPage>{room_detail.title}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -103,10 +97,10 @@ export default function ParentDetails({
                 alt="Hotel main view"
                 className="object-cover"
                 fill
-                src={hotel_detail.images[0]}
+                src={room_detail.images[0]}
               />
             </div>
-            {hotel_detail.images.slice(1, 5).map((image, index) => (
+            {room_detail.images.slice(1, 5).map((image, index) => (
               <div key={index} className="relative rounded-lg overflow-hidden">
                 <Image
                   alt={`Hotel view ${index + 2}`}
@@ -121,24 +115,24 @@ export default function ParentDetails({
 
         <div className="grid lg:grid-cols-[1fr_400px] gap-6">
           <div className="space-y-6">
-            <div className="flex items-center gap-4">
+            {/* <div className="flex items-center gap-4">
               <div className="flex items-center">
                 <Star className="w-5 h-5 fill-primary text-primary text-yellow-400 " />
                 <span className="ml-2 text-xl font-semibold">
-                  {hotel_detail.ratings.total}
+                  {room_detail.ratings.total}
                 </span>
                 <span className="ml-2 text-muted-foreground">Excellent</span>
               </div>
               <div className="flex items-center text-muted-foreground">
                 <MapPin className="w-4 h-4 mr-1" />
-                {hotel_detail.city}
+                {room_detail.city}
               </div>
-            </div>
+            </div> */}
 
             <div>
               <h2 className="text-2xl font-bold mb-4">About this hotel</h2>
               <p className="text-muted-foreground whitespace-pre-line">
-                {hotel_detail.about?.map((about, index: number) => {
+                {room_detail.about?.map((about, index: number) => {
                   return (
                     <Fragment key={index}>
                       {about.detail}
@@ -153,7 +147,7 @@ export default function ParentDetails({
             <div>
               <h2 className="text-2xl font-bold mb-4">Hotel Facilities</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {hotel_detail?.facilities?.map((facility) => {
+                {room_detail?.facilities?.map((facility) => {
                   return (
                     <div
                       key={facility.name}
@@ -208,7 +202,7 @@ export default function ParentDetails({
               </div>
             </div>
             <hr />
-            <RoomDisplay room_detail={room_detail} hotel_detail={hotel_detail} />
+             
           </div>
 
           <div className="space-y-4">
@@ -219,13 +213,13 @@ export default function ParentDetails({
                     <div className="text-2xl font-bold">€150.00</div>
                     <div className="text-sm text-muted-foreground">/night</div>
                   </div>
-                  <div className="flex items-center">
+                  {/* <div className="flex items-center">
                     <Star className="w-4 h-4 fill-primary text-primary text-yellow-500" />
                     <span className="ml-1">{hotel_detail.ratings.total}</span>
                     <span className="ml-1 text-sm text-muted-foreground">
                       ({hotel_detail?.reviews?.length} reviews)
                     </span>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="grid gap-4">
