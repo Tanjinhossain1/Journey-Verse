@@ -25,11 +25,10 @@ export default function Banner() {
           <ul className="flex flex-wrap justify-center gap-4 text-sm md:text-base">
             {[
               "Hotel",
-              "Tours",
-              "Activity",
-              "Rental",
-              "Cars Rental",
-              "Car Transfer",
+              // "Tours",
+              // "Activity",
+              // "Rental",
+              // "Cars Rental",
             ].map((item) => (
               <li key={item}>
                 <a href="#" className="hover:underline font-bold">

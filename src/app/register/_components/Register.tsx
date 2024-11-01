@@ -28,7 +28,8 @@ const RegisterPage = () => {
     const submitedData = {
       ...data,
       password: hashedPassword,
-      role: "admin",
+      role: "user",
+      // role: "admin",
     };
     try {
       await axios

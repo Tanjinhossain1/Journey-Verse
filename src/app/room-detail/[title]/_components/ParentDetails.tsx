@@ -27,11 +27,18 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { RoomsType } from "@/types/rooms";
+import { HotelType } from "@/types/hotels";
+import { formatForUrlWith_under_score } from "@/utils/utils";
+import OtherRoomOptions from "./OtherOptions";
 
 export default function ParentDetails({
-  room_detail
+  room_detail,
+  otherOptionRooms,
+  hotel_detail,
 }: {
-  room_detail:RoomsType
+  room_detail:RoomsType,
+  otherOptionRooms:RoomsType[],
+  hotel_detail:HotelType
 }) {
   const searchParams = useSearchParams();
   const checkIn = searchParams.get("checkIn") ?? "";
@@ -74,14 +81,14 @@ export default function ParentDetails({
                 <BreadcrumbLink href="/">Home</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
-              {/* <BreadcrumbItem>
+              <BreadcrumbItem>
                 <BreadcrumbLink
-                  href={`/search-hotel?location_name=${room_detail?.country}`}
+                  href={`/hotel-detail/${formatForUrlWith_under_score(hotel_detail?.title)}`}
                 >
                   {hotel_detail?.country}
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator /> */}
+              <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbPage>{room_detail.title}</BreadcrumbPage>
               </BreadcrumbItem>
@@ -115,19 +122,6 @@ export default function ParentDetails({
 
         <div className="grid lg:grid-cols-[1fr_400px] gap-6">
           <div className="space-y-6">
-            {/* <div className="flex items-center gap-4">
-              <div className="flex items-center">
-                <Star className="w-5 h-5 fill-primary text-primary text-yellow-400 " />
-                <span className="ml-2 text-xl font-semibold">
-                  {room_detail.ratings.total}
-                </span>
-                <span className="ml-2 text-muted-foreground">Excellent</span>
-              </div>
-              <div className="flex items-center text-muted-foreground">
-                <MapPin className="w-4 h-4 mr-1" />
-                {room_detail.city}
-              </div>
-            </div> */}
 
             <div>
               <h2 className="text-2xl font-bold mb-4">About this hotel</h2>
@@ -202,8 +196,7 @@ export default function ParentDetails({
               </div>
             </div>
             <hr />
-             
-          </div>
+          </div> 
 
           <div className="space-y-4">
             <Card>
@@ -260,6 +253,7 @@ export default function ParentDetails({
           </div>
         </div>
       </div>
+      <OtherRoomOptions rooms={otherOptionRooms} />
     </Fragment>
   );
 }

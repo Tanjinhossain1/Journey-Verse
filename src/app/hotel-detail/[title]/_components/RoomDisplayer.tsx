@@ -9,13 +9,18 @@ import { HotelType } from "@/types/hotels";
 import { RoomsType } from "@/types/rooms";
 import Link from "next/link";
 import { formatForUrlWith_under_score } from "@/utils/utils";
+import { DateRange } from "react-day-picker";
 
 export default function RoomDisplay({
   hotel_detail,
-  room_detail
+  room_detail,
+  dateRange,
+  guest
 }: {
   hotel_detail: HotelType;
-  room_detail:RoomsType[]
+  room_detail:RoomsType[];
+  dateRange:DateRange;
+  guest:{adult:number,children:number, rooms:number}
 }) {
   return (
     <div className="w-full max-w-4xl mx-auto p-4 space-y-8">
@@ -71,7 +76,7 @@ export default function RoomDisplay({
                           /night
                         </span>
                       </div>
-                      <Link href={`/room-detail/${formatForUrlWith_under_score(room.title)}`}>
+                      <Link href={`/room-detail/${formatForUrlWith_under_score(room.title)}?checkIn=${dateRange.from?.toISOString()}&checkout=${dateRange?.to?.toISOString()}&adults=${guest?.adult}&rooms=${guest?.rooms}&children=${guest?.children}`}>
                       <Button className="bg-black hover:bg-black text-white">
                         Room Detail
                       </Button>

@@ -208,15 +208,15 @@ export default function ParentDetails({
               </div>
             </div>
             <hr />
-            <RoomDisplay room_detail={room_detail} hotel_detail={hotel_detail} />
+            <RoomDisplay guest={{adult:adults,children:children, rooms:rooms}} dateRange={dateRange} room_detail={room_detail} hotel_detail={hotel_detail} />
           </div>
 
           <div className="space-y-4">
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <div className="text-2xl font-bold">€150.00</div>
+                  <div className="flex">
+                    <div className="text-xl font-bold">€150.00</div>
                     <div className="text-sm text-muted-foreground">/night</div>
                   </div>
                   <div className="flex items-center">

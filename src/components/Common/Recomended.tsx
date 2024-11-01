@@ -41,7 +41,8 @@ const tours = [
   },
 ];
 
-const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"];
+const categories = ["Hotel"];
+// const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"];
 
 export default function Recommended({ city,hotels }: { city?: string,hotels:HotelType[] }) {
   const [selectedCategory, setSelectedCategory] = useState("Hotel");
