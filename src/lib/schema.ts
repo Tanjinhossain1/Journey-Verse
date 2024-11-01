@@ -28,10 +28,10 @@ export const City = pgTable('city', {
 export const hotels = pgTable('hotels', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
-  city:text('city').notNull(),
-  country:text('country'),
+  city: text('city').notNull(),
+  country: text('country'),
   displayImage: text('display_image').notNull(),
-  price:text('price'),
+  price: text('price'),
   images: json('images').notNull(), // Array of image URLs
   ratings: json('ratings').notNull(), // JSON object for total and specific ratings
   facilities: json('facilities').notNull(), // Array of facility names
@@ -46,7 +46,7 @@ export const Rooms = pgTable('rooms', {
   title: text('title').notNull(),
   hotel: text('hotel').notNull(),
   displayImage: text('display_image').notNull(),
-  price:text('price'),
+  price: text('price'),
   images: json('images').notNull(), // Array of strings
   facilities: json('facilities').notNull(), // Array of {name:string}[]
   about: json('about').notNull(), // array of {detail:string}[]
@@ -57,6 +57,32 @@ export const Rooms = pgTable('rooms', {
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const Orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  fullName: text("full_name").notNull(),
+  cardNumber: text("card_number").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  addressLine1: text("address_line_1").notNull(),
+  addressLine2: text("address_line_2"),
+  city: text("city"),
+  stateProvince: text("state_province"),
+  zipCode: text("zip_code"),
+  country: text("country"),
+  specialRequirements: text("special_requirements"),
+  couponCode: text("coupon_code"),
+  totalAmount: text("totalAmount"),
+  checkIn: text("checkIn"),
+  checkout: text("checkout"),
+  rooms: text("rooms"),
+  children: text("children"),
+  adults: text("adults"),
+
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 

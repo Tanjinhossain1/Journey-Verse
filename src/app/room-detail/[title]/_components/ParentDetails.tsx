@@ -8,8 +8,8 @@ import {
   AirVent,
   Car,
   Clock,
-  Heater, 
-  Plane, 
+  Heater,
+  Plane,
   Tv,
   Waves,
   Wifi,
@@ -30,15 +30,19 @@ import { RoomsType } from "@/types/rooms";
 import { HotelType } from "@/types/hotels";
 import { formatForUrlWith_under_score } from "@/utils/utils";
 import OtherRoomOptions from "./OtherOptions";
+import Link from "next/link";
+import { User } from "@/types/user";
 
 export default function ParentDetails({
   room_detail,
   otherOptionRooms,
   hotel_detail,
+  user
 }: {
-  room_detail:RoomsType,
-  otherOptionRooms:RoomsType[],
-  hotel_detail:HotelType
+  room_detail: RoomsType;
+  otherOptionRooms: RoomsType[];
+  hotel_detail: HotelType;
+  user:User
 }) {
   const searchParams = useSearchParams();
   const checkIn = searchParams.get("checkIn") ?? "";
@@ -58,7 +62,7 @@ export default function ParentDetails({
   const [adults, setAdults] = useState(searchChildren ? +searchChildren : 1);
   const [children, setChildren] = useState(searchAdults ? +searchAdults : 0);
 
-  console.log('hotel detail',room_detail)
+  console.log("hotel detail", room_detail);
   return (
     <Fragment>
       <div className="relative  min-h-[200px] w-full overflow-hidden dark:border-b">
@@ -83,7 +87,9 @@ export default function ParentDetails({
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink
-                  href={`/hotel-detail/${formatForUrlWith_under_score(hotel_detail?.title)}`}
+                  href={`/hotel-detail/${formatForUrlWith_under_score(
+                    hotel_detail?.title
+                  )}`}
                 >
                   {hotel_detail?.country}
                 </BreadcrumbLink>
@@ -122,7 +128,6 @@ export default function ParentDetails({
 
         <div className="grid lg:grid-cols-[1fr_400px] gap-6">
           <div className="space-y-6">
-
             <div>
               <h2 className="text-2xl font-bold mb-4">About this hotel</h2>
               <p className="text-muted-foreground whitespace-pre-line">
@@ -165,7 +170,7 @@ export default function ParentDetails({
                         <Wifi className="w-4 h-4" />
                       ) : facility?.name === "Restaurant" ? (
                         <Car className="w-4 h-4" />
-                      ): (
+                      ) : (
                         ""
                       )}
                       {facility.name}
@@ -175,7 +180,7 @@ export default function ParentDetails({
               </div>
             </div>
 
-              <hr />
+            <hr />
             <div>
               <h2 className="text-2xl font-bold mb-4">Rules</h2>
               <div className="space-y-2">
@@ -196,7 +201,7 @@ export default function ParentDetails({
               </div>
             </div>
             <hr />
-          </div> 
+          </div>
 
           <div className="space-y-4">
             <Card>
@@ -231,9 +236,16 @@ export default function ParentDetails({
                     setDchildren={setChildren}
                     setDrooms={setRooms}
                   />
-                  <Button className="w-full bg-black text-white hover:bg-black ">
-                    Check availability
-                  </Button>
+                  <Link
+                    href={user?.email ? `/checkout/${formatForUrlWith_under_score(
+                      room_detail.title
+                    )}?checkIn=${dateRange.from}&checkout=${dateRange?.to}&adults=${adults}&rooms=${rooms}&children=${children}` : "/login"}
+                  >
+                    {user?.email ? null : <p className="text-sm text-red-500">Required Login for Book:  <Link href={'/login'} className="text-blue-500 ml-1  ">Login</Link></p>}
+                    <Button className="w-full bg-black text-white hover:bg-black ">
+                      Book Now
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>

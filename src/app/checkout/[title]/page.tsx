@@ -1,18 +1,20 @@
 import React, { Fragment } from "react";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
-import { getDetailsRooms, getDetailsRoomsWithOutDetailed } from "@/services/rooms";
-import ParentDetails from "./_components/ParentDetails";
-import { RoomsType } from "@/types/rooms";
+import { getDetailsRooms } from "@/services/rooms";
 import { getDetailsHotels } from "@/services/hotels";
+import Checkout from "./_components/CheckoutDisplayer";
+import { RoomsType } from "@/types/rooms";
 import { HotelType } from "@/types/hotels";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import { User } from "@/types/user";
 
 type Params = Promise<{ title: string }>
 
 export default async function Page(props: { params: Params }) {
   const { title } = await props.params;
+
   const  session  =  await getServerSession();
 
   const formateTitle = title
@@ -21,15 +23,11 @@ export default async function Page(props: { params: Params }) {
     .join(" ");
   const room_detail = await getDetailsRooms(formateTitle);
   const hotel_detail = await getDetailsHotels(room_detail?.[0]?.hotel);
-  const rooms = await getDetailsRoomsWithOutDetailed(room_detail?.[0]?.title,room_detail?.[0]?.hotel);
-  
+  if(!session?.user?.email)redirect('/login')
   return (
     <Fragment>
       <Navbar />
-      {
-        room_detail && room_detail[0] ? 
-       <ParentDetails user={session?.user as User} otherOptionRooms={rooms as RoomsType[]} hotel_detail={hotel_detail[0] as HotelType} room_detail={room_detail[0] as RoomsType} />
-      : null}
+       <Checkout user={session?.user as User} hotel_detail={hotel_detail?.[0] as HotelType} room_detail={room_detail?.[0] as RoomsType} />
       <Footer />
     </Fragment>
   );
