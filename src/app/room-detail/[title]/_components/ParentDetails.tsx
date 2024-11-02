@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { RoomsType } from "@/types/rooms";
 import { HotelType } from "@/types/hotels";
-import { formatForUrlWith_under_score } from "@/utils/utils";
+import { formatForUrlWith_under_score, toISODateString } from "@/utils/utils";
 import OtherRoomOptions from "./OtherOptions";
 import Link from "next/link";
 import { User } from "@/types/user";
@@ -62,7 +62,7 @@ export default function ParentDetails({
   const [rooms, setRooms] = useState(searchRooms ? +searchRooms : 1);
   const [adults, setAdults] = useState(searchChildren ? +searchChildren : 1);
   const [children, setChildren] = useState(searchAdults ? +searchAdults : 0);
-  const [hasMounted, setHasMounted] = useState(false);
+  // const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
     const CheckAvailability = async () => {
@@ -76,11 +76,11 @@ export default function ParentDetails({
       }
     };
 
-    if (hasMounted && dateRange) {
+    // if (hasMounted && dateRange) {
       CheckAvailability();
-    } else {
-      setHasMounted(true); // Set to true after the initial render
-    }
+    // } else {
+    //   setHasMounted(true); // Set to true after the initial render
+    // }
   }, [dateRange]);
   console.log("hotel detail", room_detail);
   return (
@@ -257,7 +257,7 @@ export default function ParentDetails({
                     <Link
                     href={user?.email ? `/checkout/${formatForUrlWith_under_score(
                       room_detail.title
-                    )}?checkIn=${dateRange.from}&checkout=${dateRange?.to}&adults=${adults}&rooms=${rooms}&children=${children}` : "/login"}
+                    )}?checkIn=${toISODateString(dateRange.from)}&checkout=${toISODateString(dateRange?.to)}&adults=${adults}&rooms=${rooms}&children=${children}` : "/login"}
                     >
                     {user?.email ? null : <p className="text-sm text-red-500">Required Login for Book:  <Link href={'/login'} className="text-blue-500 ml-1  ">Login</Link></p>}
                     <Button className="w-full bg-black text-white hover:bg-black ">

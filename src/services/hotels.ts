@@ -10,6 +10,57 @@ export const getHotels = async () => {
 
     return HotelsRecord;
 }
+export const getHotelsByPrice = async (price: 'low' | 'high') => {
+    const HotelsRecord = await db.select().from(hotels);
+
+    // Convert the `price` field from string to number and sort based on `price` parameter
+    const sortedHotels = HotelsRecord.sort((a, b) => {
+        const priceA = parseFloat(a.price ? a.price :"");
+        const priceB = parseFloat(b.price ? b.price : ''); 
+
+        return price === 'low' ? priceA - priceB : priceB - priceA;
+    });
+
+    return sortedHotels;
+}
+export const getHotelsByOrder = async (order: 'a' | 'z') => {
+    const HotelsRecord = await db.select().from(hotels);
+
+    // Sort HotelsRecord by title based on `order` parameter
+    const sortedHotels = HotelsRecord.sort((a, b) => {
+        const titleA = a.title.toLowerCase();
+        const titleB = b.title.toLowerCase();
+
+        if (order === 'a') {
+            return titleA.localeCompare(titleB); // Ascending order
+        } else {
+            return titleB.localeCompare(titleA); // Descending order
+        }
+    });
+
+    return sortedHotels;
+};
+
+
+export const getHotelsByCity = async (city?: string,country?:string) => {
+    if (city) {
+
+        const HotelsRecord = await db.select().from(hotels).where(eq(hotels.city, city))
+
+        return HotelsRecord;
+    } else if(country){
+
+        const HotelsRecord = await db.select().from(hotels).where(eq(hotels.country, country))
+
+        return HotelsRecord;
+
+    } else {
+        const HotelsRecord = await db.select().from(hotels);
+
+        return HotelsRecord;
+    }
+}
+
 export const getDetailsHotels = async (title: string) => {
 
     const HotelsRecord = await db.select().from(hotels).where(ilike(hotels.title, title));
@@ -46,6 +97,6 @@ export const updateReview = async (id: string, newReview: Review) => {
         return { success: true, message: 'Review added successfully' };
     } catch (error) {
         console.error('Error updating review:', error);
-        return { success: false, message: (error as {message:string})?.message };
+        return { success: false, message: (error as { message: string })?.message };
     }
 };

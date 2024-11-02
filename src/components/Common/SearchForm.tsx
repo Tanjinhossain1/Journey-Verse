@@ -17,6 +17,7 @@ import { startOfToday, addDays } from "date-fns";
 import Link from "next/link";
 import DateSelector from "./DateSelector";
 import GuestSelector from "./GuestSelector";
+import { toISODateString } from "@/utils/utils";
 
 export const countries = [
   {
@@ -95,8 +96,8 @@ export default function SearchForm({defaultDate,defaultGuest,location_name}:{loc
         <Link
           href={`/search-hotel?location_name=${
             selectedCountry ? selectedCountry : ""
-          }&checkIn=${dateRange?.from}&checkout=${
-            dateRange?.to
+          }&checkIn=${toISODateString(dateRange?.from)}&checkout=${
+            toISODateString(dateRange?.to)
           }&adults=${adults}&rooms=${rooms}&children=${children}`}
         >
           <Button className="m-2 px-8 bg-black dark:bg-black dark:text-white   rounded hover:bg-blue-950">

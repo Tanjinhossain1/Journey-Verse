@@ -66,7 +66,8 @@ const RoomForm: React.FC<{
   const onSubmit: SubmitHandler<RoomFormData> = async (data) => {
     console.log(data);
     // handle form submission
-    const response = await axios.post('/api/rooms',data);
+    const response = await axios.post("/api/rooms", data);
+    console.log(response);
     if(response?.data){
         window.location.reload();
     }
@@ -119,7 +120,7 @@ const RoomForm: React.FC<{
           className="border"
         />
         {errors.title && <p className="text-red-500">{errors.title.message}</p>}
-      </div> 
+      </div>
       <div>
         <label>Hotel:</label>
         <select
@@ -270,8 +271,9 @@ const RoomForm: React.FC<{
 
 const RoomManagement: React.FC<{
   hotels: HotelType[];
-  rooms:RoomsType[]
-}> = ({ hotels,rooms }) => {
+  rooms: RoomsType[];
+}> = ({ hotels, rooms }) => {
+  console.log("roms ", rooms);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCreateRoom = () => {
@@ -279,7 +281,7 @@ const RoomManagement: React.FC<{
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 "> 
       <button
         className="bg-blue-500 text-white px-4 py-2 rounded-md"
         onClick={handleCreateRoom}
@@ -302,9 +304,9 @@ const RoomManagement: React.FC<{
   );
 };
 
-const RoomsTable = ({rooms}:{rooms:RoomsType[]}) => {
+const RoomsTable = ({ rooms }: { rooms: RoomsType[] }) => {
   // Mock data for demonstration; replace with your data fetching logic
-   
+
   const deleteCountry = async (id: number) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this country?"
@@ -324,41 +326,30 @@ const RoomsTable = ({rooms}:{rooms:RoomsType[]}) => {
     }
   };
   return (
-    <table className="mt-4 min-w-full border-collapse">
-      <thead>
-        <tr>
-          <th className="border-b-2 border-gray-200 text-left px-4 py-2">
-            Title
-          </th> 
-          <th className="border-b-2 border-gray-200 text-left px-4 py-2">
-            Hotel
-          </th>
-          <th className="border-b-2 border-gray-200 text-left px-4 py-2">
-            Price
-          </th> 
-          <th className="border-b-2 border-gray-200 text-left px-4 py-2">
-            Delete
-          </th> 
-        </tr>
-      </thead>
-      <tbody>
-        {rooms.map((room) => (
-          <tr key={room.id}>
-            <td className="border-b border-gray-200 px-4 py-2">{room.title}</td>
-            <td className="border-b border-gray-200 px-4 py-2">{room.hotel}</td>
-            <td className="border-b border-gray-200 px-4 py-2">{room.price}</td>
-            <td className="border p-2">
-                <Button
-                  onClick={() => deleteCountry(room?.id)}
-                  className="text-red-600"
-                >
-                  <Delete className="text-red-600" />
-                </Button>
-              </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="mt-4 min-w-full h-[500px] overflow-y-scroll">
+  <div className="flex border-b-2 border-gray-200 px-4 py-2">
+    <div className="w-1/4 text-left font-semibold">Title</div>
+    <div className="w-1/4 text-left font-semibold">Hotel</div>
+    <div className="w-1/4 text-left font-semibold">Price</div>
+    <div className="w-1/4 text-left font-semibold">Delete</div>
+  </div>
+  {rooms.map((room) => (
+    <div key={room.id} className="flex border-b border-gray-200 px-4 py-2">
+      <div className="w-1/4">{room.title}</div>
+      <div className="w-1/4">{room.hotel}</div>
+      <div className="w-1/4">{room.price}</div>
+      <div className="w-1/4">
+        <Button
+          onClick={() => deleteCountry(room?.id)}
+          className="text-red-600"
+        >
+          <Delete className="text-red-600" />
+        </Button>
+      </div>
+    </div>
+  ))}
+</div>
+
   );
 };
 

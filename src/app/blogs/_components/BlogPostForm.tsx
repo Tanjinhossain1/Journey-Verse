@@ -172,8 +172,6 @@ export default function BlogPostForm({
               <Controller
                 name="description"
                 control={control}
-                defaultValue=""
-                rules={{ required: "Description is required" }}
                 render={({ field, fieldState: { error } }) => (
                   <div>
                     <Textarea {...field} placeholder="Description" />

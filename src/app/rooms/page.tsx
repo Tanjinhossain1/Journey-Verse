@@ -6,6 +6,7 @@ import { HotelType } from "@/types/hotels";
 import { getHotels } from "@/services/hotels";
 import { getRooms } from "@/services/rooms";
 import { RoomsType } from "@/types/rooms";
+import Footer from "@/components/Common/Footer";
 
 export default async function page() {
   const hotels = await getHotels();
@@ -19,6 +20,7 @@ export default async function page() {
       <DashboardLayout name="Rooms">
         <RoomsParent rooms={rooms as RoomsType[]} hotels={hotels as HotelType[]} />
       </DashboardLayout>
+      {/* <Footer /> */}
     </Fragment>
   );
 }

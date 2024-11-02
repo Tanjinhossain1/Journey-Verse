@@ -11,8 +11,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatForUrlWith_under_score } from "@/utils/utils";
+import { getHotels, getHotelsByCity, getHotelsByOrder, getHotelsByPrice } from "@/services/hotels";
+import { HotelType } from "@/types/hotels";
 
 const mockHotelsData = Array.from({ length: 20 }, (_, index) => {
   const countryData = countries[0]; // Assuming only one country provided in `countries`
@@ -59,19 +61,33 @@ export default function SearchHotel() {
   const rooms = searchParams.get("rooms") ?? 1;
   const children = searchParams.get("children") ?? 0;
   const adults = searchParams.get("adults") ?? 1;
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [selectedAtoZ, setSelectedAtoZ] = useState<string | null>(null);
-
-  const handleSelectAtoZ = (option: string) => {
+  const [selectedOption, setSelectedOption] = useState<'low'| 'high' | null>(null);
+  const [selectedAtoZ, setSelectedAtoZ] = useState<'a'| 'z' | null>(null);
+  const [hotelsData,setHotelsData] = useState<HotelType[]>([]);
+  const handleSelectAtoZ = (option: 'a'| 'z') => {
     setSelectedAtoZ(option);
+    sortHotelDataByOrder(option)
   };
-  const handleSelect = (option: string) => {
+  const handleSelect = (option: 'low'| 'high') => {
     setSelectedOption(option);
+    sortHotelData(option)
   };
-  const filteredHotels = mockHotelsData.filter(
-    (hotel) => !location_name || hotel.location === location_name
-  );
 
+  useEffect(() => {
+    const fetchHotels = async () => {
+      const hotels = await getHotelsByCity(location_name === "" || location_name === "United States" ? undefined : location_name,location_name === "United States"? location_name:undefined);
+      setHotelsData(hotels as HotelType[])
+    };
+    fetchHotels();
+  }, [location_name]);
+  const sortHotelData = async (price:'low'| 'high') => {
+    const hotels = await getHotelsByPrice(price);
+    setHotelsData(hotels as HotelType[])
+  }   
+  const sortHotelDataByOrder = async (order:'a'| 'z') => {
+    const hotels = await getHotelsByOrder(order);
+    setHotelsData(hotels as HotelType[])
+  }   
   return (
     <div>
       <div className="relative  min-h-[200px] w-full overflow-hidden dark:border-b">
@@ -104,7 +120,7 @@ export default function SearchHotel() {
           </nav>
 
           <SearchForm
-          location_name={location_name}
+            location_name={location_name}
             defaultDate={{ from: checkIn as any, to: checkout as any }}
             defaultGuest={{
               adults: +adults,
@@ -157,9 +173,9 @@ export default function SearchHotel() {
             </DropdownMenuItem>
             <p className="text-gray-600 text-sm">Name</p>
             <DropdownMenuItem
-              onClick={() => handleSelectAtoZ("a-z")}
+              onClick={() => handleSelectAtoZ("a")}
               className={`hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center space-x-2 ${
-                selectedAtoZ === "a-z"
+                selectedAtoZ === "a"
                   ? "text-blue-500"
                   : "text-gray-900 dark:text-white"
               }`}
@@ -167,16 +183,16 @@ export default function SearchHotel() {
               <input
                 type="radio"
                 name="sort"
-                checked={selectedAtoZ === "a-z"}
-                onChange={() => handleSelectAtoZ("a-z")}
+                checked={selectedAtoZ === "a"}
+                onChange={() => handleSelectAtoZ("a")}
                 className="form-radio text-blue-500 h-4 w-4"
               />
               <span>a - z</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => handleSelectAtoZ("z-a")}
+              onClick={() => handleSelectAtoZ("z")}
               className={`hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center space-x-2 ${
-                selectedAtoZ === "z-a"
+                selectedAtoZ === "z"
                   ? "text-blue-500"
                   : "text-gray-900 dark:text-white"
               }`}
@@ -184,8 +200,8 @@ export default function SearchHotel() {
               <input
                 type="radio"
                 name="sort"
-                checked={selectedAtoZ === "z-a"}
-                onChange={() => handleSelectAtoZ("z-a")}
+                checked={selectedAtoZ === "z"}
+                onChange={() => handleSelectAtoZ("z")}
                 className="form-radio text-blue-500 h-4 w-4"
               />
               <span>z - a</span>
@@ -193,13 +209,17 @@ export default function SearchHotel() {
           </DropdownMenuContent>
         </DropdownMenu>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ">
-          {filteredHotels.map((hotel) => (
+          {hotelsData.map((hotel) => (
             <div
               key={hotel.id}
               className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200"
             >
               <div className="relative overflow-hidden group">
-                <Link href={`/hotel-detail/${formatForUrlWith_under_score(hotel?.title)}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}>
+                <Link
+                  href={`/hotel-detail/${formatForUrlWith_under_score(
+                    hotel?.title
+                  )}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}
+                >
                   <Image
                     src={hotel.displayImage}
                     alt={hotel.title}
@@ -225,14 +245,18 @@ export default function SearchHotel() {
                     />
                   ))}
                 </div>
-                <Link href={`/hotel-detail/${formatForUrlWith_under_score(hotel?.title)}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}>
+                <Link
+                  href={`/hotel-detail/${formatForUrlWith_under_score(
+                    hotel?.title
+                  )}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}
+                >
                   {" "}
                   <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
                     {hotel.title}
                   </h2>
                 </Link>
                 <p className="text-gray-600 dark:text-white mb-4 flex">
-                  {hotel.location}
+                  {hotel.city}
                 </p>
                 <div className="border-t border-gray-200 pt-4 mb-4">
                   <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
@@ -245,7 +269,7 @@ export default function SearchHotel() {
                       From:
                     </span>
                     <span className="text-sm font-bold ml-1 dark:text-white">
-                      ${hotel.price.toFixed(2)}
+                      ${(+hotel.price).toFixed(2)}
                     </span>
                     <span className="text-sm text-gray-500 dark:text-white">
                       /night

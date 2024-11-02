@@ -11,4 +11,3 @@ export type BlogPostType = {
     createdAt: Date;
     updatedAt: Date;
   };
-  

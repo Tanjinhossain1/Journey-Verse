@@ -58,14 +58,14 @@ const HotelPopover = ({
     defaultValues: {
       price: defaultValues?.price ? defaultValues.price : "",
       ratings: defaultValues?.ratings ? defaultValues?.ratings : {
-        total: 0,
+        total: 5,
         specific: {
-          cleanliness: "",
-          accuracy: "",
-          communication: "",
-          location: "",
-          checkIn: "",
-          value: "",
+          cleanliness: "5",
+          accuracy: "5",
+          communication: "5",
+          location: "5",
+          checkIn: "5",
+          value: "5",
         },
       },
     },

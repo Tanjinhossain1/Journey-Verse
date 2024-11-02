@@ -7,68 +7,22 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
+import { BlogPostType } from "@/types/blogs";
+import axios from "axios";
+import { getBlogs } from "@/services/blogs";
+import { formatForUrlWith_under_score } from "@/utils/utils";
 
 export default function Article() {
   const [currentPage, setCurrentPage] = React.useState(0);
+  const [stories, setStories] = React.useState<BlogPostType[]>([]);
 
-  const stories = [
-    {
-      category: "STAYS",
-      title: "How to Explain Travel to a Five-Year-Old",
-      description:
-        "I've been a traveler my whole life — and was lucky enough to have a family that prioritized experiencing new destinations throughout my childhood. Now, it's my nephew's turn. At two years old, with seven countries down, he's on his way to becoming a citizen of the world.",
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      category: "HOTEL",
-      title: "Pure Luxe in Punta Mita the original contained",
-      description:
-        "In this week's interview, Ole ter Wey talks to climate activist Grace Fong about the importance of climate education. Drawing on her very personal experiences with the impacts of climate change in her home country of Fiji",
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      category: "TRAVEL",
-      title: "All Aboard the Rocky Mountaineer",
-      description:
-        "In this interview, correspondent Polly Nash talks to fire fighter Cami Schafer about one of the many frightening effects of climate change; the ever-growing threat of wildfires around the world. Last year California was hit by the Dixie Fire, the largest single forest fire in the state's history.",
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      category: "BOOKING",
-      title: "The Castle on the Cliff: Majestic, Magic, Manoir",
-      description:
-        "Thousands of migrants — of whom, many are children — suffer from deadly heat conditions at the US-Mexico border. As the effects of climate change worsen day by day, extreme weather conditions are causing a high risk of dehydration and death amongst migrants who try to enter the States.",
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      category: "STAYS",
-      title: "Adventure in the Amazon Rainforest",
-      description:
-        "Explore the depths of the Amazon rainforest with our expert guides. Experience the rich biodiversity and learn about conservation efforts to protect this vital ecosystem.",
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      category: "HOTEL",
-      title: "Luxury Stays in the Maldives",
-      description:
-        "Discover paradise in the Maldives with overwater bungalows and pristine beaches. Experience world-class service and unforgettable sunsets in this tropical haven.",
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      category: "TRAVEL",
-      title: "Historic Tour of Ancient Rome",
-      description:
-        "Step back in time with our comprehensive tour of Ancient Rome. Visit the Colosseum, Roman Forum, and hidden gems that tell the story of this eternal city.",
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      category: "BOOKING",
-      title: "Safari Adventure in Tanzania",
-      description:
-        "Witness the great migration and experience the thrill of safari in Tanzania's renowned national parks. Get up close with Africa's most magnificent wildlife.",
-      image: "/placeholder.svg?height=400&width=600",
-    },
-  ];
+  React.useEffect(()=>{
+    const fetchArticles = async () =>{
+      const articles = await getBlogs();
+      setStories(articles as BlogPostType[]);
+    }
+    fetchArticles()
+  },[])
 
   const itemsPerPage = 4;
   const totalPages = Math.ceil(stories.length / itemsPerPage);
@@ -135,10 +89,10 @@ export default function Article() {
                     <Card key={storyIndex} className="border shadow-lg rounded-xl">
                       <CardContent className="p-0">
                         <div className="aspect-[4/3] relative mb-4">
-                          <Link href={"/"}>
+                          <Link href={`/blog/${formatForUrlWith_under_score(story?.title)}`}>
                             <Image
                               layout="fill"
-                              src={'/Nevada.jpeg'}
+                              src={story.image}
                             //   src={story.image}
                               alt=""
                               className="object-cover   w-full h-full rounded-t-xl"
@@ -153,7 +107,7 @@ export default function Article() {
                           >
                             {story.category}
                           </Badge>
-                          <Link href={"/"}>
+                          <Link href={`/blog/${formatForUrlWith_under_score(story?.title)}`}>
                             <h3 className="text-xl font-bold mb-3 hover:text-blue-400 dark:text-white">
                               {story.title}
                             </h3>

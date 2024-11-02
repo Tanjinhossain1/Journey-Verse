@@ -36,3 +36,38 @@ export function calculateDaysBetween(checkIn:string, checkout:string) {
 
   return dayDifference;
 }
+
+export function formatDate(isoDate: Date): string {
+  const date = new Date(isoDate);
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  }).format(date);
+}
+
+export function formatDateDates(isoDate: Date): string {
+  const date = new Date(isoDate);
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+}
+
+export function toISODateString(date: any): string | null {
+  // Check if date is a valid ISO string by trying to parse it
+  if (typeof date === "string" && !isNaN(Date.parse(date))) {
+      return date; // Already in ISO format
+  }
+
+  // If date is a Date object, convert it to ISO
+  if (date instanceof Date) {
+      return date.toISOString();
+  }
+
+  return null; // Return null if it's neither an ISO string nor a Date object
+}
