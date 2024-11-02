@@ -1,9 +1,7 @@
 import Article from "@/components/Articles";
 import Recommended from "@/components/Common/Recomended";
 import Subscription from "@/components/Subscription";
-import { getHotels } from "@/services/hotels";
 import { CityType } from "@/types/city";
-import { HotelType } from "@/types/hotels";
 import Image from "next/image";
 import React, { Fragment } from "react";
 
@@ -15,7 +13,6 @@ export default async function Displayer({
 }: {
   destination: CityType[];
 }) {
-    const hotels = await getHotels();
   return (
     <div className="w-3/4 mx-auto">
       <div className="grid gap-4 mb-6 md:w-3/4 mx-auto">
@@ -72,7 +69,7 @@ export default async function Displayer({
         </div>
       </div>
      
-      <Recommended hotels={hotels as HotelType[]} city={destination?.[0]?.city} />
+      <Recommended  city={destination?.[0]?.city} />
       <Subscription />
       <Article />
     </div>

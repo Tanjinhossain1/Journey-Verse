@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
 import {
-  getDetailsRooms,
   getDetailsRoomsWithHotelName,
   getDetailsRoomsWithOutDetailed,
 } from "@/services/rooms";
@@ -14,19 +13,21 @@ import { getServerSession } from "next-auth";
 import { User } from "@/types/user";
 
 type Params = Promise<{ title: string }>;
+type SearchParams = Promise<{ hotel_name: string }>;
 
 export default async function Page(props: {
   params: Params;
-  searchParams: { hotel_name: string };
+  searchParams: SearchParams;
 }) {
   const { title } = await props.params;
+  const { hotel_name } = await props.searchParams;
   const session = await getServerSession();
 
   const formateTitle = title
     .split("_")
     .map((word) => word.charAt(0) + word.slice(1))
     .join(" ");
-  const hotelName = props?.searchParams?.hotel_name
+  const hotelName = hotel_name
     .split("_")
     .map((word) => word.charAt(0) + word.slice(1))
     .join(" ");

@@ -112,6 +112,23 @@ export const BlogsPostTable = pgTable("blogs", {
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
+export const LovedHotels = pgTable("love_hotels", {
+  id: serial("id").notNull().primaryKey(),
+  fullName: text("fullName").notNull(),
+  email: text("email").notNull(),
+  hotel_name: text("hotel_name").notNull(),
+
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+})
+
+export const Subscribe = pgTable("subscribe", {
+  id: serial("id").notNull().primaryKey(),
+  email: text("email").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+})
+
 export const userTable = pgTable("users", {
   id: serial("id").notNull().primaryKey(),
   fullName: text("fullName").notNull(),

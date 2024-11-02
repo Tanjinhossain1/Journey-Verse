@@ -25,6 +25,7 @@ import {
 import { signOut } from "next-auth/react";
 import { HotelType } from "@/types/hotels";
 import { formatForUrlWith_under_score } from "@/utils/utils";
+import { User } from "@/types/user";
 
 const navItems = [
   // {
@@ -54,7 +55,7 @@ export default function ChileNavbar({
   user,
   hotels,
 }: {
-  user: any;
+  user: User;
   hotels: HotelType[];
 }) {
   console.log("useruseruser", user);
