@@ -1,6 +1,6 @@
 
 // TypeScript type
-export type Order = {
+export type OrderType = {
     id: number;
     fullName: string;
     cardNumber: string;

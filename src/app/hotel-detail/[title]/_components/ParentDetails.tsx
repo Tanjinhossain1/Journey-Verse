@@ -17,7 +17,7 @@ import {
   Wifi,
 } from "lucide-react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Fragment, useState } from "react";
 import { DateRange } from "react-day-picker";
 import {
@@ -39,12 +39,14 @@ export default function ParentDetails({
   hotel_detail: HotelType;
   room_detail:RoomsType[]
 }) {
+ const router= useRouter()
   const searchParams = useSearchParams();
   const checkIn = searchParams.get("checkIn") ?? "";
   const checkout = searchParams.get("checkout") ?? "";
   const searchRooms = searchParams.get("rooms") ?? 1;
   const searchChildren = searchParams.get("children") ?? 0;
   const searchAdults = searchParams.get("adults") ?? 1;
+  const [availabilityMessage,setAvailablityMessage] = useState<string>('')
 
   const [dateRange, setDateRange] = useState<DateRange>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,6 +60,17 @@ export default function ParentDetails({
   const [children, setChildren] = useState(searchAdults ? +searchAdults : 0);
 
   console.log('hotel detail',hotel_detail)
+  const CheckAvailability = async () =>{
+    const response = await fetch(`/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}`);
+    const data = await response.json();
+
+    if (data.available) {
+      setAvailablityMessage("Room is available");
+      router.push('#rooms')
+    } else {
+      setAvailablityMessage(data.message); // "Room is already booked for the selected dates"
+    }
+  }
   return (
     <Fragment>
       <div className="relative  min-h-[200px] w-full overflow-hidden dark:border-b">
@@ -244,7 +257,10 @@ export default function ParentDetails({
                     setDchildren={setChildren}
                     setDrooms={setRooms}
                   />
-                  <Button className="w-full bg-black text-white hover:bg-black ">
+                  {
+                    availabilityMessage === "Room is available" ? <p className="text-sm text-green-600">{availabilityMessage}</p> : <p className="text-sm text-red-600">{availabilityMessage}</p>
+                  }
+                  <Button onClick={CheckAvailability} className="w-full bg-black text-white hover:bg-black ">
                     Check availability
                   </Button>
                 </div>

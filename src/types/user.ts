@@ -17,3 +17,17 @@ export interface User {
     password: string;
     name?: string;
 }
+
+
+export interface MyProfileType  {
+    id: number;
+    name: string | null;
+    email: string | null;
+    location: string | null;
+    bio: string | null;
+    travelStyle: string | null;
+    favoriteDestination: string | null;
+    bucketList: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}

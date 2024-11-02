@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import { Globe, Building2, Hotel, BedDouble, Home } from "lucide-react";
+import { Globe, Building2, Hotel, BedDouble, Home, UserPen } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
@@ -26,6 +26,7 @@ const adminMenuItems = [
 ];
 const userMenuItems = [
   { name: "Home", icon: Home, href: "/" },
+  { name: "My Profile", icon: UserPen, href: "/myProfile" },
   { name: "orders", icon: Globe, href: "/orders" },
 ];
 

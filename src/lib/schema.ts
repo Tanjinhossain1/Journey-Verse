@@ -84,6 +84,20 @@ export const Orders = pgTable("orders", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+// Define the users table with additional fields
+export const MyProfile = pgTable("my_profile", {
+  id: serial("id").notNull().primaryKey(),
+  name: text("name"),
+  email: text("email"),
+  location: text("location"),
+  bio: text("bio"),
+  travelStyle: text("travelStyle"),
+  favoriteDestination: text("favoriteDestination"),
+  bucketList: text("bucketList"),
+  
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
 
 
 export const userTable = pgTable("users", {

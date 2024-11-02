@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import {
   Breadcrumb,
@@ -50,6 +50,7 @@ export default function ParentDetails({
   const searchRooms = searchParams.get("rooms") ?? 1;
   const searchChildren = searchParams.get("children") ?? 0;
   const searchAdults = searchParams.get("adults") ?? 1;
+  const [availabilityMessage,setAvailabilityMessage] = useState<string>('')
 
   const [dateRange, setDateRange] = useState<DateRange>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,7 +62,26 @@ export default function ParentDetails({
   const [rooms, setRooms] = useState(searchRooms ? +searchRooms : 1);
   const [adults, setAdults] = useState(searchChildren ? +searchChildren : 1);
   const [children, setChildren] = useState(searchAdults ? +searchAdults : 0);
+  const [hasMounted, setHasMounted] = useState(false);
 
+  useEffect(() => {
+    const CheckAvailability = async () => {
+      const response = await fetch(`/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}`);
+      const data = await response.json();
+
+      if (data.available) {
+        setAvailabilityMessage("Room is available");
+      } else {
+        setAvailabilityMessage(data.message); // "Room is already booked for the selected dates"
+      }
+    };
+
+    if (hasMounted && dateRange) {
+      CheckAvailability();
+    } else {
+      setHasMounted(true); // Set to true after the initial render
+    }
+  }, [dateRange]);
   console.log("hotel detail", room_detail);
   return (
     <Fragment>
@@ -207,17 +227,10 @@ export default function ParentDetails({
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <div className="text-2xl font-bold">€150.00</div>
+                  <div className="flex items-center"> 
+                    <div className="text-2xl font-bold">$ {room_detail?.price}</div>
                     <div className="text-sm text-muted-foreground">/night</div>
-                  </div>
-                  {/* <div className="flex items-center">
-                    <Star className="w-4 h-4 fill-primary text-primary text-yellow-500" />
-                    <span className="ml-1">{hotel_detail.ratings.total}</span>
-                    <span className="ml-1 text-sm text-muted-foreground">
-                      ({hotel_detail?.reviews?.length} reviews)
-                    </span>
-                  </div> */}
+                  </div> 
                 </div>
 
                 <div className="grid gap-4">
@@ -236,16 +249,24 @@ export default function ParentDetails({
                     setDchildren={setChildren}
                     setDrooms={setRooms}
                   />
-                  <Link
+                   {
+                    availabilityMessage === "Room is available" ? <p className="text-sm text-green-600">{availabilityMessage}</p> : <p className="text-sm text-red-600">{availabilityMessage}</p>
+                  }
+                  {
+                    availabilityMessage === "Room is available" ? 
+                    <Link
                     href={user?.email ? `/checkout/${formatForUrlWith_under_score(
                       room_detail.title
                     )}?checkIn=${dateRange.from}&checkout=${dateRange?.to}&adults=${adults}&rooms=${rooms}&children=${children}` : "/login"}
-                  >
+                    >
                     {user?.email ? null : <p className="text-sm text-red-500">Required Login for Book:  <Link href={'/login'} className="text-blue-500 ml-1  ">Login</Link></p>}
                     <Button className="w-full bg-black text-white hover:bg-black ">
                       Book Now
                     </Button>
-                  </Link>
+                  </Link>:
+                   <Button disabled className="w-full bg-black text-white hover:bg-black ">
+                   Book Now
+                 </Button>}
                 </div>
               </CardContent>
             </Card>

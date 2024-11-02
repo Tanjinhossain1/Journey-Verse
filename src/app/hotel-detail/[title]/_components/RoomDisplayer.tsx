@@ -23,7 +23,7 @@ export default function RoomDisplay({
   guest:{adult:number,children:number, rooms:number}
 }) {
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 space-y-8">
+    <div className="w-full max-w-4xl mx-auto p-4 space-y-8" id="rooms">
       <section aria-label="Room Availability" className="space-y-4">
         <h2 className="text-2xl font-semibold">Availability</h2>
         <div className="grid gap-4">
