@@ -101,7 +101,7 @@ export default function ChileNavbar({ user }: { user: any }) {
             </Link>
             {
               user?.email ?  <Link
-              href="/dashboard"
+              href="/myProfile"
               className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
             >
               Dashboard

@@ -10,7 +10,6 @@ import { getMyProfile } from "@/services/myProfile";
 export default async function page() {
     const session = await getServerSession();
     if (!session?.user?.email) redirect("/");
-    if (session?.user?.image === "admin") redirect("/dashboard");
     const userDetails = await getMyProfile(session?.user?.email);
   return (
     <Fragment>

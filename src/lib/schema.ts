@@ -99,6 +99,18 @@ export const MyProfile = pgTable("my_profile", {
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
+export const BlogsPostTable = pgTable("blogs", {
+  id: serial("id").notNull().primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  image: text("image").notNull(),
+  category: text("category").notNull(),
+  email: text("email").notNull(),
+  username: text("username").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
 
 export const userTable = pgTable("users", {
   id: serial("id").notNull().primaryKey(),
