@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { hash } from "bcryptjs";
+import { Button } from "@/components/ui/button";
 
 type RegisterFormData = {
   fullName: string;
@@ -22,7 +23,7 @@ const RegisterPage = () => {
   const router = useRouter();
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [demoAccount,setShowDemo]=useState<boolean>(false)
   const onSubmit = async (data: RegisterFormData) => {
     const hashedPassword = await hash(data?.password, 12);
     const submitedData = {
@@ -125,6 +126,28 @@ const RegisterPage = () => {
             Already have an account? Login here
           </Link>
         </div>
+        <Button
+            variant={"ghost"}
+            className="bg-black text-center items-center hover:bg-black text-white mt-2 hover:text-white"
+            type="button"
+            onClick={() => setShowDemo(!demoAccount)}
+          >
+            {demoAccount ? "Hide" : "See Demo Accounts"}
+          </Button>
+          {
+            demoAccount ? 
+           <Fragment>
+            <p className="font-bold mt-2">Admin</p>
+             <p>Email: tanjinhossain2003@gmail.com</p>
+             <p>Password: 000000</p>
+              <hr />
+            <p className="font-bold mt-2">User</p>
+             <p>Email: demouser@gmail.com</p>
+             <p>Password: 000000</p>
+
+           </Fragment>
+            :null
+          }
       </form>
     </div>
   );
