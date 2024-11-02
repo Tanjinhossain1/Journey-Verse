@@ -7,18 +7,23 @@ import Recommended from "@/components/Common/Recomended";
 import Percentage from "@/components/Percentage";
 import Subscription from "@/components/Subscription";
 import Destinations from "@/components/TopDestination";
+import { getLovedHotels } from "@/services/loved-hotel";
+import { User } from "@/types/user";
+import { getServerSession } from "next-auth";
 import { Fragment } from "react";
 
 export default async  function Home() {
+  const session = await getServerSession();
+  const lovedStatus = await getLovedHotels(session?.user?.email as string)
   return (
     <Fragment>
       <Navbar />
       <Banner />
       <Percentage />
       <Destinations />
-      <Recommended   />
+      <Recommended user={session?.user as User} loved_hotel={lovedStatus} />
       <Airlines />
-      <Subscription />
+      <Subscription user={session?.user as User} />
       <Articles />
       <Footer />
     </Fragment>

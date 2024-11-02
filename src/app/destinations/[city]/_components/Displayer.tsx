@@ -1,7 +1,10 @@
 import Article from "@/components/Articles";
 import Recommended from "@/components/Common/Recomended";
 import Subscription from "@/components/Subscription";
+import { getLovedHotels } from "@/services/loved-hotel";
 import { CityType } from "@/types/city";
+import { User } from "@/types/user";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import React, { Fragment } from "react";
 
@@ -13,6 +16,8 @@ export default async function Displayer({
 }: {
   destination: CityType[];
 }) {
+  const session = await getServerSession();
+  const lovedStatus = await getLovedHotels(session?.user?.email as string)
   return (
     <div className="w-3/4 mx-auto">
       <div className="grid gap-4 mb-6 md:w-3/4 mx-auto">
@@ -69,8 +74,8 @@ export default async function Displayer({
         </div>
       </div>
      
-      <Recommended  city={destination?.[0]?.city} />
-      <Subscription />
+      <Recommended user={session?.user as User} loved_hotel={lovedStatus}  city={destination?.[0]?.city} />
+      <Subscription user={session?.user as User} />
       <Article />
     </div>
   );

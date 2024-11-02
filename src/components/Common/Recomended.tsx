@@ -12,6 +12,9 @@ import {
   PaginationItem,
 } from "@/components/ui/pagination";
 import { getPaginatedHotels } from "@/services/hotels";
+import axios from "axios";
+import { User } from "@/types/user";
+import { getLovedHotels, removedLike } from "@/services/loved-hotel";
 
 const tours = [
   {
@@ -50,8 +53,38 @@ const tours = [
 const categories = ["Hotel"];
 // const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"];
 
-export default function Recommended({ city }: { city?: string }) {
+export default function Recommended({
+  city,
+  loved_hotel,
+  user
+}: {
+  city?: string;
+  user:User
+  loved_hotel:
+    | {
+        id: number;
+        fullName: string;
+        email: string;
+        hotel_name: string;
+        createdAt: Date;
+        updatedAt: Date;
+      }[]
+    | {
+        message: string;
+      };
+}) {
   const [selectedCategory, setSelectedCategory] = useState("Hotel");
+  const [loveReact,setLoveReact] = useState<{
+    id: number;
+    fullName: string;
+    email: string;
+    hotel_name: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }[]
+| {
+    message: string;
+  }>(loved_hotel)
   const [hotels, setHotels] = useState<HotelType[]>([]);
   console.log(hotels);
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,6 +102,27 @@ export default function Recommended({ city }: { city?: string }) {
       fetchHotels(currentPage);
     }
   }, [currentPage]);
+  const addLoved = async(title:string)=>{
+    const payload={
+      hotel_name:title,
+      email:user?.email,
+      fullName:user?.name,
+    }
+      const response = await axios.post('/api/loved-hotel',payload)
+      if(response.data){
+       const LovedHotels =  await getLovedHotels(user?.email as string);
+       setLoveReact(LovedHotels)
+      }  
+  }
+  const removeLove = async(hotel_name:string)=>{
+      const response = await removedLike(hotel_name)
+      console.log(response);
+       
+          const LovedHotels =  await getLovedHotels(user?.email as string);
+          console.log(LovedHotels)
+          setLoveReact(LovedHotels)
+        
+  }
   const renderContent = () => {
     if (selectedCategory === "Hotel") {
       return (
@@ -92,9 +146,21 @@ export default function Recommended({ city }: { city?: string }) {
                     className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
                   />
                 </Link>
-                <button className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
-                  <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
-                </button>
+                {"message" in loveReact ? (
+                  // If there's a message (error response), display the red heart button by default
+                  <button className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
+                    <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
+                  </button>
+                ) : // If loved_hotel is a list, check if the current hotel exists in loved_hotel
+                loveReact.some((love) => love.hotel_name === hotel.title) ? (
+                  <button onClick={()=> removeLove(hotel.title)} className="absolute top-2 right-2 p-2 bg-red-500 dark:bg-black rounded-full shadow-md hover:bg-red-500 transition-colors duration-200">
+                    <Heart className="w-5 h-5 text-white dark:text-white " />
+                  </button>
+                ) : (
+                  <button onClick={()=> addLoved(hotel.title)} className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
+                    <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
+                  </button>
+                )}
               </div>
               <div className="p-4">
                 <div className="flex items-center mb-3">
@@ -227,7 +293,10 @@ export default function Recommended({ city }: { city?: string }) {
 
   return (
     <div className="max-w-6xl mx-auto p-6 mt-16">
-      <h1 id="recommend" className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">
+      <h1
+        id="recommend"
+        className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white"
+      >
         {city ? city : "Recommended for you"}
       </h1>
       <div className="flex justify-center gap-2 mb-8">
@@ -245,7 +314,7 @@ export default function Recommended({ city }: { city?: string }) {
           </button>
         ))}
       </div>
-      <div  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {renderContent()}
       </div>
       <Pagination>
