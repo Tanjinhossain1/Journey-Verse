@@ -4,9 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
-import { User } from "@/types/user";
 
-export default function Subscription({ user }: { user: User }) {
+export default function Subscription() {
   const [email, setEmail] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");

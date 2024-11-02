@@ -75,7 +75,7 @@ export default async function Displayer({
       </div>
      
       <Recommended user={session?.user as User} loved_hotel={lovedStatus}  city={destination?.[0]?.city} />
-      <Subscription user={session?.user as User} />
+      <Subscription />
       <Article />
     </div>
   );

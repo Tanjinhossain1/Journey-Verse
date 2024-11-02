@@ -23,7 +23,7 @@ export default async  function Home() {
       <Destinations />
       <Recommended user={session?.user as User} loved_hotel={lovedStatus} />
       <Airlines />
-      <Subscription user={session?.user as User} />
+      <Subscription />
       <Articles />
       <Footer />
     </Fragment>

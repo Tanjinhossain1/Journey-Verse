@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { LovedHotels } from "@/lib/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export const getLovedHotels = async (email?:string) => {
     if(email){
@@ -18,10 +18,5 @@ export const getLovedHotels = async (email?:string) => {
 
 export const removedLike = async (hotel_name:string) => {
     await db.delete(LovedHotels).where(eq(LovedHotels.hotel_name,hotel_name)).returning();
-  
-    // if (deletedCountry.length === 0) {
-    //   return { error: 'Loved Hotel not found' }
-    // }
-  
     return { message: 'Loved Hotel deleted successfully'}
 }
