@@ -58,7 +58,7 @@ export function formatDateDates(isoDate: Date): string {
   }).format(date);
 }
 
-export function toISODateString(date: any): string | null {
+export function toISODateString(date: Date | undefined): string | null {
   // Check if date is a valid ISO string by trying to parse it
   if (typeof date === "string" && !isNaN(Date.parse(date))) {
       return date; // Already in ISO format

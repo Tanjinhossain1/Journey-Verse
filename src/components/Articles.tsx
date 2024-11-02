@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import { BlogPostType } from "@/types/blogs";
-import axios from "axios";
 import { getBlogs } from "@/services/blogs";
 import { formatForUrlWith_under_score } from "@/utils/utils";
 

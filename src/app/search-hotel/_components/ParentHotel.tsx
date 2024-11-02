@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import SearchForm, { countries } from "@/components/Common/SearchForm";
+import SearchForm from "@/components/Common/SearchForm";
 import { ChevronDown, Heart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,45 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
 import { formatForUrlWith_under_score } from "@/utils/utils";
-import { getHotels, getHotelsByCity, getHotelsByOrder, getHotelsByPrice } from "@/services/hotels";
+import { getHotelsByCity, getHotelsByOrder, getHotelsByPrice } from "@/services/hotels";
 import { HotelType } from "@/types/hotels";
-
-const mockHotelsData = Array.from({ length: 20 }, (_, index) => {
-  const countryData = countries[0]; // Assuming only one country provided in `countries`
-  const city = countryData.city[index % countryData.city.length];
-
-  return {
-    id: index + 1,
-    title: `Hotel in  cacarot`,
-    displayImage: `/Catefornia/display.jpeg`,
-    price: 145,
-    images: [
-      `/images/hotel-1.jpg`,
-      `/images/hotel-2.jpg`,
-      `/images/hotel-3.jpg`,
-    ],
-    ratings: {
-      total: 5,
-      specific: [
-        { cleanliness: "5" },
-        { accuracy: "5" },
-        { Communication: "5" },
-        { Location: "5" },
-        { CheckIn: "5" },
-        { Value: "5" },
-      ],
-      facilities: [
-        { name: "Free WiFi" },
-        { name: "Pool" },
-        { name: "Parking" },
-      ],
-    },
-    updatedAt: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
-    about: `This is a description of Hotel ${index + 1} located in ${city}.`,
-    location: city,
-  };
-});
 
 export default function SearchHotel() {
   const searchParams = useSearchParams();

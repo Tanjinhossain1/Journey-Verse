@@ -20,7 +20,7 @@ export default async function page() {
       <DashboardLayout name="Rooms">
         <RoomsParent rooms={rooms as RoomsType[]} hotels={hotels as HotelType[]} />
       </DashboardLayout>
-      {/* <Footer /> */}
+      <Footer />
     </Fragment>
   );
 }
