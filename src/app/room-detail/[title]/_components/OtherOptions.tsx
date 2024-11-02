@@ -64,7 +64,7 @@ export default function OtherRoomOptions({ rooms }: { rooms: RoomsType[] }) {
                   /night
                 </span>
               </div>
-              <Link href={`/room-detail/${formatForUrlWith_under_score(room?.title)}`}><Button variant="default" className="bg-black text-white hover:bg-black">Room Detail</Button></Link>
+              <Link href={`/room-detail/${formatForUrlWith_under_score(room?.title)}?hotel_name=${formatForUrlWith_under_score(room?.hotel)}`}><Button variant="default" className="bg-black text-white hover:bg-black">Room Detail</Button></Link>
             </CardFooter>
           </Card>
         ))}

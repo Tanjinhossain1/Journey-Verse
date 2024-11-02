@@ -7,19 +7,16 @@ import Recommended from "@/components/Common/Recomended";
 import Percentage from "@/components/Percentage";
 import Subscription from "@/components/Subscription";
 import Destinations from "@/components/TopDestination";
-import { getHotels } from "@/services/hotels";
-import { HotelType } from "@/types/hotels";
 import { Fragment } from "react";
 
 export default async  function Home() {
-  const hotels = await getHotels();
   return (
     <Fragment>
       <Navbar />
       <Banner />
       <Percentage />
       <Destinations />
-      <Recommended hotels={hotels as HotelType[]} />
+      <Recommended   />
       <Airlines />
       <Subscription />
       <Articles />

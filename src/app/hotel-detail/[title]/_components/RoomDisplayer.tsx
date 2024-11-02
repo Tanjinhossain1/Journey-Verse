@@ -76,7 +76,7 @@ export default function RoomDisplay({
                           /night
                         </span>
                       </div>
-                      <Link href={`/room-detail/${formatForUrlWith_under_score(room.title)}?checkIn=${toISODateString(dateRange.from)}&checkout=${toISODateString(dateRange?.to)}&adults=${guest?.adult}&rooms=${guest?.rooms}&children=${guest?.children}`}>
+                      <Link href={`/room-detail/${formatForUrlWith_under_score(room.title)}?checkIn=${toISODateString(dateRange.from)}&checkout=${toISODateString(dateRange?.to)}&adults=${guest?.adult}&rooms=${guest?.rooms}&children=${guest?.children}&hotel_name=${formatForUrlWith_under_score(room?.hotel)}`}>
                       <Button className="bg-black hover:bg-black text-white">
                         Room Detail
                       </Button>

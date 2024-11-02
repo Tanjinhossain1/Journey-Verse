@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { Rooms } from "@/lib/schema";
-import { and, ilike, notIlike } from "drizzle-orm";
+import { and, eq, ilike, notIlike } from "drizzle-orm";
 
 export const getRooms = async () => {
 
@@ -13,6 +13,12 @@ export const getRooms = async () => {
 export const getDetailsRooms = async (title: string) => {
 
     const RoomsRecord = await db.select().from(Rooms).where(ilike(Rooms.title, title));
+
+    return RoomsRecord;
+}
+export const getDetailsRoomsWithHotelName = async (title: string,hotel:string) => {
+
+    const RoomsRecord = await db.select().from(Rooms).where(and(eq(Rooms.title, title),eq(Rooms.hotel, hotel)));
 
     return RoomsRecord;
 }

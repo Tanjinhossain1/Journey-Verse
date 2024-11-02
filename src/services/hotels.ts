@@ -10,6 +10,20 @@ export const getHotels = async () => {
 
     return HotelsRecord;
 }
+export const getPaginatedHotels = async (page = 1, limit = 10) => {
+    const offset = (page - 1) * limit;
+
+  const [hotelsData, totalRecords] = await Promise.all([
+    db.select().from(hotels).limit(limit).offset(offset),
+    db.$count(hotels), // Use $count to get the total number of hotel records
+  ]);
+
+  return {
+    data: hotelsData,
+    totalRecords: totalRecords, // totalRecords is now directly returned
+  };
+  };
+  
 export const getHotelsByPrice = async (price: 'low' | 'high') => {
     const HotelsRecord = await db.select().from(hotels);
 

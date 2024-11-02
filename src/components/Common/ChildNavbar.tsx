@@ -23,12 +23,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { signOut } from "next-auth/react";
+import { HotelType } from "@/types/hotels";
+import { formatForUrlWith_under_score } from "@/utils/utils";
 
 const navItems = [
-  {
-    title: "Hotel",
-    items: ["Luxury", "Budget", "Resort", "Apartment"],
-  },
+  // {
+  //   title: "Hotel",
+  //   items: ["Luxury", "Budget", "Resort", "Apartment"],
+  // },
   {
     title: "Tour",
     items: ["City Tours", "Adventure Tours", "Cultural Tours", "Food Tours"],
@@ -48,7 +50,13 @@ const navItems = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function ChileNavbar({ user }: { user: any }) {
+export default function ChileNavbar({
+  user,
+  hotels,
+}: {
+  user: any;
+  hotels: HotelType[];
+}) {
   console.log("useruseruser", user);
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -99,14 +107,36 @@ export default function ChileNavbar({ user }: { user: any }) {
             >
               Home
             </Link>
-            {
-              user?.email ?  <Link
-              href="/myProfile"
-              className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
-            >
-              Dashboard
-            </Link> : null
-            }
+            {user?.email ? (
+              <Link
+                href="/myProfile"
+                className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
+              >
+                Dashboard
+              </Link>
+            ) : null}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-gray-900 dark:text-white hover:bg-white inline-flex items-center px-1 pt-1 text-sm font-medium">
+                Hotels <ChevronDown className="ml-1 h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                {hotels.map((subItem) => (
+                  <DropdownMenuItem
+                    className="dark:bg-black dark:text-white bg-white hover:bg-white hover:text-blue-500"
+                    key={subItem.id}
+                  >
+                    <Link
+                      href={`/hotel-detail/${formatForUrlWith_under_score(
+                        subItem.title
+                      )}`}
+                      className="hover:text-blue-600"
+                    >
+                      {subItem.title}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
             {navItems.map((item) => (
               <DropdownMenu key={item.title}>
                 <DropdownMenuTrigger className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium">
@@ -156,19 +186,19 @@ export default function ChileNavbar({ user }: { user: any }) {
                 {isDarkMode ? <Sun /> : <Moon />}
               </Button>
               <Button
-              variant="ghost"
-              size="icon"
-              onClick={user?.email ? () => signOut() : undefined}
-            >
-              {user?.email ? (
-                <LogOutIcon className="h-5 w-5" />
-              ) : (
-                <Link href="/login">
-                  <LogInIcon className="h-5 w-5" />
-                </Link>
-              )}
-              <span className="sr-only">User profile</span>
-            </Button>
+                variant="ghost"
+                size="icon"
+                onClick={user?.email ? () => signOut() : undefined}
+              >
+                {user?.email ? (
+                  <LogOutIcon className="h-5 w-5" />
+                ) : (
+                  <Link href="/login">
+                    <LogInIcon className="h-5 w-5" />
+                  </Link>
+                )}
+                <span className="sr-only">User profile</span>
+              </Button>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"

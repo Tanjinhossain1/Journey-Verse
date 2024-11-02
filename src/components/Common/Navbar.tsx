@@ -1,13 +1,13 @@
-import { getSession } from "next-auth/react";
+import { getPaginatedHotels } from "@/services/hotels";
 import ChileNavbar from "./ChildNavbar";
 import { getServerSession } from "next-auth";
-// import { getServerSession } from "next-auth";
+import { HotelType } from "@/types/hotels";
 
 export default async function Navbar() {
   const  session  =  await getServerSession();
-  const session2 = await getSession();
-  console.log('first session  ',session2)
+  const hotels = await getPaginatedHotels(1, 6)
+
   return (
-     <ChileNavbar user={session?.user} />
+     <ChileNavbar hotels={hotels.data as HotelType[]} user={session?.user} />
   );
 }

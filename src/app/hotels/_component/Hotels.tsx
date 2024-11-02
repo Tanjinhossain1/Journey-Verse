@@ -8,17 +8,16 @@ import { HotelType } from "@/types/hotels";
 import CityPopover from "./HotelPopover";
 import HotelPopover from "./HotelPopover";
 import { CountryType } from "@/types/countries";
- 
 
 const CityForm = ({
   data,
   cityData,
-  countries
+  countries,
 }: {
   data: HotelType[];
   cityData: CityType[];
-  countries: CountryType[]
-}) => { 
+  countries: CountryType[];
+}) => {
   const deleteCountry = async (id: number) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this country?"
@@ -46,40 +45,42 @@ const CityForm = ({
       </div>
 
       {/* Table to display cities */}
-      <table className="min-w-full border-collapse">
-        <thead>
-          <tr>
-            <th className="border p-2">Name</th>
-            <th className="border p-2">City</th>
-            <th className="border p-2">Created Date</th>
-            <th className="border p-2">Edit</th>
-            <th className="border p-2">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="min-w-full h-[500px] overflow-y-auto">
+        <div className="flex">
+          <div className="flex-1 border p-2 font-semibold">Name</div>
+          <div className="flex-1 border p-2 font-semibold">City</div>
+          <div className="flex-1 border p-2 font-semibold">Created Date</div>
+          <div className="flex-1 border p-2 font-semibold">Edit</div>
+          <div className="flex-1 border p-2 font-semibold">Delete</div>
+        </div>
+
+        <div className="overflow-y-auto">
           {data?.map((city) => (
-            <tr key={city.id} className="text-center">
-              <td className="border p-2">{city.title}</td>
-              <td className="border p-2">{city.city}</td>
-              <td className="border p-2">
+            <div key={city.id} className="flex text-center border-t">
+              <div className="flex-1 p-2">{city.title}</div>
+              <div className="flex-1 p-2">{city.city}</div>
+              <div className="flex-1 p-2">
                 {new Date(city.createdAt).toLocaleDateString()}
-              </td>
-              <td className="border p-2">
-                <HotelPopover countries={countries} defaultValues={city} cityData={cityData} />
-                
-              </td>
-              <td className="border p-2">
+              </div>
+              <div className="flex-1 p-2">
+                <HotelPopover
+                  countries={countries}
+                  defaultValues={city}
+                  cityData={cityData}
+                />
+              </div>
+              <div className="flex-1 p-2">
                 <Button
                   onClick={() => deleteCountry(city?.id)}
                   className="text-red-600"
                 >
                   <Delete className="text-red-600" />
                 </Button>
-              </td>
-            </tr>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   );
 };

@@ -23,6 +23,7 @@ const adminMenuItems = [
   { name: "Cities", icon: Building2, href: "/cities" },
   { name: "Hotels", icon: Hotel, href: "/hotels" },
   { name: "Rooms", icon: BedDouble, href: "/rooms" },
+  { name: "Blogs", icon: Blocks, href: "/blogs" },
 ];
 const userMenuItems = [
   { name: "Home", icon: Home, href: "/" },
