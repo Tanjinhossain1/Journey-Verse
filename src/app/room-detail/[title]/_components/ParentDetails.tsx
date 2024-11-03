@@ -66,7 +66,7 @@ export default function ParentDetails({
 
   useEffect(() => {
     const CheckAvailability = async () => {
-      const response = await fetch(`/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}`);
+      const response = await fetch(`/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}&hotel_name=${hotel_detail?.title}&room_name=${room_detail?.title}`);
       const data = await response.json();
 
       if (data.available) {
@@ -149,7 +149,7 @@ export default function ParentDetails({
         <div className="grid lg:grid-cols-[1fr_400px] gap-6">
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold mb-4">About this hotel</h2>
+              <h2 className="text-2xl font-bold mb-4">About this Room</h2>
               <p className="text-muted-foreground whitespace-pre-line">
                 {room_detail.about?.map((about, index: number) => {
                   return (
@@ -164,7 +164,7 @@ export default function ParentDetails({
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4">Hotel Facilities</h2>
+              <h2 className="text-2xl font-bold mb-4">Room Facilities</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {room_detail?.facilities?.map((facility) => {
                   return (

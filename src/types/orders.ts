@@ -16,4 +16,6 @@ export type OrderType = {
     couponCode?: string | null;
     createdAt: Date;
     updatedAt: Date;
+    room_name: string;
+    hotel_name:string;
   };

@@ -24,11 +24,13 @@ export async function POST(request: Request) {
             specialRequirements: data.specialRequirements || null,
             couponCode: data.couponCode || null,
             totalAmount: data.totalAmount || null,
-            checkIn:data.checkIn || null,
-            checkout:data.checkout || null,
-            rooms:data.rooms || null,
-            adults:data.adults || null,
-            children:data.children || null,
+            checkIn: data.checkIn || null,
+            checkout: data.checkout || null,
+            rooms: data.rooms || null,
+            adults: data.adults || null,
+            children: data.children || null,
+            hotel_name: data.hotel_name || null,
+            room_name: data.room_name || null,
         };
 
         const result = await db.insert(Orders).values(newOrder).returning();
@@ -62,11 +64,13 @@ export async function PUT(request: Request) {
             country: data.country,
             specialRequirements: data.specialRequirements || null,
             totalAmount: data.totalAmount || null,
-            checkIn:data.checkIn || null,
-            checkout:data.checkout || null,
-            rooms:data.rooms || null,
-            adults:data.adults || null,
-            children:data.children || null,
+            checkIn: data.checkIn || null,
+            checkout: data.checkout || null,
+            rooms: data.rooms || null,
+            adults: data.adults || null,
+            children: data.children || null,
+            hotel_name: data.hotel_name || null,
+            room_name: data.room_name || null,
         };
 
         const result = await db.update(Orders).set(updatedOrder).where(eq(Orders.id, orderId)).returning();

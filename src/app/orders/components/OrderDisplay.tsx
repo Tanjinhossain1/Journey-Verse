@@ -63,6 +63,8 @@ export default function OrderDisplay({ data = [] }: { data: OrderType[] }) {
                   ))}
               </TableHead>
               <TableHead className="border-r">Card Number</TableHead>
+              <TableHead className="border-r">Hotel</TableHead>
+              <TableHead className="border-r">Room</TableHead>
               <TableHead className="border-r">Phone</TableHead>
               <TableHead className="border-r">Address</TableHead>
               <TableHead className="border-r">City</TableHead>
@@ -70,7 +72,6 @@ export default function OrderDisplay({ data = [] }: { data: OrderType[] }) {
               <TableHead className="border-r">Zip Code</TableHead>
               <TableHead className="border-r">Country</TableHead>
               <TableHead className="border-r">Created At</TableHead>
-              <TableHead  >Updated At</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -78,14 +79,17 @@ export default function OrderDisplay({ data = [] }: { data: OrderType[] }) {
               <TableRow key={item.id}>
                 <TableCell className="border-r">{item.fullName}</TableCell>
                 <TableCell className="border-r">{item.cardNumber}</TableCell>
+                <TableCell className="border-r">{item.hotel_name}</TableCell>
+                <TableCell className="border-r">{item.room_name}</TableCell>
                 <TableCell className="border-r">{item.phone}</TableCell>
                 <TableCell className="border-r">{item.addressLine1}</TableCell>
                 <TableCell className="border-r">{item.city}</TableCell>
                 <TableCell className="border-r">{item.stateProvince}</TableCell>
                 <TableCell className="border-r">{item.zipCode}</TableCell>
                 <TableCell className="border-r">{item.country}</TableCell>
-                <TableCell className="border-r">{item.createdAt.toLocaleString()}</TableCell>
-                <TableCell>{item.updatedAt.toLocaleString()}</TableCell>
+                <TableCell className="border-r">
+                  {item.createdAt.toLocaleString()}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

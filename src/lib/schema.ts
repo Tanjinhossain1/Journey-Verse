@@ -65,6 +65,8 @@ export const Orders = pgTable("orders", {
   cardNumber: text("card_number").notNull(),
   email: text("email").notNull(),
   phone: text("phone").notNull(),
+  hotel_name: text("hotel_name").notNull(),
+  room_name: text("room_name").notNull(),
   addressLine1: text("address_line_1").notNull(),
   addressLine2: text("address_line_2"),
   city: text("city"),

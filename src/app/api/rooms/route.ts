@@ -7,7 +7,7 @@ import { Rooms } from '@/lib/schema';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, displayImage, price, images, facilities, about, foot_age, bed, adult, kid,hotel } = body;
+    const { title, displayImage, price, images, facilities, about, foot_age, bed, adult, kid, hotel} = body;
 
     const newRoom = await db.insert(Rooms).values({
       title,
@@ -20,13 +20,14 @@ export async function POST(request: NextRequest) {
       bed,
       adult,
       kid,
-      hotel
+      hotel,
+      
     });
 
     return NextResponse.json({ success: true, data: newRoom });
   } catch (error) {
     console.error('Error creating room:', error);
-    return NextResponse.json({ success: false, error: (error as {message:string})?.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: (error as { message: string })?.message }, { status: 500 });
   }
 }
 
@@ -59,7 +60,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ success: true, data: updatedRoom });
   } catch (error) {
     console.error('Error updating room:', error);
-    return NextResponse.json({ success: false, error: (error as {message:string}).message }, { status: 500 });
+    return NextResponse.json({ success: false, error: (error as { message: string }).message }, { status: 500 });
   }
 }
 
@@ -78,6 +79,6 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: true, message: 'Room deleted successfully' });
   } catch (error) {
     console.error('Error deleting room:', error);
-    return NextResponse.json({ success: false, error: (error as {message:string})?.message }, { status: 500 });
+    return NextResponse.json({ success: false, error: (error as { message: string })?.message }, { status: 500 });
   }
 }

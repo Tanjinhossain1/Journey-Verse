@@ -85,8 +85,9 @@ export default function Checkout({
           checkout,
           rooms,
           adults,
-          children
-
+          children,
+          hotel_name: hotel_detail?.title,
+          room_name: room_detail?.title || null,
         };
         console.log(payload);
     const response = await axios.post(`/api/orders`,payload);

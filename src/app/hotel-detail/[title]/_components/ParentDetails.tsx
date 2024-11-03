@@ -34,10 +34,10 @@ import { RoomsType } from "@/types/rooms";
 
 export default function ParentDetails({
   hotel_detail,
-  room_detail
+  room_detail,
 }: {
   hotel_detail: HotelType;
-  room_detail:RoomsType[]
+  room_detail:RoomsType[];
 }) {
  const router= useRouter()
   const searchParams = useSearchParams();
@@ -61,7 +61,7 @@ export default function ParentDetails({
 
   console.log('hotel detail',hotel_detail)
   const CheckAvailability = async () =>{
-    const response = await fetch(`/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}`);
+    const response = await fetch(`/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}&hotel_name=${hotel_detail?.title}`);
     const data = await response.json();
 
     if (data.available) {
