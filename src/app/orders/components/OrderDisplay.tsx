@@ -37,22 +37,13 @@ export default function OrderDisplay({ data = [] }: { data: OrderType[] }) {
 
   return (
     <div className="container mx-auto py-10">
-      {/* <div className="mb-4">
-        <Input
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
-          //   icon={<Search className="h-4 w-4 text-gray-500" />}
-        />
-      </div> */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            <TableRow className="bg-black text-white">
+            <TableRow className="hover:bg-black border dark:border-gray-200 bg-black dark:text-gray-300 text-white">
               <TableHead
                 onClick={() => handleSort("fullName")}
-                className="cursor-pointer bg-black text-white border-r"
+                className="cursor-pointer  border-r"
               >
                 Full Name{" "}
                 {sortColumn === "fullName" &&
@@ -74,10 +65,10 @@ export default function OrderDisplay({ data = [] }: { data: OrderType[] }) {
               <TableHead className="border-r">Created At</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="dark:text-gray-300 border-b dark:border-gray-200 ">
             {paginatedData.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="border-r">{item.fullName}</TableCell>
+              <TableRow className="border-b dark:border-gray-200" key={item.id}>
+                <TableCell className="border-r border-l">{item.fullName}</TableCell>
                 <TableCell className="border-r">{item.cardNumber}</TableCell>
                 <TableCell className="border-r">{item.hotel_name}</TableCell>
                 <TableCell className="border-r">{item.room_name}</TableCell>
@@ -95,7 +86,7 @@ export default function OrderDisplay({ data = [] }: { data: OrderType[] }) {
           </TableBody>
         </Table>
       </div>
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between dark:text-gray-300">
         <div>
           Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
           {Math.min(currentPage * itemsPerPage, data.length)} of {data.length}{" "}

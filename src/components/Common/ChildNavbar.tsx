@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ChevronDown,
@@ -88,7 +88,8 @@ export default function ChileNavbar({
     });
   };
   return (
-    <nav className="bg-white shadow dark:bg-black dark:text-white">
+  <Fragment>
+      <nav className="bg-white shadow dark:bg-black dark:text-white  dark:border-b dark:border-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
@@ -161,6 +162,12 @@ export default function ChileNavbar({
                 </DropdownMenuContent>
               </DropdownMenu>
             ))}
+          <Link
+              href="/all_blogs"
+              className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
+            >
+              Blogs
+            </Link>
           </div>
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
             <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
@@ -251,5 +258,6 @@ export default function ChileNavbar({
         </div>
       </div>
     </nav>
+  </Fragment>
   );
 }

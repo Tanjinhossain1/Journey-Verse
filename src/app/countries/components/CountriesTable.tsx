@@ -48,9 +48,9 @@ const NameTable: React.FC<NameTableProps> = ({ data }) => {
   };
   
   return (
-    <div className="relative bg-white shadow-lg rounded-lg">
+    <div className="relative bg-white dark:bg-gray-300 shadow-lg rounded-lg">
       <div className="flex justify-between items-center p-4">
-        <h2 className="text-lg font-bold">Name Table</h2>
+        <h2 className="text-lg font-bold">Countries</h2>
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
             <button
@@ -101,7 +101,7 @@ const NameTable: React.FC<NameTableProps> = ({ data }) => {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white divide-y divide-gray-200 dark:bg-blue-50 dark:shadow-md dark:shadow-white">
           {data.map((item) => (
             <tr key={item.id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

@@ -23,9 +23,9 @@ export default function RoomDisplay({
   guest:{adult:number,children:number, rooms:number}
 }) {
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 space-y-8" id="rooms">
+    <div className="w-full max-w-4xl mx-auto p-4 space-y-8 dark:text-gray-300" id="rooms">
       <section aria-label="Room Availability" className="space-y-4">
-        <h2 className="text-2xl font-semibold">Availability</h2>
+        <h2 className="text-2xl font-semibold dark:text-gray-300">Availability</h2>
         <div className="grid gap-4">
           {room_detail.map((room) => (
             <Card key={room.id} className="overflow-hidden">
@@ -77,7 +77,7 @@ export default function RoomDisplay({
                         </span>
                       </div>
                       <Link href={`/room-detail/${formatForUrlWith_under_score(room.title)}?checkIn=${toISODateString(dateRange.from)}&checkout=${toISODateString(dateRange?.to)}&adults=${guest?.adult}&rooms=${guest?.rooms}&children=${guest?.children}&hotel_name=${formatForUrlWith_under_score(room?.hotel)}`}>
-                      <Button className="bg-black hover:bg-black text-white">
+                      <Button className="bg-black hover:bg-black text-white dark:bg-gray-300 dark:text-black">
                         Room Detail
                       </Button>
                       </Link>
@@ -90,7 +90,7 @@ export default function RoomDisplay({
         </div>
       </section>
 
-      <section aria-label="Reviews" className="space-y-4">
+      <section aria-label="Reviews" className="space-y-4 dark:text-gray-300">
         <h2 className="text-2xl font-semibold">Reviews</h2>
         <Card>
           <CardContent className="p-6">

@@ -37,12 +37,12 @@ export default function ParentDetails({
   room_detail,
   otherOptionRooms,
   hotel_detail,
-  user
+  user,
 }: {
   room_detail: RoomsType;
   otherOptionRooms: RoomsType[];
   hotel_detail: HotelType;
-  user:User
+  user: User;
 }) {
   const searchParams = useSearchParams();
   const checkIn = searchParams.get("checkIn") ?? "";
@@ -50,7 +50,7 @@ export default function ParentDetails({
   const searchRooms = searchParams.get("rooms") ?? 1;
   const searchChildren = searchParams.get("children") ?? 0;
   const searchAdults = searchParams.get("adults") ?? 1;
-  const [availabilityMessage,setAvailabilityMessage] = useState<string>('')
+  const [availabilityMessage, setAvailabilityMessage] = useState<string>("");
 
   const [dateRange, setDateRange] = useState<DateRange>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -66,7 +66,9 @@ export default function ParentDetails({
 
   useEffect(() => {
     const CheckAvailability = async () => {
-      const response = await fetch(`/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}&hotel_name=${hotel_detail?.title}&room_name=${room_detail?.title}`);
+      const response = await fetch(
+        `/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}&hotel_name=${hotel_detail?.title}&room_name=${room_detail?.title}`
+      );
       const data = await response.json();
 
       if (data.available) {
@@ -77,7 +79,7 @@ export default function ParentDetails({
     };
 
     // if (hasMounted && dateRange) {
-      CheckAvailability();
+    CheckAvailability();
     // } else {
     //   setHasMounted(true); // Set to true after the initial render
     // }
@@ -123,7 +125,7 @@ export default function ParentDetails({
         </div>
       </div>
       <div className="w-full max-w-6xl mx-auto p-4 md:p-6">
-        <div className="grid gap-4 mb-6">
+        {/* <div className="grid gap-4 mb-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 aspect-[2/1]">
             <div className="col-span-2 row-span-2 relative rounded-lg overflow-hidden">
               <Image
@@ -143,14 +145,42 @@ export default function ParentDetails({
                 />
               </div>
             ))}
+          </div> 
+        </div> */}
+        <div className="container mx-auto p-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* Main large image */}
+            <div className="md:col-span-2 md:row-span-2 relative aspect-[4/3] rounded-lg overflow-hidden">
+              <Image
+                src={room_detail.images[0]}
+                alt="Historic villa exterior with bell tower"
+                className="object-cover hover:scale-105 transition-transform duration-300"
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                priority
+              />
+            </div>
+
+            {room_detail.images.slice(1, 5).map((image, index) => (
+              <div key={index} className="relative aspect-[4/3] rounded-lg overflow-hidden">
+                <Image
+                  src={image}
+                  alt="Aerial view of villa courtyard"
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                  fill
+                  sizes="(min-width: 768px) 25vw, 100vw"
+                />
+              </div>
+            ))}
           </div>
         </div>
-
         <div className="grid lg:grid-cols-[1fr_400px] gap-6">
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-bold mb-4">About this Room</h2>
-              <p className="text-muted-foreground whitespace-pre-line">
+              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">
+                About this Room
+              </h2>
+              <p className="text-muted-foreground whitespace-pre-line dark:text-gray-300">
                 {room_detail.about?.map((about, index: number) => {
                   return (
                     <Fragment key={index}>
@@ -164,8 +194,10 @@ export default function ParentDetails({
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4">Room Facilities</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">
+                Room Facilities
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 dark:text-gray-300">
                 {room_detail?.facilities?.map((facility) => {
                   return (
                     <div
@@ -200,8 +232,8 @@ export default function ParentDetails({
               </div>
             </div>
 
-            <hr />
-            <div>
+            <hr className="dark:text-gray-300" />
+            <div className="dark:text-gray-300">
               <h2 className="text-2xl font-bold mb-4">Rules</h2>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -220,20 +252,22 @@ export default function ParentDetails({
                 </div>
               </div>
             </div>
-            <hr />
+            <hr className="dark:text-gray-300" />
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 dark:text-gray-300">
             <Card>
               <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center"> 
-                    <div className="text-2xl font-bold">$ {room_detail?.price}</div>
+                <div className="flex items-center justify-between mb-4 dark:text-gray-300">
+                  <div className="flex items-center">
+                    <div className="text-2xl font-bold ">
+                      $ {room_detail?.price}
+                    </div>
                     <div className="text-sm text-muted-foreground">/night</div>
-                  </div> 
+                  </div>
                 </div>
 
-                <div className="grid gap-4">
+                <div className="grid gap-4 dark:text-gray-300">
                   <DateSelector
                     isDetail
                     dateRange={dateRange}
@@ -249,24 +283,52 @@ export default function ParentDetails({
                     setDchildren={setChildren}
                     setDrooms={setRooms}
                   />
-                   {
-                    availabilityMessage === "Room is available" ? <p className="text-sm text-green-600">{availabilityMessage}</p> : <p className="text-sm text-red-600">{availabilityMessage}</p>
-                  }
-                  {
-                    availabilityMessage === "Room is available" ? 
+                  {availabilityMessage === "Room is available" ? (
+                    <p className="text-sm text-green-600">
+                      {availabilityMessage}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-red-600">
+                      {availabilityMessage}
+                    </p>
+                  )}
+                  {availabilityMessage === "Room is available" ? (
                     <Link
-                    href={user?.email ? `/checkout/${formatForUrlWith_under_score(
-                      room_detail.title
-                    )}?checkIn=${toISODateString(dateRange.from)}&checkout=${toISODateString(dateRange?.to)}&adults=${adults}&rooms=${rooms}&children=${children}` : "/login"}
+                      href={
+                        user?.email
+                          ? `/checkout/${formatForUrlWith_under_score(
+                              room_detail.title
+                            )}?checkIn=${toISODateString(
+                              dateRange.from
+                            )}&checkout=${toISODateString(
+                              dateRange?.to
+                            )}&adults=${adults}&rooms=${rooms}&children=${children}`
+                          : "/login"
+                      }
                     >
-                    {user?.email ? null : <p className="text-sm text-red-500">Required Login for Book:  <Link href={'/login'} className="text-blue-500 ml-1  ">Login</Link></p>}
-                    <Button className="w-full bg-black text-white hover:bg-black ">
+                      {user?.email ? null : (
+                        <p className="text-sm text-red-500">
+                          Required Login for Book:{" "}
+                          <Link
+                            href={"/login"}
+                            className="text-blue-500 ml-1  "
+                          >
+                            Login
+                          </Link>
+                        </p>
+                      )}
+                      <Button className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black ">
+                        Book Now
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button
+                      disabled
+                      className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-gray-700"
+                    >
                       Book Now
                     </Button>
-                  </Link>:
-                   <Button disabled className="w-full bg-black text-white hover:bg-black ">
-                   Book Now
-                 </Button>}
+                  )}
                 </div>
               </CardContent>
             </Card>

@@ -13,10 +13,35 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
 import { formatForUrlWith_under_score } from "@/utils/utils";
-import { getHotelsByCity, getHotelsByOrder, getHotelsByPrice } from "@/services/hotels";
+import {
+  getHotelsByCity,
+  getHotelsByOrder,
+  getHotelsByPrice,
+} from "@/services/hotels";
 import { HotelType } from "@/types/hotels";
+import { getLovedHotels, removedLike } from "@/services/loved-hotel";
+import axios from "axios";
+import { User } from "@/types/user";
+import { toast } from "react-toastify";
 
-export default function SearchHotel() {
+export default function SearchHotel({
+  loved_hotel,
+  user
+}: {
+  user:User;
+    loved_hotel:
+      | {
+          id: number;
+          fullName: string;
+          email: string;
+          hotel_name: string;
+          createdAt: Date;
+          updatedAt: Date;
+        }[]
+      | {
+          message: string;
+        };
+}) {
   const searchParams = useSearchParams();
   const location_name = searchParams.get("location_name") ?? "";
   const checkIn = searchParams.get("checkIn") ?? "";
@@ -24,33 +49,77 @@ export default function SearchHotel() {
   const rooms = searchParams.get("rooms") ?? 1;
   const children = searchParams.get("children") ?? 0;
   const adults = searchParams.get("adults") ?? 1;
-  const [selectedOption, setSelectedOption] = useState<'low'| 'high' | null>(null);
-  const [selectedAtoZ, setSelectedAtoZ] = useState<'a'| 'z' | null>(null);
-  const [hotelsData,setHotelsData] = useState<HotelType[]>([]);
-  const handleSelectAtoZ = (option: 'a'| 'z') => {
+  const [selectedOption, setSelectedOption] = useState<"low" | "high" | null>(
+    null
+  );
+  const [selectedAtoZ, setSelectedAtoZ] = useState<"a" | "z" | null>(null);
+  const [hotelsData, setHotelsData] = useState<HotelType[]>([]);
+
+  const [loveReact, setLoveReact] = useState<
+    | {
+        id: number;
+        fullName: string;
+        email: string;
+        hotel_name: string;
+        createdAt: Date;
+        updatedAt: Date;
+      }[]
+    | {
+        message: string;
+      }
+  >(loved_hotel);
+
+  const handleSelectAtoZ = (option: "a" | "z") => {
     setSelectedAtoZ(option);
-    sortHotelDataByOrder(option)
+    sortHotelDataByOrder(option);
   };
-  const handleSelect = (option: 'low'| 'high') => {
+  const handleSelect = (option: "low" | "high") => {
     setSelectedOption(option);
-    sortHotelData(option)
+    sortHotelData(option);
   };
 
   useEffect(() => {
     const fetchHotels = async () => {
-      const hotels = await getHotelsByCity(location_name === "" || location_name === "United States" ? undefined : location_name,location_name === "United States"? location_name:undefined);
-      setHotelsData(hotels as HotelType[])
+      const hotels = await getHotelsByCity(
+        location_name === "" || location_name === "United States"
+          ? undefined
+          : location_name,
+        location_name === "United States" ? location_name : undefined
+      );
+      setHotelsData(hotels as HotelType[]);
     };
     fetchHotels();
   }, [location_name]);
-  const sortHotelData = async (price:'low'| 'high') => {
+  const sortHotelData = async (price: "low" | "high") => {
     const hotels = await getHotelsByPrice(price);
-    setHotelsData(hotels as HotelType[])
-  }   
-  const sortHotelDataByOrder = async (order:'a'| 'z') => {
+    setHotelsData(hotels as HotelType[]);
+  };
+  const sortHotelDataByOrder = async (order: "a" | "z") => {
     const hotels = await getHotelsByOrder(order);
-    setHotelsData(hotels as HotelType[])
-  }   
+    setHotelsData(hotels as HotelType[]);
+  };
+
+  const addLoved = async (title: string) => {
+    const payload = {
+      hotel_name: title,
+      email: user?.email,
+      fullName: user?.name,
+    };
+    const response = await axios.post("/api/loved-hotel", payload);
+    if (response.data) {
+      const LovedHotels = await getLovedHotels(user?.email as string);
+      setLoveReact(LovedHotels);
+    }
+  };
+  const removeLove = async (hotel_name: string) => {
+    const response = await removedLike(hotel_name);
+    console.log(response);
+
+    const LovedHotels = await getLovedHotels(user?.email as string);
+    console.log(LovedHotels);
+    setLoveReact(LovedHotels);
+  };
+
   return (
     <div>
       <div className="relative  min-h-[200px] w-full overflow-hidden dark:border-b">
@@ -191,9 +260,32 @@ export default function SearchHotel() {
                     className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
                   />
                 </Link>
-                <button className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
-                  <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
-                </button>
+                {"message" in loveReact ? (
+                  // If there's a message (error response), display the red heart button by default
+                  <button onClick={()=>{
+                    toast.error("Thanks For Love ❤️ But You Need To Login First!🥲",{
+                      position:"top-center",
+                      theme:'colored'
+                    });
+                  }} className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
+                    <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
+                  </button>
+                ) : // If loved_hotel is a list, check if the current hotel exists in loved_hotel
+                loveReact.some((love) => love.hotel_name === hotel.title) ? (
+                  <button
+                    onClick={() => removeLove(hotel.title)}
+                    className="absolute top-2 right-2 p-2 bg-red-500  rounded-full shadow-md hover:bg-red-500 transition-colors duration-200"
+                  >
+                    <Heart className="w-5 h-5 text-white dark:text-white " />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => addLoved(hotel.title)}
+                    className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
+                  </button>
+                )}
               </div>
               <div className="p-4">
                 <div className="flex items-center mb-3">
@@ -214,7 +306,7 @@ export default function SearchHotel() {
                   )}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}
                 >
                   {" "}
-                  <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
+                  <h2 className="text-xl font-semibold mb-2 hover:text-blue-400 dark:text-gray-300 dark:hover:text-blue-600">
                     {hotel.title}
                   </h2>
                 </Link>

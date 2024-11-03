@@ -45,7 +45,7 @@ export default function SearchForm({defaultDate,defaultGuest,location_name}:{loc
   const [children, setChildren] = useState(defaultGuest?.children ? defaultGuest?.children :0);
   console.log(' searching ',defaultGuest)
   return (
-    <div className="w-full max-w-4xl bg-white dark:bg-black dark:text-white border rounded-md overflow-hidden shadow-lg mb-2">
+    <div className="w-full max-w-4xl bg-white dark:bg-black dark:border-2 dark:border-gray-600 dark:text-white border rounded-md overflow-hidden shadow-lg mb-2">
       <form className="flex flex-col md:flex-row">
         <Popover>
           <PopoverTrigger asChild>
@@ -100,7 +100,7 @@ export default function SearchForm({defaultDate,defaultGuest,location_name}:{loc
             toISODateString(dateRange?.to)
           }&adults=${adults}&rooms=${rooms}&children=${children}`}
         >
-          <Button className="m-2 px-8 bg-black dark:bg-black dark:text-white   rounded hover:bg-blue-950">
+          <Button className="m-2 px-8 bg-black    dark:border-l dark:border-white dark:bg-gray-200 dark:text-black rounded hover:bg-blue-950">
             Search
           </Button>
         </Link>

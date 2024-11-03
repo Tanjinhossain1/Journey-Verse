@@ -96,10 +96,10 @@ export default function Checkout({
     }
   };
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 dark:text-gray-300">
       <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
         <div>
-          <h2 className="mb-6 text-2xl font-semibold">Booking Submission</h2>
+          <h2 className="mb-6 text-2xl font-semibold dark:text-gray-300">Booking Submission</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
@@ -282,7 +282,7 @@ export default function Checkout({
           <p className="text-sm text-red-500">{errors.acceptTerms.message}</p>
         )}
 
-        <Button type="submit" className="w-full bg-black hover:bg-black text-white">
+        <Button type="submit" className="w-full bg-black hover:bg-black text-white dark:bg-gray-200 dark:text-black">
           Submit <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>

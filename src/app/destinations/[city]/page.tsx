@@ -21,6 +21,7 @@ export default async function Page(props: { params: Params }) {
     return (
         <Fragment>
             <Navbar />
+           
             {destination && destination[0] ? <Displayer destination={destination} /> : null}
             <Footer />
         </Fragment>

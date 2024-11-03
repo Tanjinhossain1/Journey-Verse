@@ -125,7 +125,7 @@ export default function BlogPostForm({
     }
   };
   return (
-    <div className="container mx-auto p-4 w-full">
+    <div className="container mx-auto p-4 w-full dark:text-gray-300">
       <div className="flex justify-between items-center mb-4"> 
         <Button onClick={() => setShowForm(!showForm)}>
           {showForm ? (
@@ -312,7 +312,7 @@ export default function BlogPostForm({
           {showContent ? null : (
             <Button
               type="submit"
-              className="w-full bg-black text-white hover:bg-black "
+              className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black dark:font-semibold"
             >
               Create Post
             </Button>
@@ -320,7 +320,7 @@ export default function BlogPostForm({
         </form>
       ) : (
         <div >
-          <Table >
+          <Table className="dark:text-gray-300">
             <TableHeader>
               <TableRow>
                 <TableHead>Title</TableHead>
@@ -330,7 +330,7 @@ export default function BlogPostForm({
                 <TableHead>Edit</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody >
+            <TableBody className="dark:text-gray-300">
               {posts.map((post, index) => (
                 <TableRow key={index} >
                   <TableCell>{post.title}</TableCell>

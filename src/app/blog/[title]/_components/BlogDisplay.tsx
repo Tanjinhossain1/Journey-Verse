@@ -64,6 +64,7 @@ export default function BlogDisplay({
       <div className="w-3/4 mx-auto">
         <div className="border border-gray-100 md:grid md:grid-cols-3">
           <div className="col-span-2 mx-auto">
+          <h1 className="text-2xl mt-5 mb-5 font-bold dark:text-gray-300 "> 1{blog.title}</h1>
             <Image
               width={800}
               height={800}
@@ -71,11 +72,11 @@ export default function BlogDisplay({
               src={blog.image}
             />
             {/* <h2 className="text-lg border w-[60px] font-bold mb-4 p-1 ">{blog.category}</h2> */}
-            <Badge className="border border-green-700 my-1">
+            <Badge className="border border-green-700 my-1 dark:text-gray-300">
               {blog.category}
             </Badge>
 
-            <p className="text-sm mt-2 text-gray-600">
+            <p className="text-sm mt-2 text-gray-600 dark:text-gray-300">
               Uploaded By:{" "}
               <span className="ml-2">
                 <b>"</b>
@@ -83,17 +84,17 @@ export default function BlogDisplay({
                 <b>"</b>
               </span>{" "}
               <b className="ml-2">IN</b>{" "}
-              <span className=" text-gray-800">
+              <span className=" text-gray-800 dark:text-gray-300">
                 {formatDate(blog.createdAt)}
               </span>{" "}
             </p>
             <p className="bg-blue-50 p-2 rounded-xl mt-2">{blog.description}</p>
-            <MdPreview modelValue={blog.content} />
+            <MdPreview  modelValue={blog.content} />
           </div>
           <div className="col-span-1">
             <div className="bg-blue-50 mt-2 ml-2 p-4 mr-2 rounded-2xl">
-              <p className="text-2xl font-bold mb-4">Popular Post</p>
-              <hr className="text-gray-500" />
+              <p className="text-2xl font-bold mb-4 dark:text-gray-300">Popular Post</p>
+              <hr className="text-gray-500 dark:text-gray-300" />
               {popularPost?.map((post) => {
                 return (
                   <Fragment key={post.id}>
@@ -102,7 +103,7 @@ export default function BlogDisplay({
                         width={100}
                         height={100}
                         alt={post.title}
-                        src={blog.image}
+                        src={post.image}
                       />
                      <div>
                      <Link className="hover:text-blue-600 text-lg" href={`/blog/${formatForUrlWith_under_score(post.title)}`}>

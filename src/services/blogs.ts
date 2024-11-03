@@ -24,9 +24,27 @@ export const getBlogsWIthoutSelected = async (title:string) => {
 
     return BlogsPostTableRecord
 }
-export const getBlogs = async () => {
+export const getBlogs = async (page: number, limit: number) => {
+    const offset = (page - 1) * limit;
+    const BlogsPostTableRecord = await db
+      .select()
+      .from(BlogsPostTable)
+      .limit(limit)
+      .offset(offset);
+    const TotalBlogs = await db
+      .select()
+      .from(BlogsPostTable)
+  
+    return {
+        data:BlogsPostTableRecord,
+        total:TotalBlogs.length
+    };
+  };
+  
 
-    const BlogsPostTableRecord = await db.select().from(BlogsPostTable);
+// export const getBlogs = async () => {
 
-    return BlogsPostTableRecord
-}
+//     const BlogsPostTableRecord = await db.select().from(BlogsPostTable);
+
+//     return BlogsPostTableRecord
+// }

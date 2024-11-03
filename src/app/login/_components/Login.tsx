@@ -37,10 +37,10 @@ const LoginPage = () => {
 
   return (
     <Fragment>
-      <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-black dark:border-t dark:border-gray-200">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-white p-6 rounded shadow-md w-96"
+          className="bg-white p-6 rounded shadow-md w-96 dark:bg-gray-300 dark:border-2 dark:border-gray-300"
         >
           <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
           {loginError && <p className="text-red-500 text-sm">{loginError}</p>}

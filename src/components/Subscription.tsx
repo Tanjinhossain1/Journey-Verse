@@ -10,7 +10,7 @@ export default function Subscription() {
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   return (
-    <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg my-20 border ">
+    <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg my-20 border dark:border-white ">
       <div className="relative w-full md:w-1/2 h-80 md:h-auto">
         <Image
           src="/subscription-image.jpeg"
@@ -21,7 +21,7 @@ export default function Subscription() {
         />
       </div>
       <div className="w-full md:w-1/2 p-16 bg-white flex flex-col justify-center dark:bg-black ">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 dark:text-white">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800   dark:text-gray-300">
           Get special offers, and more from Traveler
         </h2>
         <p className="text-lg text-gray-600  mb-6 dark:text-gray-200">
@@ -59,7 +59,7 @@ export default function Subscription() {
               onChange={(e) => setEmail(e.target.value)}
               name="email"
               placeholder="Email Address"
-              className="w-full pl-4 pr-20 py-3 text-lg  rounded-full border-2 border-blue-200 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 transition duration-300 text-gray-600 dark:text-white"
+              className="w-full pl-4 pr-20 py-3 text-lg  rounded-full border-2 border-blue-200 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 transition duration-300 text-gray-600 dark:text-gray-300 dark:border-gray-300"
             />
             <Button
               type="submit"
@@ -69,7 +69,7 @@ export default function Subscription() {
             </Button>
           </div>
         </form>
-        <p className="mt-4 text-sm text-gray-500 dark:text-white">
+        <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
           By subscribing, you agree to our Terms of Service and Privacy Policy.
         </p>
       </div>

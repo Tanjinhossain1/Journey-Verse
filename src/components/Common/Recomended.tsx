@@ -15,6 +15,7 @@ import { getPaginatedHotels } from "@/services/hotels";
 import axios from "axios";
 import { User } from "@/types/user";
 import { getLovedHotels, removedLike } from "@/services/loved-hotel";
+import { toast } from "react-toastify";
 
 const tours = [
   {
@@ -56,10 +57,10 @@ const categories = ["Hotel"];
 export default function Recommended({
   city,
   loved_hotel,
-  user
+  user,
 }: {
   city?: string;
-  user:User
+  user: User;
   loved_hotel:
     | {
         id: number;
@@ -74,17 +75,19 @@ export default function Recommended({
       };
 }) {
   const [selectedCategory, setSelectedCategory] = useState("Hotel");
-  const [loveReact,setLoveReact] = useState<{
-    id: number;
-    fullName: string;
-    email: string;
-    hotel_name: string;
-    createdAt: Date;
-    updatedAt: Date;
-  }[]
-| {
-    message: string;
-  }>(loved_hotel)
+  const [loveReact, setLoveReact] = useState<
+    | {
+        id: number;
+        fullName: string;
+        email: string;
+        hotel_name: string;
+        createdAt: Date;
+        updatedAt: Date;
+      }[]
+    | {
+        message: string;
+      }
+  >(loved_hotel);
   const [hotels, setHotels] = useState<HotelType[]>([]);
   console.log(hotels);
   const [currentPage, setCurrentPage] = useState(1);
@@ -92,7 +95,9 @@ export default function Recommended({
 
   // Fetch hotels from backend
   const fetchHotels = async (page: number, limit = 12) => {
-    const hotelsData = await getPaginatedHotels(page, limit);
+    const hotelsData = city
+      ? await getPaginatedHotels(page, limit, city)
+      : await getPaginatedHotels(page, limit);
     setHotels(hotelsData.data as HotelType[]);
     setTotalPages(Math.ceil(hotelsData.totalRecords / limit));
   };
@@ -102,27 +107,26 @@ export default function Recommended({
       fetchHotels(currentPage);
     }
   }, [currentPage]);
-  const addLoved = async(title:string)=>{
-    const payload={
-      hotel_name:title,
-      email:user?.email,
-      fullName:user?.name,
+  const addLoved = async (title: string) => {
+    const payload = {
+      hotel_name: title,
+      email: user?.email,
+      fullName: user?.name,
+    };
+    const response = await axios.post("/api/loved-hotel", payload);
+    if (response.data) {
+      const LovedHotels = await getLovedHotels(user?.email as string);
+      setLoveReact(LovedHotels);
     }
-      const response = await axios.post('/api/loved-hotel',payload)
-      if(response.data){
-       const LovedHotels =  await getLovedHotels(user?.email as string);
-       setLoveReact(LovedHotels)
-      }  
-  }
-  const removeLove = async(hotel_name:string)=>{
-      const response = await removedLike(hotel_name)
-      console.log(response);
-       
-          const LovedHotels =  await getLovedHotels(user?.email as string);
-          console.log(LovedHotels)
-          setLoveReact(LovedHotels)
-        
-  }
+  };
+  const removeLove = async (hotel_name: string) => {
+    const response = await removedLike(hotel_name);
+    console.log(response);
+
+    const LovedHotels = await getLovedHotels(user?.email as string);
+    console.log(LovedHotels);
+    setLoveReact(LovedHotels);
+  };
   const renderContent = () => {
     if (selectedCategory === "Hotel") {
       return (
@@ -130,7 +134,7 @@ export default function Recommended({
           {hotels.map((hotel) => (
             <div
               key={hotel.id}
-              className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200"
+              className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200 dark:shadow-white"
             >
               <div className="relative overflow-hidden group">
                 <Link
@@ -148,16 +152,27 @@ export default function Recommended({
                 </Link>
                 {"message" in loveReact ? (
                   // If there's a message (error response), display the red heart button by default
-                  <button className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
+                  <button onClick={()=>{
+                    toast.error("Thanks For Love ❤️ But You Need To Login First!🥲",{
+                      position:"top-center",
+                      theme:'colored'
+                    });
+                  }} className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
                     <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
                   </button>
                 ) : // If loved_hotel is a list, check if the current hotel exists in loved_hotel
                 loveReact.some((love) => love.hotel_name === hotel.title) ? (
-                  <button onClick={()=> removeLove(hotel.title)} className="absolute top-2 right-2 p-2 bg-red-500 dark:bg-black rounded-full shadow-md hover:bg-red-500 transition-colors duration-200">
+                  <button
+                    onClick={() => removeLove(hotel.title)}
+                    className="absolute top-2 right-2 p-2 bg-red-500  rounded-full shadow-md hover:bg-red-500 transition-colors duration-200"
+                  >
                     <Heart className="w-5 h-5 text-white dark:text-white " />
                   </button>
                 ) : (
-                  <button onClick={()=> addLoved(hotel.title)} className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
+                  <button
+                    onClick={() => addLoved(hotel.title)}
+                    className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
+                  >
                     <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
                   </button>
                 )}
@@ -181,7 +196,7 @@ export default function Recommended({
                   )}`}
                 >
                   {" "}
-                  <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
+                  <h2 className="text-xl font-semibold mb-2 hover:text-blue-400 dark:text-white dark:hover:text-blue-400">
                     {hotel.title}
                   </h2>
                 </Link>

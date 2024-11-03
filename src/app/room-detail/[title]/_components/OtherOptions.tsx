@@ -15,11 +15,12 @@ import Link from "next/link";
   
 export default function OtherRoomOptions({ rooms }: { rooms: RoomsType[] }) {
   return (
-    <div className=" mx-auto p-4 w-[60%]">
+    <div className=" mx-auto p-4 w-full md:w-[60%] dark:text-gray-300">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {rooms.map((room) => (
           <Card key={room.id} className="overflow-hidden border border-gray-500 shadow-xl rounded-xl">
             <CardHeader className="p-0">
+              <Link href={`/room-detail/${formatForUrlWith_under_score(room?.title)}?hotel_name=${formatForUrlWith_under_score(room?.hotel)}`}>
               <Image
                 src={room.displayImage}
                 alt={room.title}
@@ -27,9 +28,12 @@ export default function OtherRoomOptions({ rooms }: { rooms: RoomsType[] }) {
                 height={300}
                 className="w-full h-[200px] object-cover"
               />
+              </Link>
             </CardHeader>
             <CardContent className="p-4">
-              <h3 className="text-lg font-semibold mb-4">{room.title}</h3>
+              <Link href={`/room-detail/${formatForUrlWith_under_score(room?.title)}?hotel_name=${formatForUrlWith_under_score(room?.hotel)}`}>
+              <h3 className="text-lg font-semibold mb-4 hover:text-blue-600">{room.title}</h3>
+              </Link>
               <div className="grid grid-cols-4 gap-4">
                 <div className="flex flex-col items-center gap-1">
                   <div className="p-2 bg-muted rounded-full">
@@ -64,7 +68,7 @@ export default function OtherRoomOptions({ rooms }: { rooms: RoomsType[] }) {
                   /night
                 </span>
               </div>
-              <Link href={`/room-detail/${formatForUrlWith_under_score(room?.title)}?hotel_name=${formatForUrlWith_under_score(room?.hotel)}`}><Button variant="default" className="bg-black text-white hover:bg-black">Room Detail</Button></Link>
+              <Link href={`/room-detail/${formatForUrlWith_under_score(room?.title)}?hotel_name=${formatForUrlWith_under_score(room?.hotel)}`}><Button variant="default" className="bg-black text-white hover:bg-black dark:bg-white dark:text-black">Room Detail</Button></Link>
             </CardFooter>
           </Card>
         ))}

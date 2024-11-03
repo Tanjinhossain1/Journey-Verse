@@ -10,27 +10,39 @@ export const getHotels = async () => {
 
     return HotelsRecord;
 }
-export const getPaginatedHotels = async (page = 1, limit = 10) => {
+export const getPaginatedHotels = async (page = 1, limit = 10, city?: string) => {
     const offset = (page - 1) * limit;
+    if (city) {
 
-  const [hotelsData, totalRecords] = await Promise.all([
-    db.select().from(hotels).limit(limit).offset(offset),
-    db.$count(hotels), // Use $count to get the total number of hotel records
-  ]);
+        const [hotelsData] = await Promise.all([
+            db.select().from(hotels).limit(limit).offset(offset).where(eq(hotels.city, city)),
+        ]);
 
-  return {
-    data: hotelsData,
-    totalRecords: totalRecords, // totalRecords is now directly returned
-  };
-  };
-  
+        return {
+            data: hotelsData,
+            totalRecords: hotelsData.length, // totalRecords is now directly returned
+        };
+    } else {
+        const [hotelsData, totalRecords] = await Promise.all([
+            db.select().from(hotels).limit(limit).offset(offset),
+            db.$count(hotels), // Use $count to get the total number of hotel records
+        ]);
+
+        return {
+            data: hotelsData,
+            totalRecords: totalRecords, // totalRecords is now directly returned
+        };
+    }
+
+};
+
 export const getHotelsByPrice = async (price: 'low' | 'high') => {
     const HotelsRecord = await db.select().from(hotels);
 
     // Convert the `price` field from string to number and sort based on `price` parameter
     const sortedHotels = HotelsRecord.sort((a, b) => {
-        const priceA = parseFloat(a.price ? a.price :"");
-        const priceB = parseFloat(b.price ? b.price : ''); 
+        const priceA = parseFloat(a.price ? a.price : "");
+        const priceB = parseFloat(b.price ? b.price : '');
 
         return price === 'low' ? priceA - priceB : priceB - priceA;
     });
@@ -56,13 +68,13 @@ export const getHotelsByOrder = async (order: 'a' | 'z') => {
 };
 
 
-export const getHotelsByCity = async (city?: string,country?:string) => {
+export const getHotelsByCity = async (city?: string, country?: string) => {
     if (city) {
 
         const HotelsRecord = await db.select().from(hotels).where(eq(hotels.city, city))
 
         return HotelsRecord;
-    } else if(country){
+    } else if (country) {
 
         const HotelsRecord = await db.select().from(hotels).where(eq(hotels.country, country))
 

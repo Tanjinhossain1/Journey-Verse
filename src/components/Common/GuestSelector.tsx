@@ -55,7 +55,7 @@ export default function GuestSelector({
       <PopoverContent className="w-[300px] p-4 bg-white" align="start">
         <div className="space-y-4 bg-white dark:text-black">
           <div className="flex items-center justify-between">
-            <span className="font-semibold dark:text-white">Rooms</span>
+            <span className="font-semibold ">Rooms</span>
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
@@ -76,7 +76,7 @@ export default function GuestSelector({
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <span className="font-semibold dark:text-white">Adults</span>
+            <span className="font-semibold ">Adults</span>
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"

@@ -17,8 +17,8 @@ export default function Article() {
 
   React.useEffect(()=>{
     const fetchArticles = async () =>{
-      const articles = await getBlogs();
-      setStories(articles as BlogPostType[]);
+      const articles = await getBlogs(1,12);
+      setStories(articles.data as BlogPostType[]);
     }
     fetchArticles()
   },[])
@@ -59,7 +59,7 @@ export default function Article() {
               variant="outline"
               size="icon"
               onClick={prevPage}
-              className="rounded-full"
+              className="rounded-full dark:text-white"
               aria-label="Previous page"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -68,7 +68,7 @@ export default function Article() {
               variant="outline"
               size="icon"
               onClick={nextPage}
-              className="rounded-full"
+              className="rounded-full dark:text-white"
               aria-label="Next page"
             >
               <ChevronRight className="h-4 w-4" />
@@ -82,10 +82,10 @@ export default function Article() {
             style={{ transform: `translateX(-${currentPage * 100}%)` }}
           >
             {getPages().map((page, pageIndex) => (
-              <div key={pageIndex} className="w-full flex-shrink-0">
+              <div key={pageIndex} className="w-full flex-shrink-0 ">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {page.map((story, storyIndex) => (
-                    <Card key={storyIndex} className="border shadow-lg rounded-xl">
+                    <Card key={storyIndex} className="border dark:border-gray-400 shadow-lg rounded-xl">
                       <CardContent className="p-0">
                         <div className="aspect-[4/3] relative mb-4">
                           <Link href={`/blog/${formatForUrlWith_under_score(story?.title)}`}>
@@ -102,16 +102,16 @@ export default function Article() {
                           {" "}
                           <Badge
                             variant="outline"
-                            className="mb-3 font-semibold dark:text-white"
+                            className="mb-3 font-semibold dark:text-gray-300"
                           >
                             {story.category}
                           </Badge>
                           <Link href={`/blog/${formatForUrlWith_under_score(story?.title)}`}>
-                            <h3 className="text-xl font-bold mb-3 hover:text-blue-400 dark:text-white">
+                            <h3 className="text-xl font-bold mb-3 hover:text-blue-400 dark:text-gray-300">
                               {story.title}
                             </h3>
                           </Link> 
-                          <p className="text-muted-foreground line-clamp-3 dark:text-white">
+                          <p className="text-muted-foreground line-clamp-3 dark:text-gray-300">
                             {story.description}
                           </p>
                         </div>
@@ -123,6 +123,7 @@ export default function Article() {
             ))}
           </div>
         </div>
+          <div className="text-end mt-2"><Link className="mt-2 underline font-semibold text-blue-500" href={'/all_blogs'}>List Of Blogs</Link></div>
 
         <div className="flex justify-center gap-2 mt-8">
           {Array.from({ length: totalPages }).map((_, index) => (

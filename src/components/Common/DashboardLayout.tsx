@@ -44,7 +44,7 @@ export default async function DashboardLayout({
   const MenuItems =
     session?.user?.image === "admin" ? adminMenuItems : userMenuItems;
   return (
-    <SidebarProvider className="w-full">
+    <SidebarProvider className="w-full dark:text-gray-300">
       <div className="flex h-screen overflow-hidden w-full">
         <Sidebar className="hidden lg:flex">
           <SidebarHeader>

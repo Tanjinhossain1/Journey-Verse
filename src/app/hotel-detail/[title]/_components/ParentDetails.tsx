@@ -137,10 +137,10 @@ export default function ParentDetails({
             <div className="flex items-center gap-4">
               <div className="flex items-center">
                 <Star className="w-5 h-5 fill-primary text-primary text-yellow-400 " />
-                <span className="ml-2 text-xl font-semibold">
+                <span className="ml-2 text-xl font-semibold dark:text-gray-300">
                   {hotel_detail.ratings.total}
                 </span>
-                <span className="ml-2 text-muted-foreground">Excellent</span>
+                <span className="ml-2 text-muted-foreground dark:text-gray-300">Excellent</span>
               </div>
               <div className="flex items-center text-muted-foreground">
                 <MapPin className="w-4 h-4 mr-1" />
@@ -149,8 +149,8 @@ export default function ParentDetails({
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4">About this hotel</h2>
-              <p className="text-muted-foreground whitespace-pre-line">
+              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">About this hotel</h2>
+              <p className="text-muted-foreground whitespace-pre-line dark:text-gray-300">
                 {hotel_detail.about?.map((about, index: number) => {
                   return (
                     <Fragment key={index}>
@@ -164,8 +164,8 @@ export default function ParentDetails({
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4">Hotel Facilities</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">Hotel Facilities</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 dark:text-gray-300 gap-4">
                 {hotel_detail?.facilities?.map((facility) => {
                   return (
                     <div
@@ -200,31 +200,31 @@ export default function ParentDetails({
               </div>
             </div>
 
-              <hr />
+              <hr className="dark:text-gray-300" />
             <div>
-              <h2 className="text-2xl font-bold mb-4">Rules</h2>
+              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">Rules</h2>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center dark:text-gray-300 gap-2">
                     <Clock className="w-4 h-4" />
                     Check In
                   </div>
-                  <span>12:00 pm</span>
+                  <span className="dark:text-gray-300">12:00 pm</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 dark:text-gray-300">
                     <Clock className="w-4 h-4" />
                     Check Out
                   </div>
-                  <span>12:00 pm</span>
+                  <span className="dark:text-gray-300">12:00 pm</span>
                 </div>
               </div>
             </div>
-            <hr />
+            <hr className="dark:text-gray-300" />
             <RoomDisplay guest={{adult:adults,children:children, rooms:rooms}} dateRange={dateRange} room_detail={room_detail} hotel_detail={hotel_detail} />
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 dark:text-gray-300">
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4">
@@ -260,7 +260,7 @@ export default function ParentDetails({
                   {
                     availabilityMessage === "Room is available" ? <p className="text-sm text-green-600">{availabilityMessage}</p> : <p className="text-sm text-red-600">{availabilityMessage}</p>
                   }
-                  <Button onClick={CheckAvailability} className="w-full bg-black text-white hover:bg-black ">
+                  <Button onClick={CheckAvailability} className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black">
                     Check availability
                   </Button>
                 </div>

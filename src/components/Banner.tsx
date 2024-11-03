@@ -4,7 +4,7 @@ import SearchForm from "./Common/SearchForm";
 export default function Banner() {
 
   return (
-    <div className="relative  min-h-[400px] w-full overflow-hidden dark:border-b">
+    <div className="relative  min-h-[400px] w-full overflow-hidden dark:border-b-2  dark:border-gray-500">
       <div className="absolute inset-0">
         <Image
           layout="fill"

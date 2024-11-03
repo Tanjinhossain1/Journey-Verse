@@ -73,7 +73,7 @@ export default function TravelUserProfile({ user,profileDetails }: { user: User,
   };
 
   return (
-    <Card className="w-full   mx-auto">
+    <Card className="w-full   mx-auto dark:text-gray-300">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex flex-col space-y-1.5">
           <CardTitle className="text-2xl">
