@@ -1,23 +1,29 @@
-'use client'
+"use client";
 
-import { FormEvent, useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { FormEvent, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { updateReview } from '@/services/hotels'
-import { HotelType } from '@/types/hotels'
+} from "@/components/ui/card";
+import { updateReview } from "@/services/hotels";
+import { updateTourReview } from "@/services/tours";
 
-export default function ReviewPost({hotels}:{hotels:HotelType}) {
+export default function ReviewPost({
+  id,
+  isTour,
+}: {
+  id: number;
+  isTour?: boolean;
+}) {
   const [isFormVisible, setIsFormVisible] = useState(false);
- 
+
   if (!isFormVisible) {
     return (
       <Button
@@ -27,20 +33,37 @@ export default function ReviewPost({hotels}:{hotels:HotelType}) {
       >
         Write a review
       </Button>
-    )
+    );
   }
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+
     const form = event.target as HTMLFormElement;
-    const name = (form.elements.namedItem('name') as HTMLInputElement).value;
-    const email = (form.elements.namedItem('email') as HTMLInputElement).value;
-    const content = (form.elements.namedItem('content') as HTMLInputElement).value;
-  
+    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const content = (form.elements.namedItem("content") as HTMLInputElement)
+      .value;
+
     const data = { name, email, content };
-    console.log('data', data);
-   await updateReview(`${hotels?.id}`,data)
-  };  
+    console.log("data", data);
+    if (isTour) {
+      try {
+        await updateTourReview(`${id}`, data);
+      } catch {
+        console.log("Failed to update tour review");
+      } finally {
+        window.location.reload();
+      }
+    } else {
+      try {
+        await updateReview(`${id}`, data);
+      } catch {
+        console.log("Failed to update tour review");
+      } finally {
+        window.location.reload();
+      }
+    }
+  };
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
@@ -56,13 +79,13 @@ export default function ReviewPost({hotels}:{hotels:HotelType}) {
               <Label htmlFor="name">
                 Name <span className="text-red-500">*</span>
               </Label>
-              <Input name='name' id="name" required />
+              <Input name="name" id="name" required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">
                 Email <span className="text-red-500">*</span>
               </Label>
-              <Input name='email' id="email" type="email" required />
+              <Input name="email" id="email" type="email" required />
             </div>
           </div>
 
@@ -72,7 +95,7 @@ export default function ReviewPost({hotels}:{hotels:HotelType}) {
             </Label>
             <Textarea
               id="content"
-              name='content'
+              name="content"
               required
               className="min-h-[150px]"
             />
@@ -87,5 +110,5 @@ export default function ReviewPost({hotels}:{hotels:HotelType}) {
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }

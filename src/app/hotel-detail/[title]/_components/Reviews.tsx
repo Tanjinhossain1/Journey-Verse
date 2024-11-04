@@ -1,26 +1,32 @@
-import { Star } from "lucide-react"
-import Image from "next/image"
-import { HotelType } from "@/types/hotels"
-import ReviewPost from "./ReviewPost"
+import { Star } from "lucide-react";
+import Image from "next/image";
+import {  ReviewsTypes } from "@/types/hotels";
+import ReviewPost from "./ReviewPost";
 
-export default function Reviews({hotel}:{hotel:HotelType}) {
-  const reviews = hotel?.reviews
+export default function Reviews({
+  id,
+  reviews,
+  isTour
+}: {
+  id: number;
+  reviews: ReviewsTypes[];
+  isTour?: boolean;
+}) {
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-6 flex flex-col items-center">
       {/* First Review */}
-      {
-        reviews?.map((review,index)=>{
-          return(
-            <div key={index} className="flex gap-4 w-full items-center">
+      {reviews?.map((review, index) => {
+        return (
+          <div key={index} className="flex gap-4 w-full items-center">
             <Image
               src="/Nevada.jpeg"
               alt="Avatar"
               className="rounded-full object-cover aspect-square"
               width={40}
               height={40}
-              style={{ 
-                width: '48px',
-                height: '48px'
+              style={{
+                width: "48px",
+                height: "48px",
               }}
             />
             <div className="flex-1 space-y-1">
@@ -34,20 +40,21 @@ export default function Reviews({hotel}:{hotel:HotelType}) {
                 </button> */}
               </div>
               <div className="flex gap-0.5">
-                {Array(5).fill(null).map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-primary text-primary text-yellow-500" />
-                ))}
+                {Array(5)
+                  .fill(null)
+                  .map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-4 h-4 fill-primary text-primary text-yellow-500"
+                    />
+                  ))}
               </div>
-              <p className="text-sm">
-                {review?.content}
-              </p>
+              <p className="text-sm">{review?.content}</p>
             </div>
           </div>
-          )
-        })
-      }
-     
-      <ReviewPost hotels={hotel} />
+        );
+      })}
+      <ReviewPost isTour={isTour} id={id} />
     </div>
-  )
+  );
 }

@@ -14,7 +14,7 @@ import { Fragment } from "react";
 
 export default async  function Home() {
   const session = await getServerSession();
-  const lovedStatus = await getLovedHotels(session?.user?.email as string)
+  const lovedStatus = await getLovedHotels(session?.user?.email as string);
   return (
     <Fragment>
       <Navbar />

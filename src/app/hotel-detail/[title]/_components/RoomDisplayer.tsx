@@ -120,7 +120,7 @@ export default function RoomDisplay({
           {hotel_detail?.reviews?.length || 0}
         </p>
         <hr />
-        <Reviews hotel={hotel_detail}/>
+        <Reviews id={hotel_detail.id} reviews={hotel_detail.reviews} />
       </section>
     </div>
   );

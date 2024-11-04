@@ -131,6 +131,33 @@ export const Subscribe = pgTable("subscribe", {
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 })
 
+export const Tours = pgTable("tours", {
+  id: serial("id").notNull().primaryKey(),
+  city: text("city").notNull(),
+  title: text("title").notNull(),
+  totalRating: text("total_rating"),
+  price: text("price"),
+  displayImage: text("display_image"),
+  images: json("images"), // stores an array of image URLs as strings
+  totalDuration: text("total_duration"),
+  tourType: text("tour_type"),
+  groupSize: text("group_size"),
+  languages: json("languages"), // array of objects, [{ lang: string }]
+  about: json("about"), // array of objects, [{ detail: string }]
+  highlight: json("highlight"), // array of objects, [{ list: string }]
+  included: json("included"), // array of objects, [{ list: string }]
+  excluded: json("excluded"), // array of objects, [{ list: string }]
+  itinerary: json("itinerary"), // array of objects, [{ title: string, description: string }]
+  durations: json("durations"), // array of objects, [{ duration: string }]
+  questions: json("questions"), // array of objects, [{ title: string, description: string }]
+  discounts: json("discounts"), // array of objects, [{ group: string, fromAdult: string, toAdult: string, value: string }]
+  reviews: json("reviews"), // array of objects, [{ name: string, email: string, content: string, like: string, id: string }]
+  specificReviews: json("specific_reviews"), // object containing cleanliness, accuracy, communication, etc.
+
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const userTable = pgTable("users", {
   id: serial("id").notNull().primaryKey(),
   fullName: text("fullName").notNull(),

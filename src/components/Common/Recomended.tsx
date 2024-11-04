@@ -16,42 +16,12 @@ import axios from "axios";
 import { User } from "@/types/user";
 import { getLovedHotels, removedLike } from "@/services/loved-hotel";
 import { toast } from "react-toastify";
+import { TourTypes } from "@/types/tours";
+import { getPaginatedTour } from "@/services/tours";
+import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
 
-const tours = [
-  {
-    id: 1,
-    name: "Two Hour Walking Tour of Manhattan",
-    location: "Los Anglese",
-    rating: 5,
-    reviews: 3,
-    price: 190.8,
-    originalPrice: 212.0,
-    duration: "10 hours",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: 2,
-    name: "American Parks Trail end Rapid City",
-    location: "Nevada",
-    rating: 5,
-    reviews: 3,
-    price: 159.0,
-    duration: "8 hour",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-  {
-    id: 3,
-    name: "Northern California Summer 2019",
-    location: "San Francisco",
-    rating: 5,
-    reviews: 3,
-    price: 159.0,
-    duration: "5 days",
-    image: "/placeholder.svg?height=300&width=400",
-  },
-];
-
-const categories = ["Hotel"];
+const categories = ["Hotel", "Tour"];
 // const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"];
 
 export default function Recommended({
@@ -89,24 +59,54 @@ export default function Recommended({
       }
   >(loved_hotel);
   const [hotels, setHotels] = useState<HotelType[]>([]);
+  const [tours, setTours] = useState<TourTypes[]>([]);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
   console.log(hotels);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   // Fetch hotels from backend
-  const fetchHotels = async (page: number, limit = 12) => {
-    const hotelsData = city
-      ? await getPaginatedHotels(page, limit, city)
-      : await getPaginatedHotels(page, limit);
-    setHotels(hotelsData.data as HotelType[]);
-    setTotalPages(Math.ceil(hotelsData.totalRecords / limit));
-  };
 
   useEffect(() => {
+    const fetchHotels = async (page: number, limit = 12) => {
+      try {
+        const hotelsData = city
+          ? await getPaginatedHotels(page, limit, city)
+          : await getPaginatedHotels(page, limit);
+        setHotels(hotelsData.data as HotelType[]);
+        setTotalPages(Math.ceil(hotelsData.totalRecords / limit));
+      } catch (error) {
+        console.error("Failed to fetch Hotel:", error)
+      } finally {
+        setIsLoading(false)
+      }
+      
+    };
+    const fetchTours = async (page: number, limit = 12) => {
+      setIsLoading(true)
+      try {
+        const tourData = city
+          ? await getPaginatedTour(page, limit, city)
+          : await getPaginatedTour(page, limit);
+        setTours(tourData.data as TourTypes[]);
+        setTotalPages(Math.ceil(tourData.totalRecords / limit));
+      } catch (error) {
+        console.error("Failed to fetch Tour:", error)
+      } finally {
+        setIsLoading(false)
+      }
+
+    };
+
     if (selectedCategory === "Hotel") {
       fetchHotels(currentPage);
+    } else if (selectedCategory === "Tour") {
+      fetchTours(currentPage);
     }
-  }, [currentPage]);
+  }, [currentPage, selectedCategory, city]);
+
   const addLoved = async (title: string) => {
     const payload = {
       hotel_name: title,
@@ -152,12 +152,18 @@ export default function Recommended({
                 </Link>
                 {"message" in loveReact ? (
                   // If there's a message (error response), display the red heart button by default
-                  <button onClick={()=>{
-                    toast.error("Thanks For Love ❤️ But You Need To Login First!🥲",{
-                      position:"top-center",
-                      theme:'colored'
-                    });
-                  }} className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
+                  <button
+                    onClick={() => {
+                      toast.error(
+                        "Thanks For Love ❤️ But You Need To Login First!🥲",
+                        {
+                          position: "top-center",
+                          theme: "colored",
+                        }
+                      );
+                    }}
+                    className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
+                  >
                     <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
                   </button>
                 ) : // If loved_hotel is a list, check if the current hotel exists in loved_hotel
@@ -228,39 +234,68 @@ export default function Recommended({
         </Fragment>
       );
     } else if (selectedCategory === "Tour") {
-      return tours.map((tour) => (
+      return tours?.map((tour) => (
         <div
           key={tour.id}
           className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
         >
           <div className="relative overflow-hidden group">
-            <Link href={"/"}>
+            <Link href={`/tour-detail/${formatForUrlWith_under_score(tour.title)}`}>
               <Image
-                src={tour.image}
-                alt={tour.name}
+                src={tour.displayImage!}
+                alt={tour.title}
                 width={400}
                 height={300}
                 className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
               />
             </Link>
-            <button className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
-              <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
-            </button>
-            {tour.originalPrice && (
+            {"message" in loveReact ? (
+              // If there's a message (error response), display the red heart button by default
+              <button
+                onClick={() => {
+                  toast.error(
+                    "Thanks For Love ❤️ But You Need To Login First!🥲",
+                    {
+                      position: "top-center",
+                      theme: "colored",
+                    }
+                  );
+                }}
+                className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
+              >
+                <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
+              </button>
+            ) : // If loved_hotel is a list, check if the current hotel exists in loved_hotel
+            loveReact.some((love) => love.hotel_name === tour.title) ? (
+              <button
+                onClick={() => removeLove(tour.title)}
+                className="absolute top-2 right-2 p-2 bg-red-500  rounded-full shadow-md hover:bg-red-500 transition-colors duration-200"
+              >
+                <Heart className="w-5 h-5 text-white dark:text-white " />
+              </button>
+            ) : (
+              <button
+                onClick={() => addLoved(tour.title)}
+                className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
+              >
+                <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
+              </button>
+            )}
+            {/* {tour.originalPrice && (
               <div className="absolute top-2 left-2 bg-green-600 text-white dark:text-white px-2 py-1 rounded-md text-sm font-bold">
                 -20%
               </div>
-            )}
+            )} */}
           </div>
           <div className="p-4">
             <div className="flex items-center text-gray-600 dark:text-white mb-2">
               <MapPin className="w-4 h-4 mr-1" />
-              <span className="text-sm">{tour.location}</span>
+              <span className="text-sm">{tour.city}</span>
             </div>
-            <Link href={"/"}>
+            <Link href={`/tour-detail/${formatForUrlWith_under_score(tour.title)}`}>
               {" "}
               <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
-                {tour.name}
+                {tour.title}
               </h2>
             </Link>
             <div className="flex items-center mb-3">
@@ -268,30 +303,30 @@ export default function Recommended({
                 <Star
                   key={i}
                   className={`w-4 h-4 ${
-                    i < tour.rating
+                    i < +tour.totalRating!
                       ? "text-yellow-400 fill-current"
                       : "text-gray-300"
                   }`}
                 />
               ))}
               <span className="text-sm text-gray-600  dark:text-whiteml-2">
-                ({tour.reviews} Reviews)
+                ({tour?.reviews?.length ? tour?.reviews?.length : "0"} Reviews)
               </span>
             </div>
             <div className="flex items-center justify-between border-t border-gray-200 pt-4">
               <div>
-                {tour.originalPrice && (
+                {/* {tour.originalPrice && (
                   <span className="text-sm text-gray-500 dark:text-white line-through mr-2">
                     ${tour.originalPrice.toFixed(2)}
                   </span>
-                )}
+                )} */}
                 <span className="text-xl font-bold dark:text-white">
-                  ${tour.price.toFixed(2)}
+                  ${(+tour.price!).toFixed(2)}
                 </span>
               </div>
               <div className="flex items-center text-gray-600 dark:text-white">
                 <Clock className="w-4 h-4 mr-1" />
-                <span className="text-sm">{tour.duration}</span>
+                <span className="text-sm">{tour.totalDuration}</span>
               </div>
             </div>
           </div>
@@ -330,7 +365,29 @@ export default function Recommended({
         ))}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {renderContent()}
+        {isLoading
+          ? Array(12)
+              .fill(null)
+              .map((_, index) => (
+                <Card key={index} className="h-full">
+                  <div className="aspect-video">
+                    <Skeleton className="w-full h-full text-black bg-black dark:bg-white" />
+                  </div>
+                  <CardHeader className="space-y-2">
+                    <Skeleton className="h-4 w-20 bg-black dark:bg-white" />
+                    <Skeleton className="h-6 w-full bg-black dark:bg-white" />
+                  </CardHeader>
+                  <CardContent>
+                    <Skeleton className="h-4 w-full bg-black dark:bg-white" />
+                    <Skeleton className="h-4 w-full mt-2 bg-black dark:bg-white" />
+                    <Skeleton className="h-4 w-2/3 mt-2 bg-black dark:bg-white" />
+                  </CardContent>
+                  <CardFooter>
+                    <Skeleton className="h-4 w-full bg-black dark:bg-white" />
+                  </CardFooter>
+                </Card>
+              ))
+          : renderContent()}
       </div>
       <Pagination>
         <PaginationContent className="flex items-center justify-center space-x-2 mt-2">

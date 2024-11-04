@@ -37,16 +37,16 @@ export default function ParentDetails({
   room_detail,
 }: {
   hotel_detail: HotelType;
-  room_detail:RoomsType[];
+  room_detail: RoomsType[];
 }) {
- const router= useRouter()
+  const router = useRouter();
   const searchParams = useSearchParams();
   const checkIn = searchParams.get("checkIn") ?? "";
   const checkout = searchParams.get("checkout") ?? "";
   const searchRooms = searchParams.get("rooms") ?? 1;
   const searchChildren = searchParams.get("children") ?? 0;
   const searchAdults = searchParams.get("adults") ?? 1;
-  const [availabilityMessage,setAvailablityMessage] = useState<string>('')
+  const [availabilityMessage, setAvailablityMessage] = useState<string>("");
 
   const [dateRange, setDateRange] = useState<DateRange>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,18 +59,20 @@ export default function ParentDetails({
   const [adults, setAdults] = useState(searchChildren ? +searchChildren : 1);
   const [children, setChildren] = useState(searchAdults ? +searchAdults : 0);
 
-  console.log('hotel detail',hotel_detail)
-  const CheckAvailability = async () =>{
-    const response = await fetch(`/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}&hotel_name=${hotel_detail?.title}`);
+  console.log("hotel detail", hotel_detail);
+  const CheckAvailability = async () => {
+    const response = await fetch(
+      `/api/check-available?checkIn=${dateRange?.from}&checkout=${dateRange?.to}&hotel_name=${hotel_detail?.title}`
+    );
     const data = await response.json();
 
     if (data.available) {
       setAvailablityMessage("Room is available");
-      router.push('#rooms')
+      router.push("#rooms");
     } else {
       setAvailablityMessage(data.message); // "Room is already booked for the selected dates"
     }
-  }
+  };
   return (
     <Fragment>
       <div className="relative  min-h-[200px] w-full overflow-hidden dark:border-b">
@@ -140,7 +142,9 @@ export default function ParentDetails({
                 <span className="ml-2 text-xl font-semibold dark:text-gray-300">
                   {hotel_detail.ratings.total}
                 </span>
-                <span className="ml-2 text-muted-foreground dark:text-gray-300">Excellent</span>
+                <span className="ml-2 text-muted-foreground dark:text-gray-300">
+                  Excellent
+                </span>
               </div>
               <div className="flex items-center text-muted-foreground">
                 <MapPin className="w-4 h-4 mr-1" />
@@ -149,7 +153,9 @@ export default function ParentDetails({
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">About this hotel</h2>
+              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">
+                About this hotel
+              </h2>
               <p className="text-muted-foreground whitespace-pre-line dark:text-gray-300">
                 {hotel_detail.about?.map((about, index: number) => {
                   return (
@@ -164,7 +170,9 @@ export default function ParentDetails({
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">Hotel Facilities</h2>
+              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">
+                Hotel Facilities
+              </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 dark:text-gray-300 gap-4">
                 {hotel_detail?.facilities?.map((facility) => {
                   return (
@@ -190,7 +198,7 @@ export default function ParentDetails({
                         <Wifi className="w-4 h-4" />
                       ) : facility?.name === "Restaurant" ? (
                         <Car className="w-4 h-4" />
-                      ): (
+                      ) : (
                         ""
                       )}
                       {facility.name}
@@ -200,9 +208,11 @@ export default function ParentDetails({
               </div>
             </div>
 
-              <hr className="dark:text-gray-300" />
+            <hr className="dark:text-gray-300" />
             <div>
-              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">Rules</h2>
+              <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">
+                Rules
+              </h2>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center dark:text-gray-300 gap-2">
@@ -221,63 +231,84 @@ export default function ParentDetails({
               </div>
             </div>
             <hr className="dark:text-gray-300" />
-            <RoomDisplay guest={{adult:adults,children:children, rooms:rooms}} dateRange={dateRange} room_detail={room_detail} hotel_detail={hotel_detail} />
+            <RoomDisplay
+              guest={{ adult: adults, children: children, rooms: rooms }}
+              dateRange={dateRange}
+              room_detail={room_detail}
+              hotel_detail={hotel_detail}
+            />
           </div>
 
-          <div className="space-y-4 dark:text-gray-300">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex">
-                    <div className="text-xl font-bold">€150.00</div>
-                    <div className="text-sm text-muted-foreground">/night</div>
+          <div className="relative">
+            {" "}
+            <div className="space-y-4 dark:text-gray-300 sticky top-10">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex">
+                      <div className="text-xl font-bold">
+                        $ {(+hotel_detail.price).toFixed(2)}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        /night
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <Star className="w-4 h-4 fill-primary text-primary text-yellow-500" />
+                      <span className="ml-1">{hotel_detail.ratings.total}</span>
+                      <span className="ml-1 text-sm text-muted-foreground">
+                        ({hotel_detail?.reviews?.length} reviews)
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <Star className="w-4 h-4 fill-primary text-primary text-yellow-500" />
-                    <span className="ml-1">{hotel_detail.ratings.total}</span>
-                    <span className="ml-1 text-sm text-muted-foreground">
-                      ({hotel_detail?.reviews?.length} reviews)
-                    </span>
+
+                  <div className="grid gap-4">
+                    <DateSelector
+                      isDetail
+                      dateRange={dateRange}
+                      setDateRange={setDateRange}
+                    />
+
+                    <GuestSelector
+                      isDetail
+                      dadults={adults}
+                      dchildren={children}
+                      drooms={rooms}
+                      setDadults={setAdults}
+                      setDchildren={setChildren}
+                      setDrooms={setRooms}
+                    />
+                    {availabilityMessage === "Room is available" ? (
+                      <p className="text-sm text-green-600">
+                        {availabilityMessage}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-red-600">
+                        {availabilityMessage}
+                      </p>
+                    )}
+                    <Button
+                      onClick={CheckAvailability}
+                      className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black"
+                    >
+                      Check availability
+                    </Button>
                   </div>
-                </div>
+                </CardContent>
+              </Card>
 
-                <div className="grid gap-4">
-                  <DateSelector
-                    isDetail
-                    dateRange={dateRange}
-                    setDateRange={setDateRange}
-                  />
-
-                  <GuestSelector
-                    isDetail
-                    dadults={adults}
-                    dchildren={children}
-                    drooms={rooms}
-                    setDadults={setAdults}
-                    setDchildren={setChildren}
-                    setDrooms={setRooms}
-                  />
-                  {
-                    availabilityMessage === "Room is available" ? <p className="text-sm text-green-600">{availabilityMessage}</p> : <p className="text-sm text-red-600">{availabilityMessage}</p>
-                  }
-                  <Button onClick={CheckAvailability} className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black">
-                    Check availability
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="w-full h-52 mt-8">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596698663!2d-74.25986652089463!3d40.69714942211053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1635786994961!5m2!1sen!2s"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Google Map"
-              ></iframe>
+              <div className="w-full h-52 mt-8">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596698663!2d-74.25986652089463!3d40.69714942211053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1635786994961!5m2!1sen!2s"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Google Map"
+                ></iframe>
+              </div>
             </div>
           </div>
         </div>

@@ -26,16 +26,17 @@ import { signOut } from "next-auth/react";
 import { HotelType } from "@/types/hotels";
 import { formatForUrlWith_under_score } from "@/utils/utils";
 import { User } from "@/types/user";
+import { TourTypes } from "@/types/tours";
 
 const navItems = [
   // {
   //   title: "Hotel",
   //   items: ["Luxury", "Budget", "Resort", "Apartment"],
   // },
-  {
-    title: "Tour",
-    items: ["City Tours", "Adventure Tours", "Cultural Tours", "Food Tours"],
-  },
+  // {
+  //   title: "Tour",
+  //   items: ["City Tours", "Adventure Tours", "Cultural Tours", "Food Tours"],
+  // },
   {
     title: "Activity",
     items: ["Sightseeing", "Water Sports", "Hiking", "Nightlife"],
@@ -54,9 +55,11 @@ const navItems = [
 export default function ChileNavbar({
   user,
   hotels,
+  tours,
 }: {
   user: User;
   hotels: HotelType[];
+  tours:TourTypes[]
 }) {
   console.log("useruseruser", user);
   const [isOpen, setIsOpen] = useState(false);
@@ -129,6 +132,28 @@ export default function ChileNavbar({
                   >
                     <Link
                       href={`/hotel-detail/${formatForUrlWith_under_score(
+                        subItem.title
+                      )}`}
+                      className="hover:text-blue-600"
+                    >
+                      {subItem.title}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-gray-900 dark:text-white hover:bg-white inline-flex items-center px-1 pt-1 text-sm font-medium">
+              Tours <ChevronDown className="ml-1 h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                {tours.map((subItem) => (
+                  <DropdownMenuItem
+                    className="dark:bg-black dark:text-white bg-white hover:bg-white hover:text-blue-500"
+                    key={subItem.id}
+                  >
+                    <Link
+                      href={`/tour-detail/${formatForUrlWith_under_score(
                         subItem.title
                       )}`}
                       className="hover:text-blue-600"

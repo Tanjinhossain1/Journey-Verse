@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import { Globe, Building2, Hotel, BedDouble, Home, UserPen, Blocks } from "lucide-react";
+import { Globe, Building2, Hotel, BedDouble, Home, UserPen, Blocks, Binoculars } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
@@ -23,6 +23,7 @@ const adminMenuItems = [
   { name: "Cities", icon: Building2, href: "/cities" },
   { name: "Hotels", icon: Hotel, href: "/hotels" },
   { name: "Rooms", icon: BedDouble, href: "/rooms" },
+  { name: "Tours", icon: Binoculars, href: "/dashboard/tours" },
   { name: "Blogs", icon: Blocks, href: "/blogs" },
 ];
 const userMenuItems = [
@@ -102,7 +103,7 @@ export default async function DashboardLayout({
         </Sheet>
 
         <SidebarInset>
-          <main className=" w-full min-w-full ml-2">
+          <main className=" w-full h-full min-w-full ml-2  ">
             <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
               <SidebarTrigger />
               <h1 className="text-2xl font-bold">{name}</h1>

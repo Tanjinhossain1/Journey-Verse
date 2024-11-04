@@ -255,7 +255,8 @@ export default function ParentDetails({
             <hr className="dark:text-gray-300" />
           </div>
 
-          <div className="space-y-4 dark:text-gray-300">
+       <div className="relative">
+       <div className="space-y-4 dark:text-gray-300 sticky top-10">
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-4 dark:text-gray-300">
@@ -346,6 +347,7 @@ export default function ParentDetails({
               ></iframe>
             </div>
           </div>
+       </div>
         </div>
       </div>
       <OtherRoomOptions rooms={otherOptionRooms} />
