@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-import { Orders } from "@/lib/schema";
+import { TourOrders } from "@/lib/schema";
 import { db } from "@/lib/db";
 
 // POST: Create a new order
@@ -28,12 +28,11 @@ export async function POST(request: Request) {
             rooms: data.rooms || null,
             adults: data.adults || null,
             children: data.children || null,
-            hotel_name: data.hotel_name || null,
-            room_name: data.room_name || null,
+            tour_name: data.tour_name || null,
             status: data.status || null,
         };
 
-        const result = await db.insert(Orders).values(newOrder).returning();
+        const result = await db.insert(TourOrders).values(newOrder).returning();
         return NextResponse.json(result, { status: 201 });
     } catch (error) {
         console.error("Error creating order:", error);
@@ -69,12 +68,11 @@ export async function PUT(request: Request) {
             rooms: data.rooms || null,
             adults: data.adults || null,
             children: data.children || null,
-            hotel_name: data.hotel_name || null,
-            room_name: data.room_name || null,
+            tour_name: data.tour_name || null,
             status: data.status || null,
         };
 
-        const result = await db.update(Orders).set(updatedOrder).where(eq(Orders.id, Number(orderId))).returning();
+        const result = await db.update(TourOrders).set(updatedOrder).where(eq(TourOrders.id, orderId)).returning();
         return NextResponse.json(result, { status: 200 });
     } catch (error) {
         console.error("Error updating order:", error);

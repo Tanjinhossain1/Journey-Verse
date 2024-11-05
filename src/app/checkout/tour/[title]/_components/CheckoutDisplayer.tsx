@@ -8,13 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowRight, CreditCard, MapPin } from "lucide-react";
-import { HotelType } from "@/types/hotels";
-import { RoomsType } from "@/types/rooms";
 import { User } from "@/types/user";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  calculateDaysBetween,
   formatDateToDDMMYYYY,
   formatForUrlWith_under_score,
 } from "@/utils/utils";
@@ -28,6 +25,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import axios from "axios";
+import { TourTypes } from "@/types/tours";
 
 const bookingSchema = z.object({
   fullName: z.string().min(1, "First name is required"),
@@ -46,23 +44,20 @@ const bookingSchema = z.object({
 });
 
 export default function Checkout({
-  hotel_detail,
-  room_detail,
+  tour_detail,
   user,
 }: {
-  hotel_detail: HotelType;
-  room_detail: RoomsType;
+  tour_detail: TourTypes;
   user: User;
 }) {
   const router = useRouter();
   console.log(user);
   const searchParams = useSearchParams();
   const checkIn = searchParams.get("checkIn") ?? "";
-  const checkout = searchParams.get("checkout") ?? "";
-  const rooms = searchParams.get("rooms") ?? 1;
   const children = searchParams.get("children") ?? 0;
   const adults = searchParams.get("adults") ?? 1;
-
+  const totalAmount = searchParams.get("total_amount") ?? 1;
+  const finalAmount = (+totalAmount * 1) / 100 + +totalAmount;
   const {
     register,
     handleSubmit,
@@ -75,25 +70,20 @@ export default function Checkout({
     },
   });
 
-  const totalAmount =
-    calculateDaysBetween(checkIn, checkout) * +room_detail?.price;
   const onSubmit = async (data: z.infer<typeof bookingSchema>) => {
     const payload = {
       ...data,
-      totalAmount, // Add totalAmount to the payload
+      totalAmount: finalAmount, // Add totalAmount to the payload
       checkIn,
-      checkout,
-      rooms,
       adults,
       children,
-      hotel_name: hotel_detail?.title,
-      room_name: room_detail?.title || null,
-      status: "pending",
+      tour_name: tour_detail?.title,
+      status:"pending",
     };
     console.log(payload);
-    const response = await axios.post(`/api/orders`, payload);
+    const response = await axios.post(`/api/tour_order`, payload);
     if (response?.data) {
-      router.push("/dashboard/hotels/orders");
+      router.push("/dashboard/tours/orders");
     }
   };
   return (
@@ -306,7 +296,7 @@ export default function Checkout({
             <div className="flex gap-4  ">
               <div className="flex gap-4 h-20 w-20 ">
                 <Image
-                  src={hotel_detail?.displayImage}
+                  src={tour_detail?.displayImage}
                   alt="Hotel"
                   width={20}
                   height={20}
@@ -315,10 +305,10 @@ export default function Checkout({
                 />
               </div>
               <div>
-                <h3 className="font-semibold">{hotel_detail?.title}</h3>
+                <h3 className="font-semibold">{tour_detail?.title}</h3>
                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4" />
-                  {hotel_detail?.city}
+                  {tour_detail?.city}
                 </div>
               </div>
             </div>
@@ -326,18 +316,15 @@ export default function Checkout({
 
           <div className="space-y-4">
             <div>
-              <h3 className="mb-2 font-semibold">Your trip</h3>
+              <h3 className="mb-2 font-semibold">Your Tour</h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>Date</span>
                   <div className="text-right">
-                    <div>
-                      {formatDateToDDMMYYYY(checkIn)} -{" "}
-                      {formatDateToDDMMYYYY(checkout)}
-                    </div>
+                    <div>{formatDateToDDMMYYYY(checkIn)}</div>
                     <Link
-                      href={`/hotel-detail/${formatForUrlWith_under_score(
-                        hotel_detail.title
+                      href={`/tour-detail/${formatForUrlWith_under_score(
+                        tour_detail.title
                       )}`}
                     >
                       <Button
@@ -349,10 +336,16 @@ export default function Checkout({
                     </Link>
                   </div>
                 </div>
+
                 <div className="flex justify-between">
-                  <span>Number of Night</span>
-                  <span>{calculateDaysBetween(checkIn, checkout)}</span>
+                  <span>Tour Type</span>
+                  <span>{tour_detail.tourType}</span>
                 </div>
+                <div className="flex justify-between">
+                  <span>Duration</span>
+                  <span>{tour_detail.totalDuration}</span>
+                </div>
+
                 <div className="flex justify-between">
                   <span>Adults</span>
                   <span>{adults}</span>
@@ -361,31 +354,20 @@ export default function Checkout({
                   <span>Children</span>
                   <span>{children}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Room</span>
-                  <span>{rooms}</span>
-                </div>
               </div>
             </div>
-
-            {/* <div>
-              <h3 className="mb-2 font-semibold">Coupon Code</h3>
-              <div className="flex gap-2">
-                <Input className="text-gray-500" placeholder="Enter code" {...register("couponCode")} />
-                <Button>APPLY</Button>
-              </div>
-            </div> */}
-
-            <div>
-              <h3 className="mb-2 font-semibold">Price details</h3>
+            <div className="border-t border-gray-300">
+              <h3 className="mb-2 font-semibold pt-4">Price details</h3>
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span>1 night</span>
-                  <span>${(+room_detail?.price).toFixed(2)}</span>
+                  <span>Adult Price</span>
+                  <span>
+                    ${(+tour_detail.price * +adults * 1.06).toFixed(2)}
+                  </span>
                 </div>
                 <div className="flex justify-between border-t pt-2">
-                  <span>Subtotal</span>
-                  <span>${+totalAmount.toFixed(2)}</span>
+                  <span>Children Price</span>
+                  <span>${(+tour_detail.price / 2) * +children}</span>
                 </div>
                 <div className="flex justify-between   pt-2">
                   <span>Tax</span>
@@ -393,9 +375,7 @@ export default function Checkout({
                 </div>
                 <div className="flex justify-between border-t pt-2 text-lg font-semibold">
                   <span>Pay Amount</span>
-                  <span>
-                    ${((+totalAmount * 1) / 100 + +totalAmount).toFixed(2)}
-                  </span>
+                  <span>${finalAmount.toFixed(2)}</span>
                 </div>
               </div>
             </div>

@@ -1,8 +1,8 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { Tours } from "@/lib/schema";
-import { eq } from "drizzle-orm";
+import { TourOrders, Tours } from "@/lib/schema";
+import { and, eq } from "drizzle-orm";
 
 
 export const getTOurs = async () => {
@@ -17,6 +17,26 @@ export const getDetailedTour = async (title: string) => {
     const tourRecord = await db.select().from(Tours).where(eq(Tours.title, title))
 
     return tourRecord
+}
+
+export const getTheTourBookingStatus = async (title: string,email:string) => {
+
+    const tourRecord = await db.select().from(TourOrders).where(and(eq(TourOrders.tour_name, title),eq(TourOrders.email, email)))
+
+    return tourRecord
+}
+
+export const getUserTourOrders = async (email:string) => {
+
+    const OrdersRecord = await db.select().from(TourOrders).where(eq(TourOrders.email,email))
+
+    return OrdersRecord;
+}
+export const getTourOrders = async () => {
+
+    const OrdersRecord = await db.select().from(TourOrders)
+
+    return OrdersRecord;
 }
 
 export const getPaginatedTour = async (page = 1, limit = 10, city?: string) => {

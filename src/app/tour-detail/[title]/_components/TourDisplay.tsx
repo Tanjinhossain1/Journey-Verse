@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Check, ChevronDown, ChevronUp, Clock, Globe, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,17 +9,35 @@ import { TourTypes } from "@/types/tours";
 import Reviews from "@/app/hotel-detail/[title]/_components/Reviews";
 import { Progress } from "@radix-ui/react-progress";
 import TourChecker from "./TourCheckForm";
+import { User } from "@/types/user";
+import { getTheTourBookingStatus } from "@/services/tours";
 
 export default function TourDisplay({
   tourDetails,
+  user,
 }: {
   tourDetails: TourTypes;
+  user: User;
 }) {
   const [openDay, setOpenDay] = useState(1);
   const [openFaq, setOpenFaq] = useState(1);
-
+  const [bookingStatus, setBookingStatus] = useState<boolean>(false);
+  useEffect(() => {
+    if (user?.email) {
+      const BookingStatus = async () => {
+        const tourDetailsBookingStatus = await getTheTourBookingStatus(
+          tourDetails.title,
+          user?.email
+        );
+        if(tourDetailsBookingStatus && tourDetailsBookingStatus[0] && tourDetailsBookingStatus[0]?.email && tourDetailsBookingStatus[0]?.email === user?.email){
+          setBookingStatus(true)
+        }
+      };
+      BookingStatus()
+    }
+  });
   return (
-    <div className="max-w-6xl mx-auto p-4 space-y-8 dark:bg-gray-900">
+    <div className="md:max-w-6xl mx-auto p-4 space-y-8 dark:bg-gray-900">
       {/* Gallery Grid */}
       <div className="container mx-auto p-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -240,7 +258,7 @@ export default function TourDisplay({
                 >
                   <Button
                     variant="ghost"
-                    className="w-full flex items-center justify-between p-4 text-left"
+                    className="flex items-center justify-between p-4 text-left"
                     onClick={() => setOpenFaq(openFaq === index ? 0 : index)}
                   >
                     <span className=" dark:text-white text-lg font-bold">
@@ -306,8 +324,10 @@ export default function TourDisplay({
         </div>
         {/* Booking Card */}
         <div className="relative">
-          <div className="sticky top-10"> {/* Set the `top` value as needed */}
-            <TourChecker tour_detail={tourDetails} />
+          <div className="sticky top-10">
+            {" "}
+            {/* Set the `top` value as needed */}
+            <TourChecker user={user} bookingStatus={bookingStatus} tour_detail={tourDetails} />
           </div>
         </div>
       </div>
