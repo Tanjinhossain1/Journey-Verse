@@ -23,7 +23,6 @@ import { getLovedHotels, removedLike } from "@/services/loved-hotel";
 import axios from "axios";
 import { User } from "@/types/user";
 import { toast } from "react-toastify";
-import { searchType } from "@/components/Banner";
 
 export default function SearchHotel({
   loved_hotel,
@@ -53,7 +52,6 @@ export default function SearchHotel({
   const [selectedOption, setSelectedOption] = useState<"low" | "high" | null>(
     null
   );
-  const [searchType, setSearchType] = useState<searchType>("Hotel");
   const [selectedAtoZ, setSelectedAtoZ] = useState<"a" | "z" | null>(null);
   const [hotelsData, setHotelsData] = useState<HotelType[]>([]);
 

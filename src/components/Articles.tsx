@@ -15,13 +15,13 @@ export default function Article() {
   const [currentPage, setCurrentPage] = React.useState(0);
   const [stories, setStories] = React.useState<BlogPostType[]>([]);
 
-  React.useEffect(()=>{
-    const fetchArticles = async () =>{
-      const articles = await getBlogs(1,12);
+  React.useEffect(() => {
+    const fetchArticles = async () => {
+      const articles = await getBlogs(1, 12);
       setStories(articles.data as BlogPostType[]);
-    }
-    fetchArticles()
-  },[])
+    };
+    fetchArticles();
+  }, []);
 
   const itemsPerPage = 4;
   const totalPages = Math.ceil(stories.length / itemsPerPage);
@@ -53,7 +53,9 @@ export default function Article() {
     <div className="px-6 py-12 lg:py-24 w-3/4 mx-auto">
       <div className="container relative">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold tracking-tight dark:text-white">Articles</h2>
+          <h2 className="text-3xl font-bold tracking-tight dark:text-white">
+            Articles
+          </h2>
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -85,14 +87,21 @@ export default function Article() {
               <div key={pageIndex} className="w-full flex-shrink-0 ">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {page.map((story, storyIndex) => (
-                    <Card key={storyIndex} className="border dark:border-gray-400 shadow-lg rounded-xl">
+                    <Card
+                      key={storyIndex}
+                      className="border dark:border-gray-400 shadow-lg rounded-xl"
+                    >
                       <CardContent className="p-0">
                         <div className="aspect-[4/3] relative mb-4">
-                          <Link href={`/blog/${formatForUrlWith_under_score(story?.title)}`}>
+                          <Link
+                            href={`/blog/${formatForUrlWith_under_score(
+                              story?.title
+                            )}`}
+                          >
                             <Image
                               layout="fill"
                               src={story.image}
-                            //   src={story.image}
+                              //   src={story.image}
                               alt=""
                               className="object-cover   w-full h-full rounded-t-xl"
                             />
@@ -106,11 +115,15 @@ export default function Article() {
                           >
                             {story.category}
                           </Badge>
-                          <Link href={`/blog/${formatForUrlWith_under_score(story?.title)}`}>
+                          <Link
+                            href={`/blog/${formatForUrlWith_under_score(
+                              story?.title
+                            )}`}
+                          >
                             <h3 className="text-xl font-bold mb-3 hover:text-blue-400 dark:text-gray-300">
                               {story.title}
                             </h3>
-                          </Link> 
+                          </Link>
                           <p className="text-muted-foreground line-clamp-3 dark:text-gray-300">
                             {story.description}
                           </p>
@@ -123,7 +136,14 @@ export default function Article() {
             ))}
           </div>
         </div>
-          <div className="text-end mt-2"><Link className="mt-2 underline font-semibold text-blue-500" href={'/all_blogs'}>List Of Blogs</Link></div>
+        <div className="text-end mt-2">
+          <Link
+            className="mt-2 underline font-semibold text-blue-500"
+            href={"/all_blogs"}
+          >
+            List Of Blogs
+          </Link>
+        </div>
 
         <div className="flex justify-center gap-2 mt-8">
           {Array.from({ length: totalPages }).map((_, index) => (

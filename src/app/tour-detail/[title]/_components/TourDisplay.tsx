@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import { Check, ChevronDown, ChevronUp, Clock, Globe, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,13 +11,34 @@ import { Progress } from "@radix-ui/react-progress";
 import TourChecker from "./TourCheckForm";
 import { User } from "@/types/user";
 import { getTheTourBookingStatus } from "@/services/tours";
+import RelatedTour from "./RelatedPost";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
+export type LoveStatusType ={
+  id: number;
+  fullName: string;
+  email: string;
+  hotel_name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}[] | {
+  message: string;
+}
 export default function TourDisplay({
   tourDetails,
   user,
+  lovedStatus
 }: {
   tourDetails: TourTypes;
   user: User;
+  lovedStatus: LoveStatusType
 }) {
   const [openDay, setOpenDay] = useState(1);
   const [openFaq, setOpenFaq] = useState(1);
@@ -37,7 +58,36 @@ export default function TourDisplay({
     }
   });
   return (
+    <Fragment>
+      <div className="relative  min-h-[200px] w-full overflow-hidden dark:border-b">
+        <div className="absolute inset-0">
+          <Image
+            layout="fill"
+            alt="Mountain landscape with a person in yellow jacket"
+            className="w-full h-full object-cover"
+            src="/journey-bg.jpeg"
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+        <div className="relative z-10 flex flex-col w-3/4 mx-auto md:mt-28 text-white px-4">
+          <h1 className="text-4xl md:text-4xl font-bold mb-4 text-left">
+            {tourDetails.title}
+          </h1>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{tourDetails.title}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </div>
     <div className="md:max-w-6xl mx-auto p-4 space-y-8 dark:bg-gray-900">
+      
       {/* Gallery Grid */}
       <div className="container mx-auto p-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -331,6 +381,9 @@ export default function TourDisplay({
           </div>
         </div>
       </div>
-    </div>
+      <RelatedTour user={user} love_react={lovedStatus} title={tourDetails.title} />
+      </div>
+       
+      </Fragment>
   );
 }

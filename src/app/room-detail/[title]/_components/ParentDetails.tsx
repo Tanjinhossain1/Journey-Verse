@@ -99,7 +99,7 @@ export default function ParentDetails({
         </div>
         <div className="relative z-10 flex flex-col w-3/4 mx-auto md:mt-28 text-white px-4">
           <h1 className="text-4xl md:text-4xl font-bold mb-4 text-left">
-            Let the journey begin
+            {room_detail.title}
           </h1>
           <Breadcrumb>
             <BreadcrumbList>

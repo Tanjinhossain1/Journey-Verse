@@ -32,7 +32,7 @@ export default function TourChecker({
   const searchParams = useSearchParams();
   const checkIn = searchParams.get("checkIn");
 
-  const [date, setDate] = React.useState<Date | undefined>(checkIn ? checkIn as any : new Date());
+  const [date, setDate] = React.useState<Date | undefined>(checkIn ? new Date(checkIn)  : new Date());
   const [adults, setAdults] = React.useState<number>(1);
   const [children, setChildren] = React.useState<number>(0);
 

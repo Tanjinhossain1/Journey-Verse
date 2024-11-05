@@ -6,6 +6,7 @@ import { getDetailedTour } from "@/services/tours";
 import { TourTypes } from "@/types/tours";
 import { getServerSession } from "next-auth";
 import { User } from "@/types/user";
+import { getLovedHotels } from "@/services/loved-hotel";
 
 type Params = Promise<{ title: string }>;
 
@@ -20,11 +21,12 @@ export default async function Page(props: {
     .map((word) => word.charAt(0) + word.slice(1))
     .join(" ");
     const tourDetails = await getDetailedTour(formateTitle);
-    const user = session?.user
+    const user = session?.user;
+    const lovedStatus = await getLovedHotels(session?.user?.email as string);
   return (
     <Fragment>
       <Navbar />
-      <TourDisplay user={user as User} tourDetails={tourDetails[0] as TourTypes} />
+      <TourDisplay lovedStatus={lovedStatus} user={user as User} tourDetails={tourDetails[0] as TourTypes} />
       <Footer />
     </Fragment>
   );

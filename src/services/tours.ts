@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { TourOrders, Tours } from "@/lib/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, ne } from "drizzle-orm";
 
 
 export const getTOurs = async () => {
@@ -83,12 +83,21 @@ export const getTourOrders = async () => {
     return OrdersRecord;
 }
 
-export const getPaginatedTour = async (page = 1, limit = 10, city?: string) => {
+export const getPaginatedTour = async (page = 1, limit = 10, city?: string,title?:string) => {
     const offset = (page - 1) * limit;
     if (city) {
 
         const [toursData] = await Promise.all([
             db.select().from(Tours).limit(limit).offset(offset).where(eq(Tours.city, city)),
+        ]);
+
+        return {
+            data: toursData,
+            totalRecords: toursData.length, // totalRecords is now directly returned
+        };
+    } else if(title){
+        const [toursData] = await Promise.all([
+            db.select().from(Tours).limit(limit).offset(offset).where(ne(Tours.title, title)),
         ]);
 
         return {
