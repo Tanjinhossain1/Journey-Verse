@@ -18,7 +18,18 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { register, control, handleSubmit, reset, setValue } = useForm<Tour>();
+  const { register, control, handleSubmit, reset, setValue } = useForm<Tour>({
+    defaultValues: {
+      specificReviews: {
+        accuracy: "5",
+        checkIn: "5",
+        cleanliness: "5",
+        communication: "5",
+        location: "5",
+        value: "5",
+      },
+    },
+  });
   const [tours, setTours] = useState<TourTypes[]>([]);
   const {
     fields: languageFields,
@@ -60,11 +71,11 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
     append: appendQuestion,
     remove: removeQuestion,
   } = useFieldArray({ control, name: "questions" });
-//   const {
-//     fields: discountFields,
-//     append: appendDiscount,
-//     remove: removeDiscount,
-//   } = useFieldArray({ control, name: "discounts" });
+  //   const {
+  //     fields: discountFields,
+  //     append: appendDiscount,
+  //     remove: removeDiscount,
+  //   } = useFieldArray({ control, name: "discounts" });
 
   const uploadToCloudinary = async (file: File): Promise<string> => {
     const formData = new FormData();
@@ -120,7 +131,7 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
       reset();
       setShowForm(false);
       setIsEditing(false);
-      fetchTours();
+      window.location.reload();
     } catch (error) {
       console.error("Error submitting tour:", error);
     } finally {

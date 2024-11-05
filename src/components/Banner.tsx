@@ -1,8 +1,13 @@
+"use client";
 import Image from "next/image";
 import SearchForm from "./Common/SearchForm";
+import { Button } from "./ui/button";
+import { useState } from "react";
+import SearchTourForm from "./Common/SearchTourForm";
 
+export type searchType = "Hotel" | "Tours";
 export default function Banner() {
-
+  const [searchType, setSearchType] = useState<searchType>("Hotel");
   return (
     <div className="relative  min-h-[400px] w-full overflow-hidden dark:border-b-2  dark:border-gray-500">
       <div className="absolute inset-0">
@@ -25,20 +30,24 @@ export default function Banner() {
           <ul className="flex flex-wrap justify-center gap-4 text-sm md:text-base">
             {[
               "Hotel",
-              // "Tours",
+              "Tours",
               // "Activity",
               // "Rental",
               // "Cars Rental",
             ].map((item) => (
               <li key={item}>
-                <a href="#" className="hover:underline font-bold">
+                <Button
+                  onClick={() => setSearchType(item as searchType)}
+                  className="hover:underline font-bold"
+                >
                   {item}
-                </a>
+                </Button>
               </li>
             ))}
           </ul>
         </nav>
-        <SearchForm />
+        {searchType === "Hotel" ? <SearchForm /> : null}
+        {searchType === "Tours" ? <SearchTourForm /> : null}
       </div>
     </div>
   );

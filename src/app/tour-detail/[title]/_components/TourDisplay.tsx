@@ -254,7 +254,7 @@ export default function TourDisplay({
               {tourDetails?.questions.map((faq, index) => (
                 <Card
                   key={index}
-                  className="border dark:border-gray-700 dark:bg-gray-800"
+                  className="border dark:border-gray-500 border-gray-400 rounded-xl dark:bg-gray-800"
                 >
                   <Button
                     variant="ghost"

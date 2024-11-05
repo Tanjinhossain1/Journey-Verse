@@ -26,6 +26,50 @@ export const getTheTourBookingStatus = async (title: string,email:string) => {
     return tourRecord
 }
 
+export const getToursByCity = async (city?: string) => {
+    if (city) {
+
+        const ToursRecord = await db.select().from(Tours).where(eq(Tours.city, city))
+
+        return ToursRecord;
+    } else {
+        const ToursRecord = await db.select().from(Tours);
+
+        return ToursRecord;
+    }
+}
+
+export const getToursByPrice = async (price: 'low' | 'high') => {
+    const ToursRecord = await db.select().from(Tours);
+
+    // Convert the `price` field from string to number and sort based on `price` parameter
+    const sortedTours = ToursRecord.sort((a, b) => {
+        const priceA = parseFloat(a.price ? a.price : "");
+        const priceB = parseFloat(b.price ? b.price : '');
+
+        return price === 'low' ? priceA - priceB : priceB - priceA;
+    });
+
+    return sortedTours;
+}
+export const getToursByOrder = async (order: 'a' | 'z') => {
+    const ToursRecord = await db.select().from(Tours);
+
+    // Sort ToursRecord by title based on `order` parameter
+    const sortedTours = ToursRecord.sort((a, b) => {
+        const titleA = a.title.toLowerCase();
+        const titleB = b.title.toLowerCase();
+
+        if (order === 'a') {
+            return titleA.localeCompare(titleB); // Ascending order
+        } else {
+            return titleB.localeCompare(titleA); // Descending order
+        }
+    });
+
+    return sortedTours;
+};
+
 export const getUserTourOrders = async (email:string) => {
 
     const OrdersRecord = await db.select().from(TourOrders).where(eq(TourOrders.email,email))

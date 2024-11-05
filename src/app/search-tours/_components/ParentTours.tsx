@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import SearchForm from "@/components/Common/SearchForm";
 import { ChevronDown, Heart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,49 +12,45 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
 import { formatForUrlWith_under_score } from "@/utils/utils";
-import {
-  getHotelsByCity,
-  getHotelsByOrder,
-  getHotelsByPrice,
-} from "@/services/hotels";
-import { HotelType } from "@/types/hotels";
 import { getLovedHotels, removedLike } from "@/services/loved-hotel";
 import axios from "axios";
 import { User } from "@/types/user";
 import { toast } from "react-toastify";
-import { searchType } from "@/components/Banner";
+import { TourTypes } from "@/types/tours";
+import {
+  getToursByCity,
+  getToursByOrder,
+  getToursByPrice,
+} from "@/services/tours";
+import SearchTourForm from "@/components/Common/SearchTourForm";
 
-export default function SearchHotel({
+export default function SearchTours({
   loved_hotel,
-  user
+  user,
 }: {
-  user:User;
-    loved_hotel:
-      | {
-          id: number;
-          fullName: string;
-          email: string;
-          hotel_name: string;
-          createdAt: Date;
-          updatedAt: Date;
-        }[]
-      | {
-          message: string;
-        };
+  user: User;
+  loved_hotel:
+    | {
+        id: number;
+        fullName: string;
+        email: string;
+        hotel_name: string;
+        createdAt: Date;
+        updatedAt: Date;
+      }[]
+    | {
+        message: string;
+      };
 }) {
   const searchParams = useSearchParams();
   const location_name = searchParams.get("location_name") ?? "";
   const checkIn = searchParams.get("checkIn") ?? "";
-  const checkout = searchParams.get("checkout") ?? "";
-  const rooms = searchParams.get("rooms") ?? 1;
-  const children = searchParams.get("children") ?? 0;
-  const adults = searchParams.get("adults") ?? 1;
   const [selectedOption, setSelectedOption] = useState<"low" | "high" | null>(
     null
   );
-  const [searchType, setSearchType] = useState<searchType>("Hotel");
+
   const [selectedAtoZ, setSelectedAtoZ] = useState<"a" | "z" | null>(null);
-  const [hotelsData, setHotelsData] = useState<HotelType[]>([]);
+  const [toursData, setToursData] = useState<TourTypes[]>([]);
 
   const [loveReact, setLoveReact] = useState<
     | {
@@ -73,32 +68,31 @@ export default function SearchHotel({
 
   const handleSelectAtoZ = (option: "a" | "z") => {
     setSelectedAtoZ(option);
-    sortHotelDataByOrder(option);
+    sortTourDataByOrder(option);
   };
   const handleSelect = (option: "low" | "high") => {
     setSelectedOption(option);
-    sortHotelData(option);
+    sortTourData(option);
   };
 
   useEffect(() => {
     const fetchHotels = async () => {
-      const hotels = await getHotelsByCity(
+      const tours = await getToursByCity(
         location_name === "" || location_name === "United States"
           ? undefined
-          : location_name,
-        location_name === "United States" ? location_name : undefined
+          : location_name
       );
-      setHotelsData(hotels as HotelType[]);
+      setToursData(tours as TourTypes[]);
     };
     fetchHotels();
   }, [location_name]);
-  const sortHotelData = async (price: "low" | "high") => {
-    const hotels = await getHotelsByPrice(price);
-    setHotelsData(hotels as HotelType[]);
+  const sortTourData = async (price: "low" | "high") => {
+    const Tours = await getToursByPrice(price);
+    setToursData(Tours as TourTypes[]);
   };
-  const sortHotelDataByOrder = async (order: "a" | "z") => {
-    const hotels = await getHotelsByOrder(order);
-    setHotelsData(hotels as HotelType[]);
+  const sortTourDataByOrder = async (order: "a" | "z") => {
+    const Tours = await getToursByOrder(order);
+    setToursData(Tours as TourTypes[]);
   };
 
   const addLoved = async (title: string) => {
@@ -145,20 +139,15 @@ export default function SearchHotel({
                 // "Cars Rental",
               ].map((item) => (
                 <li key={item} className="hover:underline font-bold">
-                    {item}
+                  {item}
                 </li>
               ))}
             </ul>
           </nav>
 
-          <SearchForm
+          <SearchTourForm
             location_name={location_name}
-            defaultDate={{ from: checkIn as any, to: checkout as any }}
-            defaultGuest={{
-              adults: +adults,
-              children: +children,
-              rooms: +rooms,
-            }}
+            defaultDate={checkIn as any}
           />
         </div>
       </div>
@@ -241,20 +230,20 @@ export default function SearchHotel({
           </DropdownMenuContent>
         </DropdownMenu>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ">
-          {hotelsData.map((hotel) => (
+          {toursData.map((tour) => (
             <div
-              key={hotel.id}
+              key={tour.id}
               className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200"
             >
               <div className="relative overflow-hidden group">
                 <Link
-                  href={`/hotel-detail/${formatForUrlWith_under_score(
-                    hotel?.title
-                  )}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}
+                  href={`/tour-detail/${formatForUrlWith_under_score(
+                    tour?.title
+                  )}?checkIn=${checkIn}`}
                 >
                   <Image
-                    src={hotel.displayImage}
-                    alt={hotel.title}
+                    src={tour.displayImage}
+                    alt={tour.title}
                     width={400}
                     height={300}
                     className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
@@ -262,25 +251,31 @@ export default function SearchHotel({
                 </Link>
                 {"message" in loveReact ? (
                   // If there's a message (error response), display the red heart button by default
-                  <button onClick={()=>{
-                    toast.error("Thanks For Love ❤️ But You Need To Login First!🥲",{
-                      position:"top-center",
-                      theme:'colored'
-                    });
-                  }} className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200">
+                  <button
+                    onClick={() => {
+                      toast.error(
+                        "Thanks For Love ❤️ But You Need To Login First!🥲",
+                        {
+                          position: "top-center",
+                          theme: "colored",
+                        }
+                      );
+                    }}
+                    className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
+                  >
                     <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
                   </button>
                 ) : // If loved_hotel is a list, check if the current hotel exists in loved_hotel
-                loveReact.some((love) => love.hotel_name === hotel.title) ? (
+                loveReact.some((love) => love.hotel_name === tour.title) ? (
                   <button
-                    onClick={() => removeLove(hotel.title)}
+                    onClick={() => removeLove(tour.title)}
                     className="absolute top-2 right-2 p-2 bg-red-500  rounded-full shadow-md hover:bg-red-500 transition-colors duration-200"
                   >
                     <Heart className="w-5 h-5 text-white dark:text-white " />
                   </button>
                 ) : (
                   <button
-                    onClick={() => addLoved(hotel.title)}
+                    onClick={() => addLoved(tour.title)}
                     className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
                   >
                     <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
@@ -293,7 +288,7 @@ export default function SearchHotel({
                     <Star
                       key={i}
                       className={`w-4 h-4 ${
-                        i < hotel.ratings?.total
+                        i < +tour.totalRating
                           ? "text-yellow-400 fill-current"
                           : "text-gray-300"
                       }`}
@@ -301,21 +296,21 @@ export default function SearchHotel({
                   ))}
                 </div>
                 <Link
-                  href={`/hotel-detail/${formatForUrlWith_under_score(
-                    hotel?.title
-                  )}?checkIn=${checkIn}&checkout=${checkout}&adults=${adults}&rooms=${rooms}&children=${children}`}
+                  href={`/tour-detail/${formatForUrlWith_under_score(
+                    tour?.title
+                  )}?checkIn=${checkIn}`}
                 >
                   {" "}
                   <h2 className="text-xl font-semibold mb-2 hover:text-blue-400 dark:text-gray-300 dark:hover:text-blue-600">
-                    {hotel.title}
+                    {tour.title}
                   </h2>
                 </Link>
                 <p className="text-gray-600 dark:text-white mb-4 flex">
-                  {hotel.city}
+                  {tour.city}
                 </p>
                 <div className="border-t border-gray-200 pt-4 mb-4">
                   <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                    {hotel.ratings?.total}/5 · Excellent Reviews
+                    {tour.totalRating}/5 · Excellent Reviews
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
@@ -324,7 +319,7 @@ export default function SearchHotel({
                       From:
                     </span>
                     <span className="text-sm font-bold ml-1 dark:text-white">
-                      ${(+hotel.price).toFixed(2)}
+                      ${(+tour.price).toFixed(2)}
                     </span>
                     <span className="text-sm text-gray-500 dark:text-white">
                       /night

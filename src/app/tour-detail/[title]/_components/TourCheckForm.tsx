@@ -18,6 +18,7 @@ import { TourTypes } from "@/types/tours";
 import Link from "next/link";
 import { formatForUrlWith_under_score, toISODateString } from "@/utils/utils";
 import { User } from "@/types/user";
+import { useSearchParams } from "next/navigation";
 
 export default function TourChecker({
   tour_detail,
@@ -28,7 +29,10 @@ export default function TourChecker({
   bookingStatus: boolean;
   user:User
 }) {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const searchParams = useSearchParams();
+  const checkIn = searchParams.get("checkIn");
+
+  const [date, setDate] = React.useState<Date | undefined>(checkIn ? checkIn as any : new Date());
   const [adults, setAdults] = React.useState<number>(1);
   const [children, setChildren] = React.useState<number>(0);
 
