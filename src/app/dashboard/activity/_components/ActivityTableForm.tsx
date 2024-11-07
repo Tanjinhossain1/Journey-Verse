@@ -8,17 +8,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2, Upload, Edit, Delete } from "lucide-react";
-import { TourTypes } from "@/types/tours";
-import { getTOurs } from "@/services/tours";
 import { CityType } from "@/types/city";
+import { ActivityTypes } from "@/types/activity";
+import { getActivity } from "@/services/activity";
 
-type Tour = TourTypes;
+type Activity = ActivityTypes;
 
-export default function TourManagement({ cityData }: { cityData: CityType[] }) {
+export default function ActivityManagement({ cityData }: { cityData: CityType[] }) {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { register, control, handleSubmit, reset, setValue } = useForm<Tour>({
+  const { register, control, handleSubmit, reset, setValue } = useForm<Activity>({
     defaultValues: {
       specificReviews: {
         accuracy: "5",
@@ -30,7 +30,7 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
       },
     },
   });
-  const [tours, setTours] = useState<TourTypes[]>([]);
+  const [activity, setActivity] = useState<ActivityTypes[]>([]);
   const {
     fields: languageFields,
     append: appendLanguage,
@@ -112,7 +112,7 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
     }
   };
 
-  const onSubmit = async (data: Tour) => {
+  const onSubmit = async (data: Activity) => {
     setIsSubmitting(true);
     try {
       let response;
@@ -122,57 +122,57 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
           id: data?.id,
         };
         console.log(payload);
-        response = await axios.put(`/api/tours`, payload);
-        console.log("Tour updated:", response.data);
+        response = await axios.put(`/api/activity`, payload);
+        console.log("Activity updated:", response.data);
       } else {
-        response = await axios.post("/api/tours", data);
-        console.log("Tour created:", response.data);
+        response = await axios.post("/api/activity", data);
+        console.log("Activity created:", response.data);
       }
       reset();
       setShowForm(false);
       setIsEditing(false);
       window.location.reload();
     } catch (error) {
-      console.error("Error submitting tour:", error);
+      console.error("Error submitting Activity:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const fetchTours = async () => {
+  const fetchActivity = async () => {
     try {
-      const response = await getTOurs();
-      setTours(response as TourTypes[]);
+      const response = await getActivity();
+      setActivity(response as ActivityTypes[]);
     } catch (error) {
-      console.error("Error fetching tours:", error);
+      console.error("Error fetching Activity:", error);
     }
   };
 
   useEffect(() => {
-    fetchTours();
+    fetchActivity();
   }, []);
 
-  const handleEdit = (tour: TourTypes) => {
+  const handleEdit = (activity: ActivityTypes) => {
     setIsEditing(true);
     setShowForm(true);
-    reset(tour);
+    reset(activity);
   };
 
-  const deleteTours = async (id: number) => {
+  const deleteActivity = async (id: number) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this Tour?"
+      "Are you sure you want to delete this Activity?"
     );
 
     if (confirmDelete) {
       await axios
-        .delete(`/api/tours?id=${id}`)
+        .delete(`/api/activity?id=${id}`)
         .then((response) => {
           if (response?.data) {
             window.location.reload();
           }
         })
         .catch((error) => {
-          console.error("Error deleting tour:", error);
+          console.error("Error deleting Activity:", error);
         });
     }
   };
@@ -181,7 +181,7 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
       {!showForm ? (
         <>
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">Tour List</h1>
+            <h1 className="text-2xl font-bold">Activity List</h1>
             <Button
               className="bg-black dark:bg-gray-300 hover:bg-black text-white "
               onClick={() => {
@@ -190,10 +190,10 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
                 reset({});
               }}
             >
-              Create Tour
+              Create Activity
             </Button>
           </div>
-          <div className="overflow-x-auto h-[600px]">
+          <div className="overflow-x-auto h-[650px]">
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
                 <tr>
@@ -205,19 +205,19 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
                 </tr>
               </thead>
               <tbody>
-                {tours.map((tour, index) => (
+                {activity.map((activity, index) => (
                   <tr key={index}>
-                    <td className="py-2 px-4 border-b">{tour.city}</td>
-                    <td className="py-2 px-4 border-b">{tour.title}</td>
-                    <td className="py-2 px-4 border-b">{tour.price}</td>
+                    <td className="py-2 px-4 border-b">{activity.city}</td>
+                    <td className="py-2 px-4 border-b">{activity.title}</td>
+                    <td className="py-2 px-4 border-b">{activity.price}</td>
                     <td className="py-2 px-4 border-b">
-                      <Button onClick={() => handleEdit(tour)} size="sm">
+                      <Button onClick={() => handleEdit(activity)} size="sm">
                         <Edit className="h-4 w-4 mr-2" /> Edit
                       </Button>
                     </td>
                     <td className="py-2 px-4 border-b">
                       <Button
-                        onClick={() => deleteTours(tour?.id)}
+                        onClick={() => deleteActivity(activity?.id)}
                         className="text-red-600"
                       >
                         <Delete className="text-red-600" />
@@ -233,7 +233,7 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
         <div className="max-h-[calc(90vh-2rem)] overflow-y-auto">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <h2 className="text-2xl font-bold mb-4">
-              {isEditing ? "Edit Tour" : "Create New Tour"}
+              {isEditing ? "Edit Activity" : "Create New Activity"}
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -270,7 +270,7 @@ export default function TourManagement({ cityData }: { cityData: CityType[] }) {
                 <Input id="totalDuration" {...register("totalDuration")} />
               </div>
               <div>
-                <Label htmlFor="tourType">Tour Type</Label>
+                <Label htmlFor="tourType">Cancelation</Label>
                 <Input id="tourType" {...register("tourType")} />
               </div>
               <div>

@@ -13,6 +13,8 @@ import {
   Torus,
   ChevronDown,
   LucideListOrdered,
+  Activity,
+  ActivitySquareIcon,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -42,6 +44,7 @@ const adminMenuItems: MenuType[] = [
   { name: "Hotels", icon: Hotel, href: "/hotels" },
   { name: "Rooms", icon: BedDouble, href: "/rooms" },
   { name: "Tours", icon: Binoculars, href: "/dashboard/tours" },
+  { name: "Activities", icon: ActivitySquareIcon, href: "/dashboard/activity" },
   { name: "Blogs", icon: Blocks, href: "/blogs" },
   {
     name: "Orders Management",
@@ -50,6 +53,7 @@ const adminMenuItems: MenuType[] = [
     subItems: [
       { name: "Hotel Orders", href: "/dashboard/order_managment/hotels/orders", icon: HotelIcon },
       { name: "Tour Orders", href: "/dashboard/order_managment/tours/orders", icon: Torus },
+      { name: "Activity Orders", href: "/dashboard/order_managment/activity/orders", icon: Activity },
     ],
   },
 ];
@@ -63,6 +67,7 @@ const userMenuItems: MenuType[] = [
     subItems: [
       { name: "Hotel Orders", href: "/dashboard/hotels/orders", icon: HotelIcon },
       { name: "Tour Orders", href: "/dashboard/tours/orders", icon: Torus },
+      { name: "Activity Orders", href: "/dashboard/activity/orders", icon: Torus },
     ],
   },
   { name: "Blogs", icon: Blocks, href: "/blogs" },

@@ -22,9 +22,11 @@ import { CityType } from "@/types/city";
 export default function SearchTourForm({
   defaultDate,
   location_name,
+  isActivity
 }: {
   location_name?: string;
   defaultDate?: Date;
+  isActivity?: boolean;
 }) {
   const [countries, setCountries] = useState<CityType[]>([]);
   const [date, setDate] = useState<Date | undefined>(
@@ -111,7 +113,7 @@ export default function SearchTourForm({
         </Popover>
 
         <Link
-          href={`/search-tours?location_name=${
+          href={`/${isActivity ? "search-activity":"search-tours"}?location_name=${
             selectedCountry ? selectedCountry : ""
           }&checkIn=${toISODateString(date)}`}
         >

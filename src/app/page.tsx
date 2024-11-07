@@ -19,8 +19,8 @@ export default async  function Home() {
     <Fragment>
       <Navbar />
       <Banner />
-      <Percentage />
       <Destinations />
+      <Percentage />
       <Recommended user={session?.user as User} loved_hotel={lovedStatus} />
       <Airlines />
       <Subscription />

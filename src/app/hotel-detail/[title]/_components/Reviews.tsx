@@ -6,11 +6,13 @@ import ReviewPost from "./ReviewPost";
 export default function Reviews({
   id,
   reviews,
-  isTour
+  isTour,
+  isActivity,
 }: {
   id: number;
   reviews: ReviewsTypes[];
   isTour?: boolean;
+  isActivity?: boolean;
 }) {
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-6 flex flex-col items-center">
@@ -54,7 +56,7 @@ export default function Reviews({
           </div>
         );
       })}
-      <ReviewPost isTour={isTour} id={id} />
+      <ReviewPost isActivity={isActivity} isTour={isTour} id={id} />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import SearchTourForm from "./Common/SearchTourForm";
 
-export type searchType = "Hotel" | "Tours";
+export type searchType = "Hotel" | "Tours" | "Activity";
 export default function Banner() {
   const [searchType, setSearchType] = useState<searchType>("Hotel");
   return (
@@ -31,14 +31,14 @@ export default function Banner() {
             {[
               "Hotel",
               "Tours",
-              // "Activity",
+              "Activity",
               // "Rental",
               // "Cars Rental",
             ].map((item) => (
               <li key={item}>
                 <Button
                   onClick={() => setSearchType(item as searchType)}
-                  className="hover:underline font-bold"
+                  className={`hover:underline font-bold ${searchType === item ? "underline text-orange-500":""}`}
                 >
                   {item}
                 </Button>
@@ -48,6 +48,7 @@ export default function Banner() {
         </nav>
         {searchType === "Hotel" ? <SearchForm /> : null}
         {searchType === "Tours" ? <SearchTourForm /> : null}
+        {searchType === "Activity" ? <SearchTourForm isActivity /> : null}
       </div>
     </div>
   );

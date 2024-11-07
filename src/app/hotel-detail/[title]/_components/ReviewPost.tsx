@@ -14,13 +14,16 @@ import {
 } from "@/components/ui/card";
 import { updateReview } from "@/services/hotels";
 import { updateTourReview } from "@/services/tours";
+import { updateActivityReview } from "@/services/activity";
 
 export default function ReviewPost({
   id,
   isTour,
+  isActivity,
 }: {
   id: number;
   isTour?: boolean;
+  isActivity?: boolean;
 }) {
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -54,11 +57,19 @@ export default function ReviewPost({
       } finally {
         window.location.reload();
       }
+    } else if (isActivity) {
+      try {
+        await updateActivityReview(`${id}`, data);
+      } catch {
+        console.log("Failed to update Activity review");
+      } finally {
+        window.location.reload();
+      }
     } else {
       try {
         await updateReview(`${id}`, data);
       } catch {
-        console.log("Failed to update tour review");
+        console.log("Failed to update Hotel review");
       } finally {
         window.location.reload();
       }

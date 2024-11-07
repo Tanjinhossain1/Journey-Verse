@@ -20,8 +20,10 @@ import { TourTypes } from "@/types/tours";
 import { getPaginatedTour } from "@/services/tours";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
+import { getPaginatedActivity } from "@/services/activity";
+import { ActivityTypes } from "@/types/activity";
 
-const categories = ["Hotel", "Tour"];
+const categories = ["Hotel", "Tour", "Activity"];
 // const categories = ["Hotel", "Tour", "Activity", "Rental", "Car"];
 
 export default function Recommended({
@@ -60,8 +62,9 @@ export default function Recommended({
   >(loved_hotel);
   const [hotels, setHotels] = useState<HotelType[]>([]);
   const [tours, setTours] = useState<TourTypes[]>([]);
+  const [activity, setActivity] = useState<ActivityTypes[]>([]);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   console.log(hotels);
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,14 +81,13 @@ export default function Recommended({
         setHotels(hotelsData.data as HotelType[]);
         setTotalPages(Math.ceil(hotelsData.totalRecords / limit));
       } catch (error) {
-        console.error("Failed to fetch Hotel:", error)
+        console.error("Failed to fetch Hotel:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-      
     };
     const fetchTours = async (page: number, limit = 12) => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
         const tourData = city
           ? await getPaginatedTour(page, limit, city)
@@ -93,17 +95,32 @@ export default function Recommended({
         setTours(tourData.data as TourTypes[]);
         setTotalPages(Math.ceil(tourData.totalRecords / limit));
       } catch (error) {
-        console.error("Failed to fetch Tour:", error)
+        console.error("Failed to fetch Tour:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-
+    };
+    const fetchActivity = async (page: number, limit = 12) => {
+      setIsLoading(true);
+      try {
+        const tourData = city
+          ? await getPaginatedActivity(page, limit, city)
+          : await getPaginatedActivity(page, limit);
+        setActivity(tourData.data as TourTypes[]);
+        setTotalPages(Math.ceil(tourData.totalRecords / limit));
+      } catch (error) {
+        console.error("Failed to fetch Activity:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     if (selectedCategory === "Hotel") {
       fetchHotels(currentPage);
     } else if (selectedCategory === "Tour") {
       fetchTours(currentPage);
+    } else if (selectedCategory === "Activity") {
+      fetchActivity(currentPage);
     }
   }, [currentPage, selectedCategory, city]);
 
@@ -240,7 +257,9 @@ export default function Recommended({
           className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
         >
           <div className="relative overflow-hidden group">
-            <Link href={`/tour-detail/${formatForUrlWith_under_score(tour.title)}`}>
+            <Link
+              href={`/tour-detail/${formatForUrlWith_under_score(tour.title)}`}
+            >
               <Image
                 src={tour.displayImage!}
                 alt={tour.title}
@@ -292,7 +311,9 @@ export default function Recommended({
               <MapPin className="w-4 h-4 mr-1" />
               <span className="text-sm">{tour.city}</span>
             </div>
-            <Link href={`/tour-detail/${formatForUrlWith_under_score(tour.title)}`}>
+            <Link
+              href={`/tour-detail/${formatForUrlWith_under_score(tour.title)}`}
+            >
               {" "}
               <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
                 {tour.title}
@@ -327,6 +348,114 @@ export default function Recommended({
               <div className="flex items-center text-gray-600 dark:text-white">
                 <Clock className="w-4 h-4 mr-1" />
                 <span className="text-sm">{tour.totalDuration}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ));
+    } else if (selectedCategory === "Activity") {
+      return activity?.map((activity) => (
+        <div
+          key={activity.id}
+          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+        >
+          <div className="relative overflow-hidden group">
+            <Link
+              href={`/activity_detail/${formatForUrlWith_under_score(
+                activity.title
+              )}`}
+            >
+              <Image
+                src={activity.displayImage!}
+                alt={activity.title}
+                width={400}
+                height={300}
+                className="w-full h-48 object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+              />
+            </Link>
+            {"message" in loveReact ? (
+              // If there's a message (error response), display the red heart button by default
+              <button
+                onClick={() => {
+                  toast.error(
+                    "Thanks For Love ❤️ But You Need To Login First!🥲",
+                    {
+                      position: "top-center",
+                      theme: "colored",
+                    }
+                  );
+                }}
+                className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
+              >
+                <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
+              </button>
+            ) : // If loved_hotel is a list, check if the current hotel exists in loved_hotel
+            loveReact.some((love) => love.hotel_name === activity.title) ? (
+              <button
+                onClick={() => removeLove(activity.title)}
+                className="absolute top-2 right-2 p-2 bg-red-500  rounded-full shadow-md hover:bg-red-500 transition-colors duration-200"
+              >
+                <Heart className="w-5 h-5 text-white dark:text-white " />
+              </button>
+            ) : (
+              <button
+                onClick={() => addLoved(activity.title)}
+                className="absolute top-2 right-2 p-2 bg-white dark:bg-black rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200"
+              >
+                <Heart className="w-5 h-5 text-gray-600 dark:text-white" />
+              </button>
+            )}
+            {/* {activity.originalPrice && (
+              <div className="absolute top-2 left-2 bg-green-600 text-white dark:text-white px-2 py-1 rounded-md text-sm font-bold">
+                -20%
+              </div>
+            )} */}
+          </div>
+          <div className="p-4">
+            <div className="flex items-center text-gray-600 dark:text-white mb-2">
+              <MapPin className="w-4 h-4 mr-1" />
+              <span className="text-sm">{activity.city}</span>
+            </div>
+            <Link
+              href={`/activity_detail/${formatForUrlWith_under_score(
+                activity.title
+              )}`}
+            >
+              {" "}
+              <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
+                {activity.title}
+              </h2>
+            </Link>
+            <div className="flex items-center mb-3">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${
+                    i < +activity.totalRating!
+                      ? "text-yellow-400 fill-current"
+                      : "text-gray-300"
+                  }`}
+                />
+              ))}
+              <span className="text-sm text-gray-600  dark:text-whiteml-2">
+                ({activity?.reviews?.length ? activity?.reviews?.length : "0"}{" "}
+                Reviews)
+              </span>
+            </div>
+            <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+              <div>
+                {/* {activity.originalPrice && (
+                  <span className="text-sm text-gray-500 dark:text-white line-through mr-2">
+                    ${activity.originalPrice.toFixed(2)}
+                  </span>
+                )} */}
+                <span className="text-xl font-bold dark:text-white">
+                  ${(+activity.price!).toFixed(2)}
+                </span>
+              </div>
+              <div className="flex items-center text-gray-600 dark:text-white">
+                <Clock className="w-4 h-4 mr-1" />
+                <span className="text-sm">{activity.totalDuration}</span>
               </div>
             </div>
           </div>

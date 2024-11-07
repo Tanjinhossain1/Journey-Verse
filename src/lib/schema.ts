@@ -114,6 +114,34 @@ export const TourOrders = pgTable("tour_orders", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+export const ActivitiesOrders = pgTable("activity_orders", {
+  id: serial("id").primaryKey(),
+  fullName: text("full_name").notNull(),
+  cardNumber: text("card_number").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone").notNull(),
+  activity_name: text("activity_name").notNull(),
+  addressLine1: text("address_line_1").notNull(),
+  status: text("status").notNull(),
+  addressLine2: text("address_line_2"),
+  city: text("city"),
+  stateProvince: text("state_province"),
+  zipCode: text("zip_code"),
+  country: text("country"),
+  specialRequirements: text("special_requirements"),
+  couponCode: text("coupon_code"),
+  totalAmount: text("totalAmount"),
+  checkIn: text("checkIn"),
+  checkout: text("checkout"),
+  rooms: text("rooms"),
+  children: text("children"),
+  adults: text("adults"),
+
+  // Timestamps
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
 // Define the users table with additional fields
 export const MyProfile = pgTable("my_profile", {
   id: serial("id").notNull().primaryKey(),
@@ -124,7 +152,7 @@ export const MyProfile = pgTable("my_profile", {
   travelStyle: text("travelStyle"),
   favoriteDestination: text("favoriteDestination"),
   bucketList: text("bucketList"),
-  
+
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
@@ -160,6 +188,33 @@ export const Subscribe = pgTable("subscribe", {
 })
 
 export const Tours = pgTable("tours", {
+  id: serial("id").notNull().primaryKey(),
+  city: text("city").notNull(),
+  title: text("title").notNull(),
+  totalRating: text("total_rating"),
+  price: text("price"),
+  displayImage: text("display_image"),
+  images: json("images"), // stores an array of image URLs as strings
+  totalDuration: text("total_duration"),
+  tourType: text("tour_type"),
+  groupSize: text("group_size"),
+  languages: json("languages"), // array of objects, [{ lang: string }]
+  about: json("about"), // array of objects, [{ detail: string }]
+  highlight: json("highlight"), // array of objects, [{ list: string }]
+  included: json("included"), // array of objects, [{ list: string }]
+  excluded: json("excluded"), // array of objects, [{ list: string }]
+  itinerary: json("itinerary"), // array of objects, [{ title: string, description: string }]
+  durations: json("durations"), // array of objects, [{ duration: string }]
+  questions: json("questions"), // array of objects, [{ title: string, description: string }]
+  discounts: json("discounts"), // array of objects, [{ group: string, fromAdult: string, toAdult: string, value: string }]
+  reviews: json("reviews"), // array of objects, [{ name: string, email: string, content: string, like: string, id: string }]
+  specificReviews: json("specific_reviews"), // object containing cleanliness, accuracy, communication, etc.
+
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const Activity = pgTable("activity", {
   id: serial("id").notNull().primaryKey(),
   city: text("city").notNull(),
   title: text("title").notNull(),
