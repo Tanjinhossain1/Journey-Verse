@@ -27,6 +27,7 @@ import { HotelType } from "@/types/hotels";
 import { formatForUrlWith_under_score } from "@/utils/utils";
 import { User } from "@/types/user";
 import { TourTypes } from "@/types/tours";
+import { ActivityTypes } from "@/types/activity";
 
 const navItems = [
   // {
@@ -37,10 +38,10 @@ const navItems = [
   //   title: "Tour",
   //   items: ["City Tours", "Adventure Tours", "Cultural Tours", "Food Tours"],
   // },
-  {
-    title: "Activity",
-    items: ["Sightseeing", "Water Sports", "Hiking", "Nightlife"],
-  },
+  // {
+  //   title: "Activity",
+  //   items: ["Sightseeing", "Water Sports", "Hiking", "Nightlife"],
+  // },
   {
     title: "Rental",
     items: ["Economy", "SUV", "Luxury", "Van"],
@@ -56,10 +57,12 @@ export default function ChileNavbar({
   user,
   hotels,
   tours,
+  activity,
 }: {
   user: User;
   hotels: HotelType[];
   tours:TourTypes[]
+  activity:ActivityTypes[]
 }) {
   console.log("useruseruser", user);
   const [isOpen, setIsOpen] = useState(false);
@@ -154,6 +157,28 @@ export default function ChileNavbar({
                   >
                     <Link
                       href={`/tour-detail/${formatForUrlWith_under_score(
+                        subItem.title
+                      )}`}
+                      className="hover:text-blue-600"
+                    >
+                      {subItem.title}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-gray-900 dark:text-white hover:bg-white inline-flex items-center px-1 pt-1 text-sm font-medium">
+              Activity <ChevronDown className="ml-1 h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                {activity.map((subItem) => (
+                  <DropdownMenuItem
+                    className="dark:bg-black dark:text-white bg-white hover:bg-white hover:text-blue-500"
+                    key={subItem.id}
+                  >
+                    <Link
+                      href={`/activity_detail/${formatForUrlWith_under_score(
                         subItem.title
                       )}`}
                       className="hover:text-blue-600"
