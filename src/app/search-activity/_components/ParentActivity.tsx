@@ -230,7 +230,7 @@ export default function SearchActivity({
           {activityData.map((activity) => (
             <div
               key={activity.id}
-              className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200"
+              className="bg-white dark:bg-black rounded-xl shadow-md overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2"
             >
               <div className="relative overflow-hidden group">
                 <Link

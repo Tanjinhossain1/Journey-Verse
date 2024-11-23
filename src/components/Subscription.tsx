@@ -10,7 +10,7 @@ export default function Subscription() {
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   return (
-    <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto overflow-hidden rounded-xl shadow-lg my-20 border dark:border-white ">
+    <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto overflow-hidden rounded-xl shadow-xl my-20 border border-gray-300 dark:border-white ">
       <div className="relative w-full md:w-1/2 h-80 md:h-auto">
         <Image
           src="/subscription-image.jpeg"

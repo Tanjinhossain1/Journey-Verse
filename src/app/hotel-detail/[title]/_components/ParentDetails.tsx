@@ -208,7 +208,7 @@ export default function ParentDetails({
               </div>
             </div>
 
-            <hr className="dark:text-gray-300" />
+            <hr className="dark:text-gray-300 border-gray-300" />
             <div>
               <h2 className="text-2xl font-bold mb-4 dark:text-gray-300">
                 Rules
@@ -230,7 +230,7 @@ export default function ParentDetails({
                 </div>
               </div>
             </div>
-            <hr className="dark:text-gray-300" />
+            <hr className="dark:text-gray-300 border-gray-300" />
             <RoomDisplay
               guest={{ adult: adults, children: children, rooms: rooms }}
               dateRange={dateRange}
@@ -242,7 +242,7 @@ export default function ParentDetails({
           <div className="relative">
             {" "}
             <div className="space-y-4 dark:text-gray-300 sticky top-10">
-              <Card>
+              <Card className="rounded-2xl border-gray-400">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex">
@@ -289,7 +289,7 @@ export default function ParentDetails({
                     )}
                     <Button
                       onClick={CheckAvailability}
-                      className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black"
+                      className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black rounded-xl"
                     >
                       Check availability
                     </Button>
@@ -297,12 +297,12 @@ export default function ParentDetails({
                 </CardContent>
               </Card>
 
-              <div className="w-full h-52 mt-8">
+              <div className="w-full h-52 mt-8 rounded-xl">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596698663!2d-74.25986652089463!3d40.69714942211053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1635786994961!5m2!1sen!2s"
                   width="100%"
                   height="100%"
-                  style={{ border: 0 }}
+                  style={{ border: 0,borderRadius:'15px' }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"

@@ -139,7 +139,7 @@ export default function RelatedActivity({
                   {page.map((activity) => (
                     <div
                       key={activity.id}
-                      className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+                      className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-200"
                     >
                       <div className="relative overflow-hidden group">
                         <Link

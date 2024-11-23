@@ -31,7 +31,7 @@ export default function ReviewPost({
     return (
       <Button
         variant="default"
-        className="bg-blue-500 hover:bg-blue-600 text-white"
+        className="bg-blue-500 hover:bg-blue-600 text-white rounded-xl"
         onClick={() => setIsFormVisible(true)}
       >
         Write a review

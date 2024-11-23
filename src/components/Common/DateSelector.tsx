@@ -29,10 +29,10 @@ export default function DateSelector({dateRange, setDateRange,isDetail}:{dateRan
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className={`flex-1 flex items-center px-4 py-2   border-gray-300 cursor-pointer ${isDetail ? 'border' :'border-b md:border-b-0 md:border-r'}`}>
-          <Calendar className="text-gray-200 dark:text-white mr-2" />
+        <div className={`flex-1 flex items-center px-4 py-2   border-gray-300 cursor-pointer ${isDetail ? 'border rounded-xl' :'border-b md:border-b-0 md:border-r'}`}>
+          <Calendar className={`${isDetail ? "text-gray-600" :"text-gray-200"} dark:text-white mr-2`} />
           <Input
-            className="w-full border-none focus:ring-0 text-gray-200 dark:text-white cursor-pointer"
+            className={`w-full border-none focus:ring-0 ${isDetail ? "text-gray-600" :"text-gray-200"}  dark:text-white cursor-pointer`}
             placeholder="Check in - Check out"
             value={
               dateRange?.from && dateRange?.to

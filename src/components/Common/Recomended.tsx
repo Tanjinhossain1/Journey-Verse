@@ -151,7 +151,7 @@ export default function Recommended({
           {hotels.map((hotel) => (
             <div
               key={hotel.id}
-              className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200 dark:shadow-white"
+              className="bg-white dark:bg-black rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:shadow-white transition-all duration-300 hover:shadow-md hover:-translate-y-2"
             >
               <div className="relative overflow-hidden group">
                 <Link
@@ -219,7 +219,7 @@ export default function Recommended({
                   )}`}
                 >
                   {" "}
-                  <h2 className="text-xl font-semibold mb-2 hover:text-blue-400 dark:text-white dark:hover:text-blue-400">
+                  <h2 title={hotel.title} className="text-xl font-semibold mb-2 hover:text-blue-400 dark:text-white dark:hover:text-blue-400 line-clamp-1">
                     {hotel.title}
                   </h2>
                 </Link>
@@ -254,7 +254,7 @@ export default function Recommended({
       return tours?.map((tour) => (
         <div
           key={tour.id}
-          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+          className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200  transition-all duration-300 hover:shadow-md hover:-translate-y-2"
         >
           <div className="relative overflow-hidden group">
             <Link
@@ -315,7 +315,7 @@ export default function Recommended({
               href={`/tour-detail/${formatForUrlWith_under_score(tour.title)}`}
             >
               {" "}
-              <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
+              <h2 title={tour.title} className="text-xl font-semibold mb-2 hover:text-blue-400 line-clamp-1">
                 {tour.title}
               </h2>
             </Link>
@@ -357,7 +357,7 @@ export default function Recommended({
       return activity?.map((activity) => (
         <div
           key={activity.id}
-          className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+          className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2"
         >
           <div className="relative overflow-hidden group">
             <Link
@@ -422,7 +422,7 @@ export default function Recommended({
               )}`}
             >
               {" "}
-              <h2 className="text-xl font-semibold mb-2 hover:text-blue-400">
+              <h2 title={activity.title} className="text-xl font-semibold mb-2 hover:text-blue-400 line-clamp-2">
                 {activity.title}
               </h2>
             </Link>
@@ -498,15 +498,15 @@ export default function Recommended({
           ? Array(12)
               .fill(null)
               .map((_, index) => (
-                <Card key={index} className="h-full">
-                  <div className="aspect-video">
-                    <Skeleton className="w-full h-full text-black bg-black dark:bg-white" />
+                <Card key={index} className="h-full rounded-xl">
+                  <div className="aspect-video rounded-xl">
+                    <Skeleton className="w-full h-full text-black bg-black dark:bg-white rounded-xl" />
                   </div>
-                  <CardHeader className="space-y-2">
+                  <CardHeader className="space-y-2 rounded-xl">
                     <Skeleton className="h-4 w-20 bg-black dark:bg-white" />
                     <Skeleton className="h-6 w-full bg-black dark:bg-white" />
                   </CardHeader>
-                  <CardContent>
+                  <CardContent >
                     <Skeleton className="h-4 w-full bg-black dark:bg-white" />
                     <Skeleton className="h-4 w-full mt-2 bg-black dark:bg-white" />
                     <Skeleton className="h-4 w-2/3 mt-2 bg-black dark:bg-white" />

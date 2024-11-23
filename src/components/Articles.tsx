@@ -89,10 +89,10 @@ export default function Article() {
                   {page.map((story, storyIndex) => (
                     <Card
                       key={storyIndex}
-                      className="border dark:border-gray-400 shadow-lg rounded-xl"
+                      className="border border-gray-300 dark:border-gray-400 rounded-xl shadow-xl"
                     >
                       <CardContent className="p-0">
-                        <div className="aspect-[4/3] relative mb-4">
+                        <div className="aspect-[4/3] relative mb-4 overflow-hidden group">
                           <Link
                             href={`/blog/${formatForUrlWith_under_score(
                               story?.title
@@ -103,7 +103,7 @@ export default function Article() {
                               src={story.image}
                               //   src={story.image}
                               alt=""
-                              className="object-cover   w-full h-full rounded-t-xl"
+                              className="object-cover w-full h-full rounded-t-xl transition-transform duration-300 ease-in-out group-hover:scale-110"
                             />
                           </Link>
                         </div>

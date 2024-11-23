@@ -134,12 +134,12 @@ export default function RelatedTour({
             style={{ transform: `translateX(-${currentPage * 100}%)` }}
           >
             {getPages().map((page, pageIndex) => (
-              <div key={pageIndex} className="w-full flex-shrink-0 ">
+              <div key={pageIndex} className="w-full flex-shrink-0  ">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {page.map((tour) => (
                     <div
                       key={tour.id}
-                      className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200"
+                      className="bg-white shadow-md overflow-hidden border border-gray-200 rounded-xl"
                     >
                       <div className="relative overflow-hidden group">
                         <Link

@@ -132,8 +132,8 @@ export default function SearchTours({
           <nav className="mb-4 mt-10">
             <ul className="flex flex-wrap justify-center gap-4 text-sm md:text-base">
               {[
-                "Hotel",
-                // "Tours",
+                // "Hotel",
+                "Tours",
                 // "Activity",
                 // "Rental",
                 // "Cars Rental",
@@ -233,7 +233,7 @@ export default function SearchTours({
           {toursData.map((tour) => (
             <div
               key={tour.id}
-              className="bg-white dark:bg-black rounded-lg shadow-md overflow-hidden border border-gray-200"
+              className="bg-white dark:bg-black rounded-xl shadow-md overflow-hidden border border-gray-200 transition-all duration-300 hover:shadow-md hover:-translate-y-2"
             >
               <div className="relative overflow-hidden group">
                 <Link

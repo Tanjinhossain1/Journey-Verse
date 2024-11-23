@@ -124,7 +124,7 @@ export default function ActivityDisplay({
           {" "}
           {/* Filters */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="border rounded-lg p-4 dark:border-gray-600 text-gray-700">
+            <div className="border border-gray-400 rounded-xl p-3 dark:border-gray-600 text-gray-700">
               <div className="text-sm   dark:text-gray-400 text-gray-700">
                 Duration
               </div>
@@ -132,7 +132,7 @@ export default function ActivityDisplay({
                 {activityDetails.totalDuration}
               </div>
             </div>
-            <div className="border rounded-lg p-4 dark:border-gray-700 text-gray-700">
+            <div className="border border-gray-400 rounded-xl p-3 dark:border-gray-700 text-gray-700">
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 Cancelation
               </div>
@@ -140,7 +140,7 @@ export default function ActivityDisplay({
                 {activityDetails.tourType}
               </div>
             </div>
-            <div className="border rounded-lg p-4 dark:border-gray-700 text-gray-700">
+            <div className="border border-gray-400 rounded-xl p-3 dark:border-gray-700 text-gray-700">
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 Group Size
               </div>
@@ -148,7 +148,7 @@ export default function ActivityDisplay({
                 {activityDetails.groupSize}
               </div>
             </div>
-            <div className="border rounded-lg p-4 dark:border-gray-700 text-gray-700">
+            <div className="border border-gray-400 rounded-xl p-3 dark:border-gray-700 text-gray-700">
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 Languages
               </div>
@@ -333,7 +333,7 @@ export default function ActivityDisplay({
               className="space-y-4 dark:text-gray-300 "
             >
               <h2 className="text-2xl font-semibold mt-10">Reviews</h2>
-              <Card>
+              <Card className="rounded-xl border-gray-400">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-2 mb-6">
                     <div className="text-yellow-400 text-xl">★</div>
@@ -363,7 +363,7 @@ export default function ActivityDisplay({
                 {activityDetails?.reviews?.length || 0} reviews on this Activity -
                 Showing 1 to {activityDetails?.reviews?.length || 0}
               </p>
-              <hr />
+              <hr className="border-gray-400" />
               <Reviews
                 id={activityDetails.id}
                 reviews={activityDetails.reviews}
