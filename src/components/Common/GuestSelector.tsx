@@ -40,16 +40,16 @@ export default function GuestSelector({
     <Popover>
       <PopoverTrigger asChild>
         <div className={`flex-1 flex items-center px-4 py-2 cursor-pointer ${isDetail? 'border': ''}`}>
-          <Users className="text-gray-400 dark:text-white mr-2" />
+          <Users className="text-gray-200 dark:text-white mr-2" />
           <Input
-            className="w-full border-none focus:ring-0 text-black dark:text-white cursor-pointer"
+            className="w-full border-none focus:ring-0 text-gray-200 dark:text-white cursor-pointer"
             placeholder="Guests"
             value={`${rooms} room${rooms > 1 ? "s" : ""}, ${
               adults + children
             } guest${adults + children > 1 ? "s" : ""}`}
             readOnly
           />
-          <PlusIcon className="text-black dark:text-white" />
+          <PlusIcon className="text-gray-200 dark:text-white" />
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-[300px] p-4 bg-white" align="start">

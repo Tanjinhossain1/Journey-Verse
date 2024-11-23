@@ -46,19 +46,19 @@ export default function SearchTourForm({
   }, []);
 
   return (
-    <div className=" max-w-4xl bg-white dark:bg-black dark:border-2 dark:border-gray-600 dark:text-white border rounded-md overflow-hidden shadow-lg mb-2">
+    <div className=" max-w-4xl bg-white/30 dark:bg-black/30 dark:border-2 dark:border-gray-600 dark:text-white   rounded-xl overflow-hidden shadow-lg mb-2">
       <form className="flex flex-col md:flex-row">
         <Popover>
           <PopoverTrigger asChild>
             <div className="md:flex-1 flex items-center px-4 py-2 border-b md:border-b-0 md:border-r border-gray-300 cursor-pointer">
-              <MapPin className="text-gray-400 dark:text-white mr-2" />
+              <MapPin className="text-gray-200 dark:text-white mr-2" />
               <Input
-                className="w-full border-none focus:ring-0 text-black dark:text-white cursor-pointer"
+                className="w-full border-none focus:ring-0 text-gray-200 dark:text-white cursor-pointer"
                 placeholder="Where are you going?"
                 value={selectedCountry || ""}
                 readOnly
               />
-              <ChevronDown className="text-gray-400 dark:text-white ml-2" />
+              <ChevronDown className="text-gray-200 dark:text-white ml-2" />
             </div>
           </PopoverTrigger>
           <PopoverContent
@@ -83,11 +83,11 @@ export default function SearchTourForm({
             <Button
               variant={"outline"}
               className={cn(
-                " text-black mt-2 border-0 hover:text-black justify-start text-left font-normal dark:text-gray-300 dark:hover:text-gray-300",
+                " text-gray-200 mt-2 border-0 hover:text-black justify-start text-left font-normal dark:text-gray-300 dark:hover:text-gray-300",
                 !date && "text-muted-foreground"
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4 text-black dark:text-gray-300 dark:hover:text-gray-300" />
+              <CalendarIcon className="mr-2 h-4 w-4 text-gray-200 dark:text-gray-300 dark:hover:text-gray-300" />
               {date ? (
                 format(date, "PPP")
               ) : (

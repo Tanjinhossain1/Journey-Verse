@@ -45,19 +45,21 @@ export default function SearchForm({defaultDate,defaultGuest,location_name}:{loc
   const [children, setChildren] = useState(defaultGuest?.children ? defaultGuest?.children :0);
   console.log(' searching ',defaultGuest)
   return (
-    <div className="w-full max-w-4xl bg-white dark:bg-black dark:border-2 dark:border-gray-600 dark:text-white border rounded-md overflow-hidden shadow-lg mb-2">
-      <form className="flex flex-col md:flex-row">
+    // <div className="w-full bg-opacity-75 max-w-4xl bg-white dark:bg-black dark:border-2 dark:border-gray-600 dark:text-white border rounded-md overflow-hidden shadow-lg mb-2">
+      <div className="text-white w-full max-w-4xl bg-white/30 dark:bg-black/30 dark:border-2 dark:border-gray-600 dark:text-white   rounded-xl overflow-hidden shadow-lg mb-2 backdrop-blur-md">
+
+      <form className="flex flex-col md:flex-row ">
         <Popover>
           <PopoverTrigger asChild>
             <div className="md:flex-1 flex items-center px-4 py-2 border-b md:border-b-0 md:border-r border-gray-300 cursor-pointer">
-              <MapPin className="text-gray-400 dark:text-white mr-2" />
+              <MapPin className="text-gray-200 dark:text-white mr-2" />
               <Input
-                className="w-full border-none focus:ring-0 text-black dark:text-white cursor-pointer"
+                className="w-full border-none text-gray-200 focus:ring-0   dark:text-white cursor-pointer"
                 placeholder="Where are you going?"
                 value={selectedCountry || ""}
                 readOnly
               />
-              <ChevronDown className="text-gray-400 dark:text-white ml-2" />
+              <ChevronDown className="text-gray-200 dark:text-white ml-2" />
             </div>
           </PopoverTrigger>
           <PopoverContent

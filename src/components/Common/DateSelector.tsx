@@ -30,9 +30,9 @@ export default function DateSelector({dateRange, setDateRange,isDetail}:{dateRan
     <Popover>
       <PopoverTrigger asChild>
         <div className={`flex-1 flex items-center px-4 py-2   border-gray-300 cursor-pointer ${isDetail ? 'border' :'border-b md:border-b-0 md:border-r'}`}>
-          <Calendar className="text-gray-400 dark:text-white mr-2" />
+          <Calendar className="text-gray-200 dark:text-white mr-2" />
           <Input
-            className="w-full border-none focus:ring-0 text-black dark:text-white cursor-pointer"
+            className="w-full border-none focus:ring-0 text-gray-200 dark:text-white cursor-pointer"
             placeholder="Check in - Check out"
             value={
               dateRange?.from && dateRange?.to
@@ -50,14 +50,14 @@ export default function DateSelector({dateRange, setDateRange,isDetail}:{dateRan
         <div className="p-4 bg-white rounded-lg shadow-lg">
           <div className="flex justify-between items-center mb-4">
             <button onClick={() => handleMonthChange(-1)} type="button">
-              <ChevronLeft className="h-5 w-5 text-gray-500 dark:text-white" />
+              <ChevronLeft className="h-5 w-5 text-gray-200 dark:text-white" />
             </button>
             <div className="text-lg font-semibold">
               {format(currentMonth, "MMMM yyyy")} -{" "}
               {format(addMonths(currentMonth, 1), "MMMM yyyy")}
             </div>
             <button onClick={() => handleMonthChange(1)} type="button">
-              <ChevronRight className="h-5 w-5 text-gray-500 dark:text-white" />
+              <ChevronRight className="h-5 w-5 text-gray-200 dark:text-white" />
             </button>
           </div>
           <DayPicker
