@@ -115,7 +115,7 @@ export default function Checkout({
                   {...register("fullName")}
                   disabled
                   className={
-                    errors.fullName ? "border-red-500" : "text-gray-500"
+                    errors.fullName ? "text-gray-500 rounded-xl border-red-500" : "text-gray-500 rounded-xl"
                   }
                 />
                 {errors.fullName && (
@@ -134,7 +134,7 @@ export default function Checkout({
                   type="email"
                   placeholder="email@domain.com"
                   {...register("email")}
-                  className={errors.email ? "border-red-500" : "text-gray-500"}
+                  className={errors.email ? "text-gray-500 rounded-xl border-red-500" : "text-gray-500 rounded-xl"}
                 />
                 {errors.email && (
                   <p className="text-sm text-red-500">{errors.email.message}</p>
@@ -151,7 +151,7 @@ export default function Checkout({
                   id="phone"
                   placeholder="Your Phone"
                   {...register("phone")}
-                  className={errors.phone ? "border-red-500" : "text-gray-500"}
+                  className={errors.phone ? "text-gray-500 rounded-xl border-red-500" : "text-gray-500 rounded-xl"}
                 />
                 {errors.phone && (
                   <p className="text-sm text-red-500">{errors.phone.message}</p>
@@ -163,7 +163,7 @@ export default function Checkout({
               <div className="space-y-2">
                 <Label htmlFor="addressLine1">Address Line 1</Label>
                 <Input
-                  className="text-gray-500"
+                  className="text-gray-500 rounded-xl"
                   id="addressLine1"
                   placeholder="Your Address Line 1"
                   {...register("addressLine1")}
@@ -172,7 +172,7 @@ export default function Checkout({
               <div className="space-y-2">
                 <Label htmlFor="addressLine2">Address Line 2</Label>
                 <Input
-                  className="text-gray-500"
+                  className="text-gray-500 rounded-xl"
                   id="addressLine2"
                   placeholder="Your Address Line 2"
                   {...register("addressLine2")}
@@ -184,7 +184,7 @@ export default function Checkout({
               <div className="space-y-2">
                 <Label htmlFor="city">City</Label>
                 <Input
-                  className="text-gray-500"
+                  className="text-gray-500 rounded-xl"
                   id="city"
                   placeholder="Your City"
                   {...register("city")}
@@ -193,7 +193,7 @@ export default function Checkout({
               <div className="space-y-2">
                 <Label htmlFor="stateProvince">State/Province/Region</Label>
                 <Input
-                  className="text-gray-500"
+                  className="text-gray-500 rounded-xl"
                   id="stateProvince"
                   placeholder="State/Province/Region"
                   {...register("stateProvince")}
@@ -205,7 +205,7 @@ export default function Checkout({
               <div className="space-y-2">
                 <Label htmlFor="zipCode">ZIP code/Postal code</Label>
                 <Input
-                  className="text-gray-500"
+                  className="text-gray-500 rounded-xl"
                   id="zipCode"
                   placeholder="ZIP code/Postal code"
                   {...register("zipCode")}
@@ -214,7 +214,7 @@ export default function Checkout({
               <div className="space-y-2">
                 <Label htmlFor="country">Country</Label>
                 <Input
-                  className="text-gray-500"
+                  className="text-gray-500 rounded-xl"
                   id="country"
                   placeholder="Country"
                   {...register("country")}
@@ -228,7 +228,7 @@ export default function Checkout({
                 id="specialRequirements"
                 placeholder="Special Requirements"
                 {...register("specialRequirements")}
-                className="min-h-[100px]"
+                className="min-h-[100px] rounded-xl"
               />
             </div>
 
@@ -244,9 +244,9 @@ export default function Checkout({
                     </div>
                   </SelectValue>
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="stripe">
-                    <div className="flex items-center gap-2">
+                <SelectContent className="bg-white">
+                  <SelectItem className="bg-white" value="stripe">
+                    <div className="flex items-center  gap-2">
                       <CreditCard />
                       Stripe
                     </div>
@@ -258,7 +258,7 @@ export default function Checkout({
                 <Input
                   placeholder="Card number"
                   {...register("cardNumber")}
-                  className={errors.cardNumber ? "border-red-500" : ""}
+                  className={errors.cardNumber ? "border-red-500 rounded-xl" : " rounded-xl"}
                 />
                 {errors.cardNumber && (
                   <p className="text-sm text-red-500">
@@ -291,7 +291,7 @@ export default function Checkout({
 
               <Button
                 type="submit"
-                className="w-full bg-black hover:bg-black text-white dark:bg-gray-200 dark:text-black"
+                className="w-full bg-black hover:bg-black text-white dark:bg-gray-200 dark:text-black rounded-xl"
               >
                 Submit <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -299,10 +299,10 @@ export default function Checkout({
           </form>
         </div>
 
-        <div className="rounded-lg border bg-card p-6">
+        <div className="border bg-card border-gray-400 p-6 rounded-xl">
           <h2 className="mb-6 text-2xl font-semibold">Your Booking</h2>
 
-          <div className="mb-6 rounded-lg border p-4">
+          <div className="mb-6   border rounded-xl border-gray-300 p-4">
             <div className="flex gap-4  ">
               <div className="flex gap-4 h-20 w-20 ">
                 <Image
@@ -311,7 +311,7 @@ export default function Checkout({
                   width={20}
                   height={20}
                   layout="responsive"
-                  className="h-20 w-20 rounded-lg object-cover"
+                  className="h-20 w-20 rounded-xl object-cover"
                 />
               </div>
               <div>
@@ -371,7 +371,7 @@ export default function Checkout({
             {/* <div>
               <h3 className="mb-2 font-semibold">Coupon Code</h3>
               <div className="flex gap-2">
-                <Input className="text-gray-500" placeholder="Enter code" {...register("couponCode")} />
+                <Input className="text-gray-500 rounded-xl" placeholder="Enter code" {...register("couponCode")} />
                 <Button>APPLY</Button>
               </div>
             </div> */}

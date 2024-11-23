@@ -28,6 +28,7 @@ import { formatForUrlWith_under_score } from "@/utils/utils";
 import { User } from "@/types/user";
 import { TourTypes } from "@/types/tours";
 import { ActivityTypes } from "@/types/activity";
+import Image from "next/image";
 
 const navItems = [
   // {
@@ -102,9 +103,10 @@ export default function ChileNavbar({
             <div className="flex-shrink-0 flex items-center">
               <Link
                 href="/"
-                className="text-xl font-bold text-gray-800 dark:text-white"
+                className="text-xl font-bold text-gray-800 dark:text-white flex items-center gap-3"
               >
-                Journey Verse
+                <Image src={'/journey-verse.png'} width={30} height={30} alt="journey-verse-logo" />
+               <span> Journey Verse</span>
               </Link>
             </div>
           </div>
@@ -271,7 +273,8 @@ export default function ChileNavbar({
                 side="left"
                 className="w-[300px] sm:w-[400px] bg-white overflow-scroll"
               >
-                <SheetTitle className="mt-[-15px] mb-5">
+                <SheetTitle className="mt-[-15px] mb-5 flex items-center">
+                  <Image src={'/journey-verse.png'} width={50} height={50} alt="journey-verse-logo" />
                   Journey Verse
                 </SheetTitle>
                 <nav className="flex flex-col gap-4">

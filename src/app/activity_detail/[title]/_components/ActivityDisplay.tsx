@@ -125,8 +125,8 @@ export default function ActivityDisplay({
           {/* Filters */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="border border-gray-400 rounded-xl p-3 dark:border-gray-600 text-gray-700">
-              <div className="text-sm   dark:text-gray-400 text-gray-700">
-                Duration
+              <div className="text-sm dark:text-gray-400 text-gray-700">
+                <span>Duration</span>
               </div>
               <div className="font-medium dark:text-white">
                 {activityDetails.totalDuration}

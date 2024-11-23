@@ -35,12 +35,12 @@ export default function RoomDisplay({
           {room_detail.map((room) => (
             <Card key={room.id} className="overflow-hidden rounded-xl border-gray-400">
               <div className="flex flex-col sm:flex-row">
-                <div className="relative w-full sm:w-48 h-48">
+                <div className="relative w-full sm:w-48 h-48 overflow-hidden group ">
                   <Image
                     src={room.displayImage}
                     alt={room.title}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
                     priority
                   />
                 </div>
