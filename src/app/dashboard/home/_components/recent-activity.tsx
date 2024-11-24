@@ -41,7 +41,8 @@ function generateActivity():Activities {
 
 export function RecentActivity() {
   const [activities, setActivities] = useState<Activities[]>([])
-  const [hoveredActivity, setHoveredActivity] = useState<Activities | null>(null)
+  const [hoveredActivity, setHoveredActivity] = useState<Activities | null>(null);
+  const [initial, setInitial] = useState<boolean>(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -50,10 +51,11 @@ export function RecentActivity() {
         const updatedActivities = [newActivity, ...prevActivities.slice(0, 4)]
         return updatedActivities
       })
-    }, 3000) // Add new activity every 3 seconds
+      setInitial(true)
+    },initial ? 3000 : 3000) // Add new activity every 3 seconds
 
     return () => clearInterval(interval)
-  }, [])
+  }, [initial])
 
   return (
     <Card className='rounded-xl border-gray-400 h-[450px] overflow-hidden'>

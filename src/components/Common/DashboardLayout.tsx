@@ -15,6 +15,7 @@ import {
   LucideListOrdered,
   Activity,
   ActivitySquareIcon,
+  User,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -39,6 +40,7 @@ import {
 
 const adminMenuItems: MenuType[] = [
   { name: "Home", icon: Home, href: "/dashboard/home" },
+  { name: "Profile", icon: User, href: "/myProfile" },
   { name: "Countries", icon: Globe, href: "/countries" },
   { name: "Cities", icon: Building2, href: "/cities" },
   { name: "Hotels", icon: Hotel, href: "/hotels" },

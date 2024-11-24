@@ -97,7 +97,7 @@ export function RevenueChart() {
               color: "hsl(var(--chart-2))",
             },
           }}
-          className="h-[350px]"
+          className="h-[350px] w-full"
         >
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
@@ -113,6 +113,7 @@ export function RevenueChart() {
               }
               onMouseLeave={handleMouseLeave}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              
             >
               <XAxis dataKey="month" />
               <YAxis />

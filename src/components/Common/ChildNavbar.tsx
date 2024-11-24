@@ -119,7 +119,7 @@ export default function ChileNavbar({
             </Link>
             {user?.email ? (
               <Link
-                href="/myProfile"
+                href="/dashboard/home"
                 className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
               >
                 Dashboard
@@ -191,29 +191,50 @@ export default function ChileNavbar({
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            {navItems.map((item) => (
-              <DropdownMenu key={item.title}>
-                <DropdownMenuTrigger className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium">
-                  {item.title} <ChevronDown className="ml-1 h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {item.items.map((subItem) => (
-                    <DropdownMenuItem
-                      className="dark:bg-black dark:text-white bg-white"
-                      key={subItem}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-gray-900 dark:text-white hover:bg-white inline-flex items-center px-1 pt-1 text-sm font-medium">
+              Rental <ChevronDown className="ml-1 h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                {hotels.map((subItem) => (
+                  <DropdownMenuItem
+                    className="dark:bg-black dark:text-white bg-white hover:bg-white hover:text-blue-500"
+                    key={subItem.id}
+                  >
+                    <Link
+                      href={`/hotel-detail/${formatForUrlWith_under_score(
+                        subItem.title
+                      )}`}
+                      className="hover:text-blue-600"
                     >
-                      <Link
-                        href={`/${item.title.toLowerCase()}/${subItem
-                          .toLowerCase()
-                          .replace(" ", "-")}`}
-                      >
-                        {subItem}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ))}
+                      {subItem.title}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-gray-900 dark:text-white hover:bg-white inline-flex items-center px-1 pt-1 text-sm font-medium">
+              Car <ChevronDown className="ml-1 h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                {activity.map((subItem) => (
+                  <DropdownMenuItem
+                    className="dark:bg-black dark:text-white bg-white hover:bg-white hover:text-blue-500"
+                    key={subItem.id}
+                  >
+                    <Link
+                      href={`/activity_detail/${formatForUrlWith_under_score(
+                        subItem.title
+                      )}`}
+                      className="hover:text-blue-600"
+                    >
+                      {subItem.title}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           <Link
               href="/all_blogs"
               className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"

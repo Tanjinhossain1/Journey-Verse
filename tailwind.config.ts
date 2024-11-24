@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		textShadow: {
+			'3d': '2px 2px 4px rgba(0, 0, 0, 1)',
+			'3d-deep': '4px 4px 6px rgba(0, 0, 0, 0.7)',
+		  },	
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -68,6 +72,7 @@ const config: Config = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  plugins: [require("tailwindcss-animate"),require('tailwindcss-textshadow')],
 };
 export default config;

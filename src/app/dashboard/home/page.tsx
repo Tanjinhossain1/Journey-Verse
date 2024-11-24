@@ -20,12 +20,12 @@ export default async function page() {
       </div>
       <DashboardLayout name="Overview">
         <DashboardShell>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-4 mx-4">
             <Suspense fallback={<CardSkeleton />}>
               <DashboardStats />
             </Suspense>
           </div>
-          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-7 mb-20">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mx-4 mb-20">
             <Suspense fallback={<CardSkeleton className="md:col-span-4" />}>
               <div className="md:col-span-4">
                 <RevenueChart />
