@@ -110,7 +110,7 @@ export default function ParentDetails({
           </Breadcrumb>
         </div>
       </div>
-      <div className="w-full max-w-6xl mx-auto p-4 md:p-6">
+      <div className="w-full max-w-6xl mx-auto p-4 md:p-6 dark:bg-gray-900 mt-2">
         <div className="grid gap-4 mb-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 aspect-[2/1]">
             <div className="col-span-2 row-span-2 relative rounded-lg overflow-hidden">
@@ -134,7 +134,7 @@ export default function ParentDetails({
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_400px] gap-6">
+        <div className="grid lg:grid-cols-[1fr_400px] gap-6 ">
           <div className="space-y-6">
             <div className="flex items-center gap-4">
               <div className="flex items-center">
@@ -146,7 +146,7 @@ export default function ParentDetails({
                   Excellent
                 </span>
               </div>
-              <div className="flex items-center text-muted-foreground">
+              <div className="flex items-center text-muted-foreground dark:text-gray-300">
                 <MapPin className="w-4 h-4 mr-1" />
                 {hotel_detail.city}
               </div>

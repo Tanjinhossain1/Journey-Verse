@@ -96,7 +96,7 @@ export default function ChileNavbar({
   };
   return (
   <Fragment>
-      <nav className="bg-white shadow dark:bg-black dark:text-white  dark:border-b dark:border-gray-300">
+      <nav className="bg-white shadow dark:bg-[#1E1E1E] dark:text-white  dark:border-b dark:border-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
