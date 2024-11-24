@@ -38,7 +38,7 @@ import {
 } from "@/components/ui/collapsible";
 
 const adminMenuItems: MenuType[] = [
-  { name: "Home", icon: Home, href: "/" },
+  { name: "Home", icon: Home, href: "/dashboard/home" },
   { name: "Countries", icon: Globe, href: "/countries" },
   { name: "Cities", icon: Building2, href: "/cities" },
   { name: "Hotels", icon: Hotel, href: "/hotels" },
@@ -94,7 +94,7 @@ export default async function DashboardLayout({
     session?.user?.image === "admin" ? adminMenuItems : userMenuItems;
   return (
     <SidebarProvider className="w-full dark:text-gray-300">
-      <div className="flex h-screen overflow-hidden w-full">
+      <div className="flex overflow-hidden w-full">
         <Sidebar className="hidden lg:flex">
           <SidebarHeader>
             <h2 className="text-lg font-semibold px-6 py-4">Dashboard</h2>
