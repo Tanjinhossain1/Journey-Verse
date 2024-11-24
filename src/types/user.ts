@@ -16,6 +16,7 @@ export interface User {
     role: string;
     password: string;
     name?: string;
+    image:string
 }
 
 

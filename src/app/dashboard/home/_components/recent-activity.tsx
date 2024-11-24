@@ -52,7 +52,7 @@ export function RecentActivity() {
         return updatedActivities
       })
       setInitial(true)
-    },initial ? 3000 : 3000) // Add new activity every 3 seconds
+    },initial ? 3000 : 500) // Add new activity every 3 seconds
 
     return () => clearInterval(interval)
   }, [initial])

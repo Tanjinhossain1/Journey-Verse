@@ -176,7 +176,7 @@ function StatCard({
                 >
                   <motion.div
                     whileHover={{ rotate: 15 }}
-                    className="text-gray-500 bg-white bg-opacity-20"
+                    className="text-gray-500 bg-white dark:bg-white bg-opacity-20"
                   >
                     {icon}
                   </motion.div>

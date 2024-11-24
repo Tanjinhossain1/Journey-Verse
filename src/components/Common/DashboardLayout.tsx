@@ -60,7 +60,8 @@ const adminMenuItems: MenuType[] = [
   },
 ];
 const userMenuItems: MenuType[] = [
-  { name: "Home", icon: Home, href: "/" },
+  // { name: "Home", icon: Home, href: "/" },
+  { name: "Overview", icon: Home, href: "/dashboard/overview" },
   { name: "My Profile", icon: UserPen, href: "/myProfile" },
   {
     name: "Orders",
@@ -95,7 +96,7 @@ export default async function DashboardLayout({
   const MenuItems: MenuType[] =
     session?.user?.image === "admin" ? adminMenuItems : userMenuItems;
   return (
-    <SidebarProvider className="w-full dark:text-gray-300">
+    <SidebarProvider className="w-full dark:text-gray-300 dark:bg-gray-900">
       <div className="flex overflow-hidden w-full">
         <Sidebar className="hidden lg:flex">
           <SidebarHeader>

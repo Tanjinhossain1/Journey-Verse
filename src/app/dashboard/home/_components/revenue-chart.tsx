@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, SetStateAction } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Line,
   LineChart,
@@ -9,9 +9,8 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
 } from "recharts";
-import { ChartContainer } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const generateData = () => {
   const months = [
@@ -63,7 +62,7 @@ export function RevenueChart() {
   useEffect(() => {
     const interval = setInterval(() => {
       setData(generateData());
-    }, 5000); // Update every 5 seconds
+    }, 2000); // Update every 5 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -85,7 +84,6 @@ export function RevenueChart() {
       <CardHeader>
         <CardTitle>Revenue & Profit Trends</CardTitle>
       </CardHeader>
-      <CardContent>
         <ChartContainer
           config={{
             revenue: {
@@ -96,10 +94,14 @@ export function RevenueChart() {
               label: "Profit",
               color: "hsl(var(--chart-2))",
             },
+            hotelOrders: {
+              label: "Hotel Orders",
+              color: "hsl(var(--chart-2))",
+            },
           }}
-          className="h-[350px] w-full"
+          className="h-[376px] w-full dark:text-white"
         >
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer  className="text-white" width="100%" height="100%">
             <LineChart
               data={data}
               onMouseMove={(props) =>
@@ -112,13 +114,12 @@ export function RevenueChart() {
                 )
               }
               onMouseLeave={handleMouseLeave}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              
+              className="dark:text-white"
             >
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip content={<CustomTooltip hoveredData={hoveredData as DataType} />} />
-              <Legend />
+              <XAxis className="dark:text-white" dataKey="month" />
+              <YAxis className="dark:text-white" />
+              <Tooltip  content={<CustomTooltip hoveredData={hoveredData as DataType} />} />
+              <ChartTooltip content={<ChartTooltipContent />} />
               <Line
                 type="monotone"
                 dataKey="revenue"
@@ -126,19 +127,20 @@ export function RevenueChart() {
                 strokeWidth={2}
                 dot={false}
                 activeDot={{ r: 8 }}
+                className="dark:text-white"
+            
               />
               <Line
                 type="monotone"
                 dataKey="profit"
                 stroke="#2196f3" 
-                strokeWidth={2}
+                strokeWidth={2} className="dark:text-white"
                 dot={false}
                 activeDot={{ r: 8 }}
               /> 
             </LineChart>
           </ResponsiveContainer>
         </ChartContainer>
-      </CardContent>
     </Card>
   );
 }
@@ -156,7 +158,7 @@ function CustomTooltip({
     return (
         hoveredData && (
           <div
-            className="absolute bg-background p-4 rounded-xl bg-white shadow-lg border border-border w-[350px]"
+            className="absolute bg-background p-4 rounded-xl bg-white dark:bg-gray-600 shadow-lg border border-border w-[350px]"
             style={{
             //   left: "50%",
             //   transform: "translateX(-50%)",
