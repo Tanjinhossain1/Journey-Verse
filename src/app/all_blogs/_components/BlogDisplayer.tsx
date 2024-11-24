@@ -84,7 +84,7 @@ export default function AllBlogDisplay() {
             ))
           : blogData.data.map((blog) => (
               <Link href={`/blog/${formatForUrlWith_under_score(blog.title)}`} key={blog.id}>
-                <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow">
+                <Card className="h-full overflow-hidden hover:shadow-lg transition-shadow rounded-xl">
                   <div className="aspect-video relative overflow-hidden">
                     <Image
                       src={blog.image}

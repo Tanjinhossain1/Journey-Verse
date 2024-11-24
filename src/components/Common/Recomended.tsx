@@ -334,18 +334,18 @@ export default function Recommended({
                 ({tour?.reviews?.length ? tour?.reviews?.length : "0"} Reviews)
               </span>
             </div>
-            <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+            <div className="flex items-center justify-between border-t border-gray-200 pt-4 ">
               <div>
                 {/* {tour.originalPrice && (
                   <span className="text-sm text-gray-500 dark:text-white line-through mr-2">
                     ${tour.originalPrice.toFixed(2)}
                   </span>
                 )} */}
-                <span className="text-xl font-bold dark:text-white">
+                <span className="text-xl font-bold   dark:text-gray-700">
                   ${(+tour.price!).toFixed(2)}
                 </span>
               </div>
-              <div className="flex items-center text-gray-600 dark:text-white">
+              <div className="flex items-center text-gray-600   dark:text-gray-700">
                 <Clock className="w-4 h-4 mr-1" />
                 <span className="text-sm">{tour.totalDuration}</span>
               </div>
@@ -449,11 +449,11 @@ export default function Recommended({
                     ${activity.originalPrice.toFixed(2)}
                   </span>
                 )} */}
-                <span className="text-xl font-bold dark:text-white">
+                <span className="text-xl font-bold dark:text-gray-700">
                   ${(+activity.price!).toFixed(2)}
                 </span>
               </div>
-              <div className="flex items-center text-gray-600 dark:text-white">
+              <div className="flex items-center text-gray-600 dark:text-gray-700">
                 <Clock className="w-4 h-4 mr-1" />
                 <span className="text-sm">{activity.totalDuration}</span>
               </div>

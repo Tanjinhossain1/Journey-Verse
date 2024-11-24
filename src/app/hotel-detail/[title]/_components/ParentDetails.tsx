@@ -110,7 +110,7 @@ export default function ParentDetails({
           </Breadcrumb>
         </div>
       </div>
-      <div className="w-full max-w-6xl mx-auto p-4 md:p-6 dark:bg-gray-900 mt-2">
+      <div className="w-full max-w-6xl mx-auto p-4 md:p-6 dark:bg-gray-900 rounded-xl mt-2">
         <div className="grid gap-4 mb-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 aspect-[2/1]">
             <div className="col-span-2 row-span-2 relative rounded-lg overflow-hidden">

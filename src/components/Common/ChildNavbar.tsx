@@ -68,6 +68,34 @@ export default function ChileNavbar({
   console.log("useruseruser", user);
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY === 0) {
+        // Always show the navbar when at the top of the page
+        setShowNavbar(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Scrolling down, hide the navbar
+        setShowNavbar(false);
+      } else {
+        // Scrolling up, show the navbar
+        setShowNavbar(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
+
 
   // Load dark mode preference from localStorage
   useEffect(() => {
@@ -96,7 +124,12 @@ export default function ChileNavbar({
   };
   return (
   <Fragment>
-      <nav className="bg-white shadow dark:bg-[#1E1E1E] dark:text-white  dark:border-b dark:border-gray-300">
+      {/* <nav className="bg-white shadow dark:bg-[#1E1E1E] dark:text-white  dark:border-b dark:border-gray-300"> */}
+      <nav
+      className={`fixed top-0 left-0 w-full bg-white shadow z-50 dark:bg-[#1E1E1E] dark:text-white dark:border-b dark:border-gray-300 transition-transform duration-300 ${
+        showNavbar ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">

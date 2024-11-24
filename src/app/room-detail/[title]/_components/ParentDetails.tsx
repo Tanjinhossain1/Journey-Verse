@@ -124,7 +124,7 @@ export default function ParentDetails({
           </Breadcrumb>
         </div>
       </div>
-      <div className="w-full max-w-6xl mx-auto p-4 md:p-6">
+      <div className="w-full max-w-6xl mx-auto p-4 md:p-6 dark:bg-gray-900 rounded-xl mt-2">
         {/* <div className="grid gap-4 mb-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 aspect-[2/1]">
             <div className="col-span-2 row-span-2 relative rounded-lg overflow-hidden">
@@ -162,7 +162,10 @@ export default function ParentDetails({
             </div>
 
             {room_detail.images.slice(1, 5).map((image, index) => (
-              <div key={index} className="relative aspect-[4/3] rounded-lg overflow-hidden">
+              <div
+                key={index}
+                className="relative aspect-[4/3] rounded-lg overflow-hidden"
+              >
                 <Image
                   src={image}
                   alt="Aerial view of villa courtyard"
@@ -255,99 +258,101 @@ export default function ParentDetails({
             <hr className="dark:text-gray-300" />
           </div>
 
-       <div className="relative">
-       <div className="space-y-4 dark:text-gray-300 sticky top-10">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4 dark:text-gray-300">
-                  <div className="flex items-center">
-                    <div className="text-2xl font-bold ">
-                      $ {room_detail?.price}
+          <div className="relative">
+            <div className="space-y-4 dark:text-gray-300 sticky top-10">
+              <Card className="rounded-xl">
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4 dark:text-gray-300">
+                    <div className="flex items-center">
+                      <div className="text-2xl font-bold ">
+                        $ {room_detail?.price}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        /night
+                      </div>
                     </div>
-                    <div className="text-sm text-muted-foreground">/night</div>
                   </div>
-                </div>
 
-                <div className="grid gap-4 dark:text-gray-300">
-                  <DateSelector
-                    isDetail
-                    dateRange={dateRange}
-                    setDateRange={setDateRange}
-                  />
+                  <div className="grid gap-4 dark:text-gray-300">
+                    <DateSelector
+                      isDetail
+                      dateRange={dateRange}
+                      setDateRange={setDateRange}
+                    />
 
-                  <GuestSelector
-                    isDetail
-                    dadults={adults}
-                    dchildren={children}
-                    drooms={rooms}
-                    setDadults={setAdults}
-                    setDchildren={setChildren}
-                    setDrooms={setRooms}
-                  />
-                  {availabilityMessage === "Room is available" ? (
-                    <p className="text-sm text-green-600">
-                      {availabilityMessage}
-                    </p>
-                  ) : (
-                    <p className="text-sm text-red-600">
-                      {availabilityMessage}
-                    </p>
-                  )}
-                  {availabilityMessage === "Room is available" ? (
-                    <Link
-                      href={
-                        user?.email
-                          ? `/checkout/${formatForUrlWith_under_score(
-                              room_detail.title
-                            )}?checkIn=${toISODateString(
-                              dateRange.from
-                            )}&checkout=${toISODateString(
-                              dateRange?.to
-                            )}&adults=${adults}&rooms=${rooms}&children=${children}`
-                          : "/login"
-                      }
-                    >
-                      {user?.email ? null : (
-                        <p className="text-sm text-red-500">
-                          Required Login for Book:{" "}
-                          <Link
-                            href={"/login"}
-                            className="text-blue-500 ml-1  "
-                          >
-                            Login
-                          </Link>
-                        </p>
-                      )}
-                      <Button className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black ">
+                    <GuestSelector
+                      isDetail
+                      dadults={adults}
+                      dchildren={children}
+                      drooms={rooms}
+                      setDadults={setAdults}
+                      setDchildren={setChildren}
+                      setDrooms={setRooms}
+                    />
+                    {availabilityMessage === "Room is available" ? (
+                      <p className="text-sm text-green-600">
+                        {availabilityMessage}
+                      </p>
+                    ) : (
+                      <p className="text-sm text-red-600">
+                        {availabilityMessage}
+                      </p>
+                    )}
+                    {availabilityMessage === "Room is available" ? (
+                      <Link
+                        href={
+                          user?.email
+                            ? `/checkout/${formatForUrlWith_under_score(
+                                room_detail.title
+                              )}?checkIn=${toISODateString(
+                                dateRange.from
+                              )}&checkout=${toISODateString(
+                                dateRange?.to
+                              )}&adults=${adults}&rooms=${rooms}&children=${children}`
+                            : "/login"
+                        }
+                      >
+                        {user?.email ? null : (
+                          <p className="text-sm text-red-500">
+                            Required Login for Book:{" "}
+                            <Link
+                              href={"/login"}
+                              className="text-blue-500 ml-1  "
+                            >
+                              Login
+                            </Link>
+                          </p>
+                        )}
+                        <Button className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-black ">
+                          Book Now
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Button
+                        disabled
+                        className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-gray-700"
+                      >
                         Book Now
                       </Button>
-                    </Link>
-                  ) : (
-                    <Button
-                      disabled
-                      className="w-full bg-black text-white hover:bg-black dark:bg-gray-300 dark:text-gray-700"
-                    >
-                      Book Now
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
 
-            <div className="w-full h-52 mt-8">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596698663!2d-74.25986652089463!3d40.69714942211053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1635786994961!5m2!1sen!2s"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Google Map"
-              ></iframe>
+              <div className="w-full h-52 mt-8">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596698663!2d-74.25986652089463!3d40.69714942211053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1635786994961!5m2!1sen!2s"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Google Map"
+                ></iframe>
+              </div>
             </div>
           </div>
-       </div>
         </div>
       </div>
       <OtherRoomOptions rooms={otherOptionRooms} />

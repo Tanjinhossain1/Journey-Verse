@@ -86,7 +86,7 @@ export default function ActivityDisplay({
           </Breadcrumb>
         </div>
       </div>
-    <div className="md:max-w-6xl mx-auto p-4 space-y-8 dark:bg-gray-900">
+    <div className="md:max-w-6xl mx-auto p-4 space-y-8 dark:bg-gray-900 mt-2 rounded-xl">
       
       {/* Gallery Grid */}
       <div className="container mx-auto p-4">
