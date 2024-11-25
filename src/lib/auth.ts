@@ -1,5 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import FacebookProvider from "next-auth/providers/facebook";
+import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
@@ -8,6 +10,14 @@ import { User } from "@/types/user";
 
 export const authOptions: NextAuthOptions = {
     providers: [
+        FacebookProvider({
+            clientId: process.env.FACEBOOK_CLIENT_ID!,
+            clientSecret: process.env.FACEBOOK_CLIENT_SECRET!
+          }),
+          GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+          }),
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -30,6 +40,7 @@ export const authOptions: NextAuthOptions = {
                 return null;
             },
         }),
+         
     ],
     callbacks: {
         async jwt({ token, user }) {
@@ -38,21 +49,24 @@ export const authOptions: NextAuthOptions = {
                 token.fullName = user.fullName;
                 token.role = user.role;
                 token.id = user.id;
-                token.picture = user.role;
-                token.name = user.fullName
+                token.picture = user.role || token.picture;
+                token.image = user.image;
+                token.name = user.fullName || user.name
             }
             return token;
         },
         async session({ session, token }) {
             session.user.email = token.email;
             session.user.fullName = token.fullName;
+            session.user.name = token.fullName || token.name;
             session.user.role = token.role;
+            token.image = token.image;
             session.user.id = token.id;
             return session;
         },
     },
     
     pages: {
-        signIn: "/login",
+        signIn: "/login/in",
     },
 };
