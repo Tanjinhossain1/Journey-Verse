@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
         pathname: "/**", // Allows all paths from this domain
       },
+      {
+        protocol: "https",
+        hostname: "platform-lookaside.fbsbx.com",
+        pathname: "/**", // Allows all paths from this domain
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**", // Allows all paths from this domain
+      },
     ],
   },
 };

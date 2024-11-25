@@ -177,7 +177,7 @@ export default function ChileNavbar({
               {user?.email ? (
                 <Link
                   href={
-                    user?.image === "admin" ? "/dashboard/home" : "/myProfile"
+                    user?.image === "admin" ? "/dashboard/home" : "/dashboard/overview"
                   }
                   className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
                 >

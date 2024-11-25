@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import FacebookProvider from "next-auth/providers/facebook";
+import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
@@ -10,9 +10,9 @@ import { User } from "@/types/user";
 
 export const authOptions: NextAuthOptions = {
     providers: [
-        FacebookProvider({
-            clientId: process.env.FACEBOOK_CLIENT_ID!,
-            clientSecret: process.env.FACEBOOK_CLIENT_SECRET!
+        GitHubProvider({
+            clientId: process.env.GITHUB_ID!,
+            clientSecret: process.env.GITHUB_SECRET!
           }),
           GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -44,8 +44,20 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({ token, user }) {
+            // const emailCounter:Record<string, number>  = {}; // In-memory store for demonstration
             if (user) {
                 token.email = user.email;
+                // if (!token.email) {
+                //     const baseName = user.name?.replace(/\s+/g, '').toLowerCase(); // Remove spaces, make lowercase
+                //     if (baseName) {
+                //         // Increment the count for this name
+                //         emailCounter[baseName] = (emailCounter[baseName] || 0) + 1;
+                //         const newEmail = `${baseName}${emailCounter[baseName]}@gmail.com`;
+                //         token.email = newEmail;
+                //     } else {
+                //         token.email = `unknown${Date.now()}@gmail.com`; // Fallback for missing name
+                //     }
+                // }
                 token.fullName = user.fullName;
                 token.role = user.role;
                 token.id = user.id;
