@@ -54,12 +54,11 @@ export default function OrderDisplay({ data = [] }: { data: TourOrderType[] }) {
                     <ChevronDown className="inline" />
                   ))}
               </TableHead>
-              <TableHead className="border-r">Card Number</TableHead>
+              <TableHead className="border-r">Payment Status</TableHead>
               <TableHead className="border-r">Tour</TableHead>
               <TableHead className="border-r">Phone</TableHead>
               <TableHead className="border-r">Address</TableHead>
               <TableHead className="border-r">City</TableHead>
-              <TableHead className="border-r">State/Province</TableHead>
               <TableHead className="border-r">Zip Code</TableHead>
               <TableHead className="border-r">Country</TableHead>
               <TableHead className="border-r">Tour Date</TableHead>
@@ -70,12 +69,11 @@ export default function OrderDisplay({ data = [] }: { data: TourOrderType[] }) {
             {paginatedData.map((item) => (
               <TableRow className="border-b dark:border-gray-200" key={item.id}>
                 <TableCell className="border-r border-l">{item.fullName}</TableCell>
-                <TableCell className="border-r">{item.cardNumber}</TableCell>
+                <TableCell className="border-r">{item.cardNumber !== "An unknown" ? <p className="text-green-600 text-sm font-bold">Verified</p> :"Payment Not Success"}</TableCell>
                 <TableCell className="border-r">{item.tour_name}</TableCell>
                 <TableCell className="border-r">{item.phone}</TableCell>
                 <TableCell className="border-r">{item.addressLine1}</TableCell>
                 <TableCell className="border-r">{item.city}</TableCell>
-                <TableCell className="border-r">{item.stateProvince}</TableCell>
                 <TableCell className="border-r">{item.zipCode}</TableCell>
                 <TableCell className="border-r">{item.country}</TableCell>
                 <TableCell className="border-r">

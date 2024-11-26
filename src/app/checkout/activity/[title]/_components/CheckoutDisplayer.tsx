@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowRight, CreditCard, MapPin } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import { User } from "@/types/user";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,21 +15,26 @@ import {
   formatDateToDDMMYYYY,
   formatForUrlWith_under_score,
 } from "@/utils/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import axios from "axios";
 import { ActivityTypes } from "@/types/activity";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { CheckoutForm } from "@/app/checkout/[title]/_components/CheckoutDisplayer";
+import { Elements } from "@stripe/react-stripe-js";
+import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import SVGLoader from "@/components/Common/Loader";
+
 const bookingSchema = z.object({
   fullName: z.string().min(1, "First name is required"),
-  cardNumber: z.string().min(1, "cardN umber is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().min(1, "Phone number is required"),
   acceptTerms: z.string().min(1, "accept Terms is required"),
@@ -42,6 +47,11 @@ const bookingSchema = z.object({
   specialRequirements: z.string().optional(),
   couponCode: z.string().optional(),
 });
+
+// Make sure to replace with your actual Stripe publishable key
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 export default function Checkout({
   activity_detail,
@@ -58,6 +68,13 @@ export default function Checkout({
   const adults = searchParams.get("adults") ?? 1;
   const totalAmount = searchParams.get("total_amount") ?? 1;
   const finalAmount = (+totalAmount * 1) / 100 + +totalAmount;
+
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [submittedData, setSubmittedData] = useState<z.infer<
+    typeof bookingSchema
+  > | null>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -71,19 +88,29 @@ export default function Checkout({
   });
 
   const onSubmit = async (data: z.infer<typeof bookingSchema>) => {
+    setShowPaymentDialog(true);
+    setSubmittedData(data);
+  };
+  const handlePaymentSuccess = async (cardNumber: string) => {
+    setPaymentSuccess(true);
+    // Here you would typically send the booking data to your server
+    console.log("submittedData  ", submittedData);
     const payload = {
-      ...data,
+      ...submittedData,
       totalAmount: finalAmount, // Add totalAmount to the payload
       checkIn,
       adults,
       children,
+      cardNumber,
       activity_name: activity_detail?.title,
       status: "pending",
     };
     console.log(payload);
     const response = await axios.post(`/api/activity_order`, payload);
     if (response?.data) {
-      router.push("/dashboard/activity/orders");
+      setTimeout(() => {
+        router.push("/dashboard/activity/orders");
+      }, 2000);
     }
   };
   return (
@@ -223,40 +250,6 @@ export default function Checkout({
             </div>
 
             <div className="space-y-4 rounded-lg   p-4">
-              <h3 className="text-xl font-semibold">Select Payment Method</h3>
-
-              <Select defaultValue="stripe">
-                <SelectTrigger className="w-full">
-                  <SelectValue>
-                    <div className="flex items-center gap-2">
-                      <CreditCard />
-                      Stripe
-                    </div>
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="stripe">
-                    <div className="flex items-center gap-2">
-                      <CreditCard />
-                      Stripe
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-
-              <div className="space-y-2">
-                <Input
-                  placeholder="Card number"
-                  {...register("cardNumber")}
-                  className={errors.cardNumber ? "border-red-500" : ""}
-                />
-                {errors.cardNumber && (
-                  <p className="text-sm text-red-500">
-                    {errors.cardNumber.message}
-                  </p>
-                )}
-              </div>
-
               <div className="flex items-center space-x-2">
                 <Checkbox id="terms" {...register("acceptTerms")} />
                 <label
@@ -281,9 +274,9 @@ export default function Checkout({
 
               <Button
                 type="submit"
-                className="w-full bg-black hover:bg-black text-white dark:bg-gray-200 dark:text-black"
+                className="w-full bg-black hover:bg-black text-white dark:bg-gray-200 dark:text-black rounded-xl"
               >
-                Submit <ArrowRight className="ml-2 h-4 w-4" />
+                Proceed to Payment <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
           </form>
@@ -382,6 +375,30 @@ export default function Checkout({
           </div>
         </div>
       </div>
+      <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <DialogTitle>Complete Your Payment</DialogTitle>
+            <DialogDescription>
+              Please enter your card details to complete the booking.
+            </DialogDescription>
+          </DialogHeader>
+          {!paymentSuccess ? (
+            <Elements stripe={stripePromise}>
+              <CheckoutForm
+                totalAmount={+(+totalAmount * 1) / 100 + +totalAmount}
+                onSuccess={handlePaymentSuccess}
+              />
+            </Elements>
+          ) : (
+            <div className="text-center text-green-600">
+              <p>Payment successful! Redirecting to your orders...</p>
+
+              <div className="flex justify-center"><SVGLoader /></div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
