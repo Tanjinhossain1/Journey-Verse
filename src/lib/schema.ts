@@ -1,5 +1,5 @@
 // lib/schema.ts
-import { pgTable, serial, text, timestamp, json } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, json, uuid } from 'drizzle-orm/pg-core';
 
 // Define the Country schema
 export const countries = pgTable('countries', {
@@ -8,6 +8,18 @@ export const countries = pgTable('countries', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
+
+export const Message = pgTable('Messages', {
+  id: uuid('id').defaultRandom().primaryKey().notNull(),
+  sender: text('sender').notNull(),
+  senderName: text('sender_name').notNull(),
+  recipient: text('recipient').notNull(),
+  message: text('message').notNull(),
+  timestamp: timestamp('timestamp').defaultNow().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 
 export const City = pgTable('city', {
   id: serial('id').primaryKey().notNull(),

@@ -19,6 +19,14 @@ export interface User {
     image:string
 }
 
+export interface ChatUser {
+    id: string
+    name: string
+    email: string
+    image?: string
+  }
+  
+  
 
 export interface MyProfileType  {
     id: number;

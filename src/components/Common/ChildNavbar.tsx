@@ -174,16 +174,25 @@ export default function ChileNavbar({
               >
                 Home
               </Link>
+
               {user?.email ? (
                 <Link
                   href={
-                    user?.image === "admin" ? "/dashboard/home" : "/dashboard/overview"
+                    user?.image === "admin"
+                      ? "/dashboard/home"
+                      : "/dashboard/overview"
                   }
                   className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
                 >
                   Dashboard
                 </Link>
               ) : null}
+              <Link
+                href="/live-reviews"
+                className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
+              >
+                Live Reviews
+              </Link>
               <DropdownMenu>
                 <DropdownMenuTrigger className="text-gray-900 dark:text-white hover:bg-white inline-flex items-center px-1 pt-1 text-sm font-medium">
                   Hotels <ChevronDown className="ml-1 h-4 w-4" />
@@ -325,7 +334,9 @@ export default function ChileNavbar({
                       className="relative h-8 w-8 rounded-full"
                     >
                       <Avatar className="h-8 w-8">
-                        {user.image && user.image !== "admin" && user.image !== "user" ? (
+                        {user.image &&
+                        user.image !== "admin" &&
+                        user.image !== "user" ? (
                           <Image
                             src={user.image}
                             alt={user.name}
@@ -424,6 +435,12 @@ export default function ChileNavbar({
                       onClick={() => setIsOpen(false)}
                     >
                       Home
+                    </Link>
+                    <Link
+                      href="/live-reviews"
+                      className="text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 text-sm font-medium"
+                    >
+                      Live Reviews
                     </Link>
                     {navItems.map((item) => (
                       <div key={item.title} className="space-y-1">
