@@ -25,7 +25,7 @@ export default function ChatTabs({ activeTab, onTabChange, users, onDeleteTab }:
           <div className="dark:text-white" onClick={() => onTabChange(user.id)}>{user.name}</div>
           <div className="relative group">
             <MoreVertical className="w-4 h-4 cursor-pointer dark:text-white" />
-            <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-700 rounded-md shadow-lg hidden group-hover:block">
+            <div className="absolute right-0 w-32 bg-white dark:bg-gray-700 rounded-md shadow-lg hidden group-hover:block">
               <div
                 className="px-4 py-2 text-sm text-red-700 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center cursor-pointer"
                 onClick={() => onDeleteTab(user.id)}

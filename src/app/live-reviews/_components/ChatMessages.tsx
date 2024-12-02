@@ -172,7 +172,7 @@ export default function ChatMessages({
                       {msg.sender === currentUser.id && (
                         <div className="relative ml-2 group">
                           <MoreVertical className="w-4 h-4 cursor-pointer text-gray-500 dark:text-gray-400" />
-                          <div className="absolute right-0 mt-2 w-32 bg-white dark:bg-gray-800 rounded-md shadow-lg hidden group-hover:block">
+                          <div className="absolute right-0 w-32 bg-white dark:bg-gray-800 rounded-md shadow-lg hidden group-hover:block">
                             <div
                               className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center cursor-pointer"
                               onClick={() => handleEdit(msg.id, msg.message)}
