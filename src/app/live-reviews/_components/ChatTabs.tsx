@@ -9,6 +9,7 @@ interface ChatTabsProps {
 }
 
 export default function ChatTabs({ activeTab, onTabChange, users, onDeleteTab }: ChatTabsProps) {
+    console.log('first,  ', users)
   return (
     <div className="w-full md:w-1/4 bg-gray-100 dark:bg-gray-800 p-4 overflow-y-auto">
       <div 
@@ -17,7 +18,7 @@ export default function ChatTabs({ activeTab, onTabChange, users, onDeleteTab }:
       >
         Live Review
       </div>
-      {users.map((user) => (
+      {users.map((user) => user?.id === "Live Review" ? null : (
         <div 
           key={user.id}
           className={`p-2 mb-2 cursor-pointer flex items-center justify-between ${activeTab === user.id ? "bg-blue-500 text-white" : "hover:bg-gray-200 dark:hover:bg-gray-700"}`}
