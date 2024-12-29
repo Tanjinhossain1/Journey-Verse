@@ -7,7 +7,7 @@ import { ChatUser } from "@/types/user"
 import ChatMessages from "./ChatMessages"
 import ChatTabs from "./ChatTabs"
 
-const socket: Socket = io("http://localhost:3001") // Replace with your backend URL
+const socket: Socket = io(process.env.NEXT_PUBLIC_SOCKET_URL)
 
 interface ChatPageProps {
   user: {
