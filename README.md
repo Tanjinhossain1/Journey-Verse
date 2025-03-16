@@ -34,16 +34,11 @@ payment with card (stripe) then your booking is successfully. and here use techn
 # Installation & Setup
 Provide step-by-step instructions to run the project locally. Example:
 ##### Clone the repository
-git clone https://github.com/yourusername/ecommerce-project.git
+git clone https://github.com/Tanjinhossain1/Journey-Verse.git
 
-##### Navigate to the project directory
-cd ecommerce-project
+cd project
 
-##### Install dependencies
 npm install  # or yarn install
-
-##### Set up environment variables
-cp .env.example .env
 
 ##### Run the development server
 npm run dev  # or yarn dev
