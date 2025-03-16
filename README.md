@@ -6,4 +6,11 @@ payment with card (stripe) then your booking is successfully. and here use techn
 # <a href="https://journey-verse-pi.vercel.app/" target="_blank">Live Demo</a>
 
 
+# Features
+ <ul>
+   <li>User authentication (Sign up, Login) and Role Based access </li>
+   
+ </ul>
+
+
 
